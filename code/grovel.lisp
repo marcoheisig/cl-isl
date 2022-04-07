@@ -1,0 +1,177 @@
+(in-package :cl-isl)
+
+(include "isl/arg.h")
+
+(cenum isl_arg_type
+       ((:isl-arg-end "isl_arg_end"))
+       ((:isl-arg-alias "isl_arg_alias"))
+       ((:isl-arg-arg "isl_arg_arg"))
+       ((:isl-arg-bool "isl_arg_bool"))
+       ((:isl-arg-child "isl_arg_child"))
+       ((:isl-arg-choice "isl_arg_choice"))
+       ((:isl-arg-flags "isl_arg_flags"))
+       ((:isl-arg-footer "isl_arg_footer"))
+       ((:isl-arg-int "isl_arg_int"))
+       ((:isl-arg-user "isl_arg_user"))
+       ((:isl-arg-long "isl_arg_long"))
+       ((:isl-arg-ulong "isl_arg_ulong"))
+       ((:isl-arg-str "isl_arg_str"))
+       ((:isl-arg-str-list "isl_arg_str_list"))
+       ((:isl-arg-version "isl_arg_version")))
+
+(include "isl/ast_type.h")
+
+(cenum isl_ast_expr_op_type
+       ((:isl-ast-expr-op-error "isl_ast_expr_op_error"))
+       ((:isl-ast-expr-op-and "isl_ast_expr_op_and"))
+       ((:isl-ast-expr-op-and_then "isl_ast_expr_op_and_then"))
+       ((:isl-ast-expr-op-or "isl_ast_expr_op_or"))
+       ((:isl-ast-expr-op-or_else "isl_ast_expr_op_or_else"))
+       ((:isl-ast-expr-op-max "isl_ast_expr_op_max"))
+       ((:isl-ast-expr-op-min "isl_ast_expr_op_min"))
+       ((:isl-ast-expr-op-minus "isl_ast_expr_op_minus"))
+       ((:isl-ast-expr-op-add "isl_ast_expr_op_add"))
+       ((:isl-ast-expr-op-sub "isl_ast_expr_op_sub"))
+       ((:isl-ast-expr-op-mul "isl_ast_expr_op_mul"))
+       ((:isl-ast-expr-op-div "isl_ast_expr_op_div"))
+       ((:isl-ast-expr-op-fdiv_q "isl_ast_expr_op_fdiv_q"))
+       ((:isl-ast-expr-op-pdiv_q "isl_ast_expr_op_pdiv_q"))
+       ((:isl-ast-expr-op-pdiv_r "isl_ast_expr_op_pdiv_r"))
+       ((:isl-ast-expr-op-zdiv_r "isl_ast_expr_op_zdiv_r"))
+       ((:isl-ast-expr-op-cond "isl_ast_expr_op_cond"))
+       ((:isl-ast-expr-op-select "isl_ast_expr_op_select"))
+       ((:isl-ast-expr-op-eq "isl_ast_expr_op_eq"))
+       ((:isl-ast-expr-op-le "isl_ast_expr_op_le"))
+       ((:isl-ast-expr-op-lt "isl_ast_expr_op_lt"))
+       ((:isl-ast-expr-op-ge "isl_ast_expr_op_ge"))
+       ((:isl-ast-expr-op-gt "isl_ast_expr_op_gt"))
+       ((:isl-ast-expr-op-call "isl_ast_expr_op_call"))
+       ((:isl-ast-expr-op-access "isl_ast_expr_op_access"))
+       ((:isl-ast-expr-op-member "isl_ast_expr_op_member"))
+       ((:isl-ast-expr-op-address_of "isl_ast_expr_op_address_of")))
+
+(cenum isl_ast_expr_type
+       ((:isl-ast-expr-error "isl_ast_expr_error"))
+       ((:isl-ast-expr-op "isl_ast_expr_op"))
+       ((:isl-ast-expr-id "isl_ast_expr_id"))
+       ((:isl-ast-expr-int "isl_ast_expr_int")))
+
+(cenum isl_ast_node_type
+       ((:isl-ast-node-error "isl_ast_node_error"))
+       ((:isl-ast-node-for "isl_ast_node_for"))
+       ((:isl-ast-node-if "isl_ast_node_if"))
+       ((:isl-ast-node-block "isl_ast_node_block"))
+       ((:isl-ast-node-mark "isl_ast_node_mark"))
+       ((:isl-ast-node-user "isl_ast_node_user")))
+
+(cenum isl_ast_loop_type
+       ((:isl-ast-loop-error "isl_ast_loop_error"))
+       ((:isl-ast-loop-default "isl_ast_loop_default"))
+       ((:isl-ast-loop-atomic "isl_ast_loop_atomic"))
+       ((:isl-ast-loop-unroll "isl_ast_loop_unroll"))
+       ((:isl-ast-loop-separate "isl_ast_loop_separate")))
+
+(include "isl/ctx.h")
+
+(cenum isl_error
+       ((:isl-error-none "isl_error_none"))
+       ((:isl-error-abort "isl_error_abort"))
+       ((:isl-error-alloc "isl_error_alloc"))
+       ((:isl-error-unknown "isl_error_unknown"))
+       ((:isl-error-internal "isl_error_internal"))
+       ((:isl-error-invalid "isl_error_invalid"))
+       ((:isl-error-quota "isl_error_quota"))
+       ((:isl-error-unsupported "isl_error_unsupported")))
+
+(cenum isl_stat
+       ((:isl-stat-error "isl_stat_error"))
+       ((:isl-stat-ok "isl_stat_ok")))
+
+(cenum isl_bool
+       ((:isl-bool-error "isl_bool_error"))
+       ((:isl-bool-false "isl_bool_false"))
+       ((:isl-bool-true "isl_bool_true")))
+
+(include "isl/lp.h")
+
+(cenum isl_lp_result
+       ((:isl-lp-error "isl_lp_error"))
+       ((:isl-lp-ok "isl_lp_ok"))
+       ((:isl-lp-unbounded "isl_lp_unbounded"))
+       ((:isl-lp-empty "isl_lp_empty")))
+
+(include "isl/polynomial_type.h")
+
+(cenum isl_fold
+       ((:isl-fold-error "isl_fold_error"))
+       ((:isl-fold-min "isl_fold_min"))
+       ((:isl-fold-max "isl_fold_max"))
+       ((:isl-fold-list "isl_fold_list")))
+
+(include "isl/schedule_type.h")
+
+(cenum isl_schedule_node_type
+       ((:isl-schedule-node-error "isl_schedule_node_error"))
+       ((:isl-schedule-node-band "isl_schedule_node_band"))
+       ((:isl-schedule-node-context "isl_schedule_node_context"))
+       ((:isl-schedule-node-domain "isl_schedule_node_domain"))
+       ((:isl-schedule-node-expansion "isl_schedule_node_expansion"))
+       ((:isl-schedule-node-extension "isl_schedule_node_extension"))
+       ((:isl-schedule-node-filter "isl_schedule_node_filter"))
+       ((:isl-schedule-node-leaf "isl_schedule_node_leaf"))
+       ((:isl-schedule-node-guard "isl_schedule_node_guard"))
+       ((:isl-schedule-node-mark "isl_schedule_node_mark"))
+       ((:isl-schedule-node-sequence "isl_schedule_node_sequence"))
+       ((:isl-schedule-node-set "isl_schedule_node_set")))
+
+(include "isl/space_type.h")
+
+(cenum isl_dim_type
+       ((:isl-dim-cst "isl_dim_cst"))
+       ((:isl-dim-param "isl_dim_param"))
+       ((:isl-dim-in "isl_dim_in"))
+       ((:isl-dim-out "isl_dim_out"))
+       ((:isl-dim-set "isl_dim_set"))
+       ((:isl-dim-div "isl_dim_div"))
+       ((:isl-dim-all "isl_dim_all")))
+
+(include "isl/stream.h")
+
+(cenum isl_token_type
+       ((:isl-token-error "ISL_TOKEN_ERROR"))
+       ((:isl-token-unknown "ISL_TOKEN_UNKNOWN"))
+       ((:isl-token-value "ISL_TOKEN_VALUE"))
+       ((:isl-token-ident "ISL_TOKEN_IDENT"))
+       ((:isl-token-ge "ISL_TOKEN_GE"))
+       ((:isl-token-le "ISL_TOKEN_LE"))
+       ((:isl-token-gt "ISL_TOKEN_GT"))
+       ((:isl-token-lt "ISL_TOKEN_LT"))
+       ((:isl-token-ne "ISL_TOKEN_NE"))
+       ((:isl-token-eq-eq "ISL_TOKEN_EQ_EQ"))
+       ((:isl-token-lex-ge "ISL_TOKEN_LEX_GE"))
+       ((:isl-token-lex-le "ISL_TOKEN_LEX_LE"))
+       ((:isl-token-lex-gt "ISL_TOKEN_LEX_GT"))
+       ((:isl-token-lex-lt "ISL_TOKEN_LEX_LT"))
+       ((:isl-token-to "ISL_TOKEN_TO"))
+       ((:isl-token-and "ISL_TOKEN_AND"))
+       ((:isl-token-or "ISL_TOKEN_OR"))
+       ((:isl-token-exists "ISL_TOKEN_EXISTS"))
+       ((:isl-token-not "ISL_TOKEN_NOT"))
+       ((:isl-token-def "ISL_TOKEN_DEF"))
+       ((:isl-token-infty "ISL_TOKEN_INFTY"))
+       ((:isl-token-nan "ISL_TOKEN_NAN"))
+       ((:isl-token-min "ISL_TOKEN_MIN"))
+       ((:isl-token-max "ISL_TOKEN_MAX"))
+       ((:isl-token-rat "ISL_TOKEN_RAT"))
+       ((:isl-token-true "ISL_TOKEN_TRUE"))
+       ((:isl-token-false "ISL_TOKEN_FALSE"))
+       ((:isl-token-ceild "ISL_TOKEN_CEILD"))
+       ((:isl-token-floord "ISL_TOKEN_FLOORD"))
+       ((:isl-token-mod "ISL_TOKEN_MOD"))
+       ((:isl-token-string "ISL_TOKEN_STRING"))
+       ((:isl-token-map "ISL_TOKEN_MAP"))
+       ((:isl-token-aff "ISL_TOKEN_AFF"))
+       ((:isl-token-ceil "ISL_TOKEN_CEIL"))
+       ((:isl-token-floor "ISL_TOKEN_FLOOR"))
+       ((:isl-token-implies "ISL_TOKEN_IMPLIES"))
+       ((:isl-token-last "ISL_TOKEN_LAST")))

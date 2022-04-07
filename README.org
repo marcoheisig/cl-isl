@@ -1,0 +1,5 @@
+#+TITLE: A Common Lisp Interface for the Integer Set Library (ISL)
+
+This library provides a convenient interface to the integer set library.
+It allows reasoning sets and relations of integers bounded by affine
+constraints.
