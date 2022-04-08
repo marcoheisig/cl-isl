@@ -2,12 +2,19 @@
 ;;; Version 3.0.12
 ;;;
 ;;; The only manual tweaks to this file are the in-package form right at
-;;; the start, that enum definitions have been deleted in favor of using
-;;; cffi-grovel, and that defconstants with non-trivial values (like
-;;; strings) use alexandria:define-constant.  If you create a new version
-;;; of this file with swig/Makefile, you should reapply these tweaks.
+;;; the start, the CFFI library definition, that enum definitions have been
+;;; deleted in favor of using cffi-grovel, and that defconstants with
+;;; non-trivial values (like strings) use alexandria:define-constant.  If
+;;; you create a new version of this file with swig/Makefile, you should
+;;; reapply these tweaks.
 
 (in-package #:cl-isl)
+
+(cffi:define-foreign-library libisl
+  (:unix (:or "libisl.so" "libisl.so.22"))
+  (t (:default "libisl")))
+
+(cffi:use-foreign-library libisl)
 
 (cffi:defcstruct isl_stats
   (gbr_solved_lps :long))
