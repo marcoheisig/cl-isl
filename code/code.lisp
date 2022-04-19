@@ -27,6 +27,8 @@
 (defmacro create-print-object (type &key
                                       (printable t) ; If the object can be read from strings and be printed
                                       (free nil) ; Should we free memory. Should be t by default
+                                      (alloc nil) ; If the object is created with _alloc, or with _empty
+                                      ;; space/context/... are _alloc, otherwise it's _empty. Ast_build is _alloc
                                       )
   ;; FIRST, SOME HELPER FUNCTIONS
   (flet (
@@ -36,9 +38,14 @@
     (let* (
            (s-type (format nil "~a" type)) ; the type in string. Right now basic_set and not basic-set
            (type (++ "isl-" s-type))
+           ;; Wrappers around the C object
            (create-object (++ "create-" s-type))
-           (create-empty-object (++ "create-empty-" s-type))
+           ;; Creation of empty objects - returns a lisp object which is a wrapper around the empty C object
+           (alloc-object (when alloc (++ "alloc-" s-type)))
+           (create-empty-object (unless alloc (++ "create-empty-" s-type)))
+           ;; Is the underlying object empty
            (empty-object-p (++ "empty-" s-type "-p"))
+           ;; Free the underlying object. Todo, not exported for the user
            (free-object-library (++ "isl-" s-type "-free"))
            )
       ;; THE CODE GENERATED STARTS HERE
@@ -57,17 +64,23 @@
                (let ((answer (make-instance ',type :obj e)))
                  (trivial-garbage:finalize answer (lambda () (,free-object-library e)))
                  answer))
-             ;; Create the empty object
-             ,(let ((name-library (++ "isl_" s-type "_empty")))
-                `(defun ,create-empty-object () ; Yes below it's *space* and not *context*
-                   (,create-object (,name-library *space*)))) ; unclear what to do to free memory
+             ;; Create/alloc empty object
+             ,(if alloc
+                  ;; When the object is created with _allow
+                  (let ((name-library (++ "isl_" s-type "_alloc")))
+                    `(defun ,alloc-object ()
+                       (,create-object (,name-library *context*)))) ; unclear what to do to free memory
+                  ;; When the object is created with _empty
+                  (let ((name-library (++ "isl_" s-type "_empty")))
+                    `(defun ,create-empty-object () ; Yes below it's *space* and not *context*
+                       (,create-object (,name-library *space*))))) ; unclear what to do to free memory
              ;; Check if the object is empty
              ,(let ((name-library (++ "isl_" s-type "_is_empty")))
                 `(defun ,empty-object-p (object)
                    (create-lisp-bool (,name-library (obj object)))))
              ;; Copy -- Not tested yet
              ,(let ((name-library (++ "isl_" s-type "_copy")))
-                `(defmethod copy-object ((e ,type)) (,name-library e)))
+                `(defmethod copy-object ((e ,type)) (,create-object (,name-library (obj e)))))
              ;; FROM/TO STRING - when printable obly
              ,(when printable
                 (let ((name-library (++ "isl_" s-type "_to_str")))
@@ -91,10 +104,15 @@
 
 (create-print-object bool :free nil :printable nil) ; unclear if we should create objects for bools and ints. Right now lisp bool are used
 (create-print-object basic_set)
+(create-print-object union_set)
 (create-print-object union_map)
 (create-print-object ast_node :printable nil)
-(create-print-object ast_build :printable nil)
+(create-print-object ast_build :printable nil :alloc t)
 (create-print-object set)
+(create-print-object schedule)
+(create-print-object domain)
+
+
 
 (defun isl_bool_to_str (obj) (create-lisp-bool obj))
 (defmethod print-object ((object isl-bool) out) (format t "~a" (isl_bool_to_str (obj object))))
