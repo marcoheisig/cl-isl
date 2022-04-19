@@ -20,11 +20,6 @@
 ;; Currify to give *context* as the first argument on all isl_... calls
 ;;(defmacro with-context (code) (subst 'defun-with-context 'defun (macroexpand code)))
 
-;;(defun-with-error r (s) (isl_basic_set_read_from_str *context* s))
-;;(print (r "error"))
-;(print (r "{[i] : exists (a : i = 2a and i >= 10 and i <= 42)}"))
-;(print "--")
-
 ;; Maybe we want to copy objects
 (defgeneric copy-object (e))
 
