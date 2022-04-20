@@ -11,4 +11,5 @@
   ((:file "packages")
    (:cffi-grovel-file "grovel")
    (:file "isl")
-   (:file "code")))
+   (:file "code")
+   (:file "polyhedral")))

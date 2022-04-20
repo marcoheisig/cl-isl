@@ -24,7 +24,7 @@
 (defgeneric copy-object (e))
 
 ;; Create a custom objects and all the methods for each isl type
-(defmacro create-print-object (type &key
+(defmacro create-object (type &key
                                       (printable t) ; If the object can be read from strings and be printed
                                       (free nil) ; Should we free memory. Should be t by default
                                       (alloc nil) ; If the object is created with _alloc, or with _empty
@@ -102,30 +102,15 @@
     ((eql obj :isl-bool-error) (break "You try to convert a bool that is an error"))
     (t (break "You try to convert ~a, and it's not an isl-bool" obj))))
 
-(create-print-object bool :free nil :printable nil) ; unclear if we should create objects for bools and ints. Right now lisp bool are used
-(create-print-object basic_set)
-(create-print-object union_set)
-(create-print-object union_map)
-(create-print-object ast_node :printable nil)
-(create-print-object ast_build :printable nil :alloc t)
-(create-print-object set)
-(create-print-object schedule)
-(create-print-object domain)
-
-
+(create-object bool :free nil :printable nil) ; unclear if we should create objects for bools and ints. Right now lisp bool are used
 
 (defun isl_bool_to_str (obj) (create-lisp-bool obj))
 (defmethod print-object ((object isl-bool) out) (format t "~a" (isl_bool_to_str (obj object))))
 
-(defun ast_build-from-context (e)
-  (check-type e isl-set)
-  (create-ast_build (isl_ast_build_from_context (obj e))))
+;; Probably want to move boolean/values to a different files
 
-(defun ast_build-from-node-from-schedule-map (a m)
-  (check-type a isl-ast_build)
-  (check-type m isl-union_map)
-  (create-ast_node (isl_ast_build_node_from_schedule_map (obj a) (obj m))))
+(create-object basic_set)
+(create-object union_set)
+(create-object union_map)
+(create-object set)
 
-(defun ast_node-to-C-str (a)
-  (check-type a isl-ast_node)
-  (isl_ast_node_to_C_str (obj a)))
