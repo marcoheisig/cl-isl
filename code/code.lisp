@@ -10,8 +10,8 @@
   `(progn
      (let ((answer ,function))
        (let ((e (isl_ctx_last_error_msg *context*)))
-         (when e (break "<<~a>> when executing ~a" e ',function))
-         (isl_ctx_reset_error *context*))
+         (isl_ctx_reset_error *context*)
+         (when e (break "<<~a>> when executing ~a" e ',function)))
        answer)))
 (defun print-error () (print isl_ctx_last_erorr_msg *context*))
 (defmacro defun-with-error (name args &rest code) `(defun ,name ,args ,(list 'wrap-for-error (cons 'progn code))))
