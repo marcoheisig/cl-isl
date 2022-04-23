@@ -42,21 +42,6 @@
     (check-type schedule isl-schedule)
     (create-ast_build (isl_ast_build_node_from_schedule (obj ast) (obj schedule)))))
 
-(defmacro defun-with-type (name args &rest code)
-  `(defun ,name ,(mapcar #'first args)
-     ,(append
-       '(progn)
-       ;; Check of types
-       (mapcar (lambda (var type) `(check-type ,var ,type)) (mapcar #'first args) (mapcar #'second args))
-       ;; Copy of variable
-       `((let
-             ,(remove-if ; Remove when we don't copy the variable
-               #'not
-               (mapcar (lambda (var take) (when (eql take 'take) `(,var (copy-object ,var))))
-                       (mapcar #'first args) (mapcar #'third args)))
-           ;; The actual code of the function
-           ,(cons 'progn code))))))
-
 (defun-with-type ast_build-node-from-schedule ((ast isl-ast_build keep) (schedule isl-schedule take))
   (create-ast_build (isl_ast_build_node_from_schedule (obj ast) (obj schedule))))
 

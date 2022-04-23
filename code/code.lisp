@@ -4,7 +4,7 @@
 (defparameter *context* (isl_ctx_alloc)) ; Whatever, for threads or idk
 (defparameter *print* (isl_printer_to_str *context*)) ; Maybe useful some day to print things
 (defmacro new-space () (isl_space_unit *context*)) ; Is consumed everytime it's used. (Not yet but) its value can be changed during the execution
-;; Todo write it with the macro of memory management that copy arguments
+
 
 ;; Execute the function, and catch the error
 (defmacro wrap-for-error (function)
@@ -18,12 +18,15 @@
 (defmacro defun-with-error (name args &rest code) `(defun ,name ,args ,(list 'wrap-for-error (cons 'progn code))))
 (defmacro with-error (code) (subst 'defun-with-error 'defun (macroexpand code)))
 
-;; Currify to give *context* as the first argument on all isl_... calls
-;;(defmacro with-context (code) (subst 'defun-with-context 'defun (macroexpand code)))
 
 ;; Create a function with type
 ;; Usage: (defun-with-type f ((ast isl-ast_build keep) (schedule isl-schedule take)) 'thecode)
+;; Ensure arguments have the good type with 'check-type, and copy them when they are marked 'take
 (defmacro defun-with-type (name args &rest code)
+  ;; Verify the user gave either take or give for the 3rd part
+  (unless (every (lambda (a) (member a '(take keep))) (mapcar #'third args))
+    (break "Your arguments are ~a, and it needs to be either take/keep for the 3rd part" args))
+  ;; The actual code
   `(defun ,name ,(mapcar #'first args)
      ,(append
        '(progn)
@@ -37,6 +40,12 @@
                        (mapcar #'first args) (mapcar #'third args)))
            ;; The actual code of the function
            ,(cons 'progn code))))))
+
+
+;; Makes sure the C function is defined when created by the macro
+;; Todo
+
+
 
 
 ;; Maybe we want to copy objects
