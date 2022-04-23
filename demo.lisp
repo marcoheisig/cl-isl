@@ -3,6 +3,16 @@
 
 
 
+(when nil
+(let ((a (isl_basic_set_read_from_str *context* "{[i] : exists (a : i = 2a and i >= 10 and i <= 42)}")))
+  (print a)
+  (print (isl_basic_set_to_str a))
+  (isl_basic_set_free a)
+  (print (isl_basic_set_to_str a))
+  (print (isl_basic_set_to_str(isl_basic_set_empty *context*)))
+  (print a))
+)
+
 (let* ((a (basic_set-read-from-str "{[i] : exists (a : i = 2a and i >= 10 and i <= 42)}"))
        (emp (create-empty-basic_set))
        )
@@ -102,6 +112,7 @@
          (_ (break2 "Ast created"))
          )
     (print (ast_node-to-C-str node)))
+
 
   )
 

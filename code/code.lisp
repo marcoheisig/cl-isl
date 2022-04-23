@@ -3,7 +3,8 @@
 
 (defparameter *context* (isl_ctx_alloc)) ; Whatever, for threads or idk
 (defparameter *print* (isl_printer_to_str *context*)) ; Maybe useful some day to print things
-(defparameter *space* (isl_space_unit *context*))
+(defmacro new-space () (isl_space_unit *context*)) ; Is consumed everytime it's used. (Not yet but) its value can be changed during the execution
+;; Todo write it with the macro of memory management that copy arguments
 
 ;; Execute the function, and catch the error
 (defmacro wrap-for-error (function)
@@ -20,16 +21,36 @@
 ;; Currify to give *context* as the first argument on all isl_... calls
 ;;(defmacro with-context (code) (subst 'defun-with-context 'defun (macroexpand code)))
 
+;; Create a function with type
+;; Usage: (defun-with-type f ((ast isl-ast_build keep) (schedule isl-schedule take)) 'thecode)
+(defmacro defun-with-type (name args &rest code)
+  `(defun ,name ,(mapcar #'first args)
+     ,(append
+       '(progn)
+       ;; Check of types
+       (mapcar (lambda (var type) `(check-type ,var ,type)) (mapcar #'first args) (mapcar #'second args))
+       ;; Copy of variable
+       `((let
+             ,(remove-if ; Remove when we don't copy the variable
+               #'not
+               (mapcar (lambda (var take) (when (eql take 'take) `(,var (copy-object ,var))))
+                       (mapcar #'first args) (mapcar #'third args)))
+           ;; The actual code of the function
+           ,(cons 'progn code))))))
+
+
 ;; Maybe we want to copy objects
 (defgeneric copy-object (e))
 
 ;; Create a custom objects and all the methods for each isl type
 (defmacro create-object (type &key
-                                      (printable t) ; If the object can be read from strings and be printed
-                                      (free nil) ; Should we free memory. Should be t by default
-                                      (alloc nil) ; If the object is created with _alloc, or with _empty
-                                      ;; space/context/... are _alloc, otherwise it's _empty. Ast_build is _alloc
-                                      )
+                                (printable t) ; If the object can be read from strings and be printed
+                                (free nil) ; Should we free memory. Should be t by default
+                                (alloc nil) ; If the object is created with _alloc, or with _empty
+                                ;; space/context/... are _alloc, otherwise it's _empty. Ast_build is _alloc
+                                (conversions nil) ; FROM what the object can be converted to
+                                ;; Because it's simpler to write here in the macro
+                                )
   ;; FIRST, SOME HELPER FUNCTIONS
   (flet (
          ;; Concatenation of strings to form a symbol
@@ -43,6 +64,7 @@
            ;; Creation of empty objects - returns a lisp object which is a wrapper around the empty C object
            (alloc-object (when alloc (++ "alloc-" s-type)))
            (create-empty-object (unless alloc (++ "create-empty-" s-type)))
+           (create-universe-object (unless alloc (++ "create-universe-" s-type)))
            ;; Is the underlying object empty
            (empty-object-p (++ "empty-" s-type "-p"))
            ;; Free the underlying object. Todo, not exported for the user
@@ -69,16 +91,34 @@
                   ;; When the object is created with _allow
                   (let ((name-library (++ "isl_" s-type "_alloc")))
                     `(defun ,alloc-object ()
-                       (,create-object (,name-library *context*)))) ; unclear what to do to free memory
+                       (,create-object (,name-library *context*))))
                   ;; When the object is created with _empty
                   (let ((name-library (++ "isl_" s-type "_empty")))
-                    `(defun ,create-empty-object () ; Yes below it's *space* and not *context*
-                       (,create-object (,name-library *space*))))) ; unclear what to do to free memory
+                    `(defun ,create-empty-object ()
+                       (,create-object (,name-library (new-space))))))
+             ;; Create the "universe" object
+             ,(let ((name-library (++ "isl_" s-type "_universe")))
+                `(defun ,create-universe-object ()
+                   (,create-object (,name-library (new-space)))))
              ;; Check if the object is empty
              ,(let ((name-library (++ "isl_" s-type "_is_empty")))
                 `(defun ,empty-object-p (object)
                    (create-lisp-bool (,name-library (obj object)))))
-             ;; Copy -- Not tested yet
+             ;; Conversion to other types
+             ,(cons 'progn
+                    (loop for next-type in conversions
+                          collect
+                          (let* ((s-type2 (format nil "~a" next-type))
+                                 (type-2 (++ "isl-" s-type2))
+                                 (name-me (++ s-type2 "-to-" s-type))
+                                 ;; Sometimes it's either "to", or "from", or both in the doc. So we select whichever is defined
+                                 (name1 (++ "isl_" s-type2 "_to_" s-type))
+                                 (name2 (++ "isl_" s-type "_from_" s-type2))
+                                 (name-library (or (fboundp name1) (fboundp name2)))) ; fboundp is nil when the function isn't defined
+                            `(defun-with-type ,name-me ((e ,type-2 take))
+                               (,create-object (funcall ,name-library (obj e)))))))
+
+             ;; Copy object
              ,(let ((name-library (++ "isl_" s-type "_copy")))
                 `(defmethod copy-object ((e ,type)) (,create-object (,name-library (obj e)))))
              ;; FROM/TO STRING - when printable obly
@@ -112,5 +152,7 @@
 (create-object basic_set)
 (create-object union_set)
 (create-object union_map)
-(create-object set)
+(create-object set :conversions (basic_set))
 
+(assert (type-of (create-universe-basic_set)) 'isl-basic_set)
+(assert (type-of (basic_set-to-set (create-universe-basic_set))) 'isl-set)
