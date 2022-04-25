@@ -48,6 +48,23 @@
 (defun my-fboundp (f)
   (when (fboundp f) f))
 
+;; Crawl a source code and break on each nil function call
+(defun safe-code (code &optional (first-call t))
+  (unless (atom code)
+    (unless (first code)
+      (break "~a is a unsafe generation" code)) ;; The error gives the trace of the code generation to debug
+    (mapcar (lambda (a) (safe-code a nil)) code))
+  (when first-call (eval code)))
+
+(safe-code
+`(defun ff (a) (+ a 109)))
+
+(safe-code
+ `(progn
+    ;(defun f (a) (+ a (nil a)))
+    (print 10)))
+
+
 ;; Maybe we want to copy objects
 (defgeneric copy-object (e))
 
@@ -63,7 +80,11 @@
   ;; FIRST, SOME HELPER FUNCTIONS
   (flet (
          ;; Concatenation of strings to form a symbol
-         (++ (&rest rest) (read-from-string (apply #'concatenate (cons 'string rest))))
+         (++ (&rest rest)
+           (let ((result (read-from-string (apply #'concatenate (cons 'string rest)))))
+             (if (string= "isl_" (first rest))
+                 (my-fboundp result) ; Will return nil if the C function doesn't exist, which will break when '(defun nil ...)
+                 result)))
          )
     (let* (
            (s-type (format nil "~a" type)) ; the type in string. Right now basic_set and not basic-set
@@ -158,10 +179,10 @@
 
 ;; Probably want to move boolean/values to a different files
 
-(create-object basic_set)
+(safe-code (macroexpand '(create-object basic_set)))
 (create-object union_set)
 (create-object union_map)
-(create-object set :conversions (basic_set))
+(safe-code (macroexpand '(create-object set :conversions (basic_set doestnexist))))
 
 (assert (type-of (create-universe-basic_set)) 'isl-basic_set)
 (assert (type-of (basic_set-to-set (create-universe-basic_set))) 'isl-set)
