@@ -2,57 +2,15 @@
 
 (in-package #:cl-isl)
 
-
-
-(when nil
-(let ((a (isl_basic_set_read_from_str *context* "{[i] : exists (a : i = 2a and i >= 10 and i <= 42)}")))
-  (print a)
-  (print (isl_basic_set_to_str a))
-  (isl_basic_set_free a)
-  (print (isl_basic_set_to_str a))
-  (print (isl_basic_set_to_str(isl_basic_set_empty *context*)))
-  (print a))
-)
-
+;; Test
 (let* ((a (basic_set-read-from-str "{[i] : exists (a : i = 2a and i >= 10 and i <= 42)}"))
-       (emp (create-empty-basic_set))
-       )
+       (emp (create-empty-basic_set)))
   (print (empty-basic_set-p emp))
   (print (empty-basic_set-p a))
   (print (obj a))
   (assert (empty-basic_set-p emp))
   (assert (not (empty-basic_set-p a)))
   )
-
-
-
-(print "---------------")
-
-
-
-(when nil
-
-  ;; Doesn't work with garbage collection -- need to fix errors so that memory is not free on a null pointer
-  (let ((b (basic_set-read-from-str "vehvh")))
-    (print "ok"))
-
-  (let* ((b (isl_basic_set_read_from_str
-             *context*
-             "{[i] : exists (a : i = 2a and i >= 10 and i <= 42)}")))
-    (print (isl_basic_set_to_str b)))
-
-  (isl_basic_set_read_from_str *context* "error")
-  (isl_basic_set_read_from_str *context* "{[i] : exists (a : i = 2a and i >= 10 and i <= 42)}")
-
-  (let* ((map (isl_union_map_read_from_str
-               *context*
-               "[N] -> { S0[i] -> [i, 0] : 0 <= i < N; S1[i] -> [i, 1] : 0 <= i < N }"))
-         (ast-build (isl_ast_build_from_context (isl_set_read_from_str *context* "[N] -> { : }")))
-         (ast (isl_ast_build_node_from_schedule_map ast-build map))
-         )
-    (print (isl_ast_node_to_C_str ast)))
-
-)
 
 
 (defmacro break2 (a) ())
@@ -64,6 +22,7 @@
       (t5 "[N] -> { S0[i] -> [i, 0] : 0 <= i < N; S1[i] -> [i, 1] : 0 <= i < N }")
       )
 
+  ;; Previous test
   (let ((s t4))
     (print s)
     (let* ((map (union_map-read-from-str s))
@@ -71,31 +30,24 @@
            (ast-node (ast_build-from-node-from-schedule-map ast-build map)))
       (print (isl_ast_node_to_C_str (obj ast-node)))))
 
-
   ;; Demo with and without the library
   ;; First, without
-    (let* ((ast-build (isl_ast_build_alloc *context*)) ;;from_context (isl_set_read_from_str *context* "[N] -> { : }")))
-           ;(schedule (isl_union_map_read_from_str *context* t1))
-           (schedule (isl_schedule_constraints_on_domain
-                      (isl_union_set_read_from_str *context* "[N] -> { A[i]: 0 <= i < N }")))
-           (_ (break2 "Domain done"))
-           (schedule (isl_schedule_constraints_set_validity
-                      schedule
-                      (isl_union_map_read_from_str *context* "[N] -> { A[i] -> A[i-1]: 0 <= i}")))
-           (_ (break2 "Validity done"))
-           (_ (break2 "End of creation of the schedule"))
-           (schedule (isl_schedule_constraints_compute_schedule schedule))
-           (_ (break2 "Schedule created"))
-           (node (isl_ast_build_node_from_schedule ast-build schedule))
-           (_ (break2 "Ast created"))
-           )
-      (print (isl_ast_node_to_C_str node)))
-
-
-
-
-
-
+  (let* ((ast-build (isl_ast_build_alloc *context*)) ;;from_context (isl_set_read_from_str *context* "[N] -> { : }")))
+                                        ;(schedule (isl_union_map_read_from_str *context* t1))
+         (schedule (isl_schedule_constraints_on_domain
+                    (isl_union_set_read_from_str *context* "[N] -> { A[i]: 0 <= i < N }")))
+         (_ (break2 "Domain done"))
+         (schedule (isl_schedule_constraints_set_validity
+                    schedule
+                    (isl_union_map_read_from_str *context* "[N] -> { A[i] -> A[i-1]: 0 <= i}")))
+         (_ (break2 "Validity done"))
+         (_ (break2 "End of creation of the schedule"))
+         (schedule (isl_schedule_constraints_compute_schedule schedule))
+         (_ (break2 "Schedule created"))
+         (node (isl_ast_build_node_from_schedule ast-build schedule))
+         (_ (break2 "Ast created"))
+         )
+    (print (isl_ast_node_to_C_str node)))
 
   ;; And then, with cl-isl
   (let* ((ast-build (alloc-ast_build))
@@ -103,8 +55,8 @@
                     (union_set-read-from-str "[N] -> { A[i, j]: 0 <= i < N and 0 <= j < N; B[i, j]: 0 <= i < N and 0 <= j < N; RES[i, j]: 0 <= i < N and 0 <= j < N}")))
          (_ (break2 "Domain done"))
          (schedule1 (schedule-constraints-set-validity
-                    schedule
-                    (union_map-read-from-str "[N] -> { B[i, j] -> A[i, j] : 0 <= i}")))
+                     schedule
+                     (union_map-read-from-str "[N] -> { B[i, j] -> A[i, j] : 0 <= i}")))
          (_ (break2 "Validity done"))
          (_ (break2 "End of creation of the schedule"))
          (schedule2 (schedule-constraints-compute-schedule schedule1))
@@ -113,7 +65,6 @@
          (_ (break2 "Ast created"))
          )
     (print (ast_node-to-C-str node)))
-
 
   )
 
