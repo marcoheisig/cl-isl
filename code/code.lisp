@@ -3,7 +3,7 @@
 
 (defparameter *context* (isl_ctx_alloc)) ; Whatever, for threads or idk
 (defparameter *print* (isl_printer_to_str *context*)) ; Maybe useful some day to print things
-(defmacro new-space () (isl_space_unit *context*)) ; Is consumed everytime it's used. (Not yet but) its value can be changed during the execution
+(defmacro new-space () '(isl_space_unit *context*)) ; Is consumed everytime it's used. (Not yet but) its value can be changed during the execution
 
 
 ;; Execute the function, and catch the error
@@ -45,8 +45,8 @@
 ;; Makes sure the C function is defined when created by the macro
 ;; Todo
 
-
-
+(defun my-fboundp (f)
+  (when (fboundp f) f))
 
 ;; Maybe we want to copy objects
 (defgeneric copy-object (e))
@@ -101,14 +101,14 @@
                   (let ((name-library (++ "isl_" s-type "_alloc")))
                     `(defun ,alloc-object ()
                        (,create-object (,name-library *context*))))
-                  ;; When the object is created with _empty
-                  (let ((name-library (++ "isl_" s-type "_empty")))
-                    `(defun ,create-empty-object ()
-                       (,create-object (,name-library (new-space))))))
-             ;; Create the "universe" object
-             ,(let ((name-library (++ "isl_" s-type "_universe")))
-                `(defun ,create-universe-object ()
-                   (,create-object (,name-library (new-space)))))
+                  ;; When the object is created with _empty, or with _universe
+                  (let ((name-library-empty (++ "isl_" s-type "_empty"))
+                        (name-library-universe (++ "isl_" s-type "_universe")))
+                    `(progn
+                       (defun ,create-empty-object ()
+                         (,create-object (,name-library-empty (new-space))))
+                       (defun ,create-universe-object ()
+                         (,create-object (,name-library-universe (new-space)))))))
              ;; Check if the object is empty
              ,(let ((name-library (++ "isl_" s-type "_is_empty")))
                 `(defun ,empty-object-p (object)
@@ -123,9 +123,9 @@
                                  ;; Sometimes it's either "to", or "from", or both in the doc. So we select whichever is defined
                                  (name1 (++ "isl_" s-type2 "_to_" s-type))
                                  (name2 (++ "isl_" s-type "_from_" s-type2))
-                                 (name-library (or (fboundp name1) (fboundp name2)))) ; fboundp is nil when the function isn't defined
+                                 (name-library (or (my-fboundp name1) (my-fboundp name2)))) ; my-fboundp is nil when the function isn't defined, otherwise just returns
                             `(defun-with-type ,name-me ((e ,type-2 take))
-                               (,create-object (funcall ,name-library (obj e)))))))
+                               (,create-object (,name-library (obj e)))))))
 
              ;; Copy object
              ,(let ((name-library (++ "isl_" s-type "_copy")))
