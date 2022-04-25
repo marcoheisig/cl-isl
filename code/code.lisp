@@ -182,7 +182,7 @@
 (safe-code (macroexpand '(create-object basic_set)))
 (create-object union_set)
 (create-object union_map)
-(safe-code (macroexpand '(create-object set :conversions (basic_set doestnexist))))
+(safe-code (macroexpand '(create-object set :conversions (basic_set))))
 
 (assert (type-of (create-universe-basic_set)) 'isl-basic_set)
 (assert (type-of (basic_set-to-set (create-universe-basic_set))) 'isl-set)

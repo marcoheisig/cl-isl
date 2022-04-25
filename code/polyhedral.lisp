@@ -31,6 +31,10 @@
     (obj schedule)
     (obj map))))
 
+(defun-with-type schedule-constraints-set-coincidence ((schedule isl-schedule keep) (map isl-union_map keep))
+  (create-schedule
+   (isl_schedule_constraints_set_proximity (obj schedule) (obj map))))
+
 (defun schedule-constraints-compute-schedule (schedule)
   (check-type schedule isl-schedule)
   (create-schedule
