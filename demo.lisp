@@ -12,31 +12,41 @@
   (assert (not (empty-basic_set-p a)))
   )
 
+(defmacro break2 (a) ())
 
 (defvar s-domain)
+(defvar s-read)
+(defvar s-write)
+(defvar s-schedule)
+
+(when nil
 (setf s-domain "[n] -> {
       S[k] : k <= -2 + 2n and k >= 0;
       T[i, j] : i >= 0 and i <= -1 + n and j <= -1 + n and j >= 0;
 }")
 
-(defvar s-read)
 (setf s-read "[n] -> {
     T[i, j] -> C[i + j];
     T[i, j] -> B[j];
     T[i, j] -> A[i];
 }")
 
-(defvar s-write)
 (setf s-write "[n] -> {
     S[k] -> C[k];
     T[i, j] -> C[i + j];
 }")
 
-(defvar s-schedule)
 (setf s-schedule "[n] -> {
       T[i, j] -> [1, i, j];
       S[k] -> [0, k, 0];
 }")
+)
+
+(setf s-domain t4domain)
+(setf s-schedule t4schedule)
+(setf s-read t4read)
+(setf s-write t4write)
+
 
 ;; Generics functions
 (defun-with-type inverse ((e isl-union_map take))
@@ -76,11 +86,15 @@
        (total (union-map (union-map RaW WaW) WaR))
 
 
+
        (ast-build (alloc-ast_build))
        (schedule (create-schedule-on-domain domain))
        (_ (break2 "Domain done"))
        (schedule (schedule-constraints-set-validity schedule total))
        (_ (break2 "Validity done"))
+       ;;(schedule (schedule-constraints-set-coincidence schedule (union_map-read-from-str "{ LINE1[i, j, k] -> LINE1[i, j+1, k] : 0 <= i <= 99 and 0 <= j <= 99 and 0 <= k <= 99 }")))
+       ;;(schedule (schedule-constraints-set-coincidence schedule (union_map-read-from-str "{ B[i, j] -> B[i, j+1] : 0 <= i <= 99 and 0 <= j <= 99 }")))
+       (schedule (schedule-constraints-set-coincidence schedule RaW))
        (_ (break2 "End of creation of the schedule"))
        (schedule (schedule-constraints-compute-schedule schedule))
        (_ (break2 "Schedule created"))
@@ -88,13 +102,15 @@
        (_ (break2 "Ast created"))
        )
 
+
   (print (ast_node-to-C-str node))
 
 ;;(print read-access)
 ;;(print (inverse read-access))
 ;;(print RaW)
 
-)
+
+  )
 
 
 
@@ -106,7 +122,6 @@
 
 ;; END
 
-(defmacro break2 (a) ())
 (when nil
 (let ((t1 "{TAB[I] -> [I,1] : 0 <= I < 100;T2[I] -> [I,2] : 0 <= I < 100;}")
       (t2 "{TAB[I,J] -> [I,2,J,3] : 0 <= I < 100 and 0 <= J < 100;}")
