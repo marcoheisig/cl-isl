@@ -69,6 +69,42 @@
 
 ;; The error printed when we call intersect with the wrongs types is really bad
 
+(defun get-perfect-schedule (s-domain s-read s-write s-schedule)
+(let* ((domain (union_set-read-from-str s-domain))
+       (read-access (union_map-read-from-str s-read))
+       (write-access (union_map-read-from-str s-write))
+       (initial-schedule (union_map-read-from-str s-schedule))
+       (before (jsp initial-schedule initial-schedule))
+
+       (read-access (intersect read-access domain))
+       (write-access (intersect write-access domain))
+
+       (RaW (intersect-map (before write-access (inverse read-access)) before))
+       (WaW (intersect-map (before write-access (inverse write-access)) before))
+       (WaR (intersect-map (before read-access (inverse write-access)) before))
+
+       (total (union-map (union-map RaW WaW) WaR))
+
+
+
+       (schedule (create-schedule-on-domain domain))
+       (_ (break2 "Domain done"))
+       (schedule (schedule-constraints-set-validity schedule total))
+       (_ (break2 "Validity done"))
+       ;;(schedule (schedule-constraints-set-coincidence schedule (union_map-read-from-str "{ LINE1[i, j, k] -> LINE1[i, j+1, k] : 0 <= i <= 99 and 0 <= j <= 99 and 0 <= k <= 99 }")))
+       ;;(schedule (schedule-constraints-set-coincidence schedule (union_map-read-from-str "{ B[i, j] -> B[i, j+1] : 0 <= i <= 99 and 0 <= j <= 99 }")))
+       (schedule (schedule-constraints-set-coincidence schedule RaW))
+       (_ (break2 "End of creation of the schedule"))
+       (schedule (schedule-constraints-compute-schedule schedule))
+       )
+  schedule))
+
+(defun perfect-code (s-domain s-read s-write s-schedule)
+  (let* ((schedule (get-perfect-schedule s-domain s-read s-write s-schedule))
+         (ast-build (alloc-ast_build))
+         (node (ast_build-node-from-schedule ast-build schedule)))
+    (ast_node-to-C-str node)))
+
 
 (let* ((domain (union_set-read-from-str s-domain))
        (read-access (union_map-read-from-str s-read))
