@@ -175,3 +175,9 @@
        ((:isl-token-floor "ISL_TOKEN_FLOOR"))
        ((:isl-token-implies "ISL_TOKEN_IMPLIES"))
        ((:isl-token-last "ISL_TOKEN_LAST")))
+
+(include "isl/options.h")
+
+(constant (#.(swig-lispify "ISL_ON_ERROR_WARN" 'constant) "ISL_ON_ERROR_WARN"))
+(constant (#.(swig-lispify "ISL_ON_ERROR_CONTINUE" 'constant) "ISL_ON_ERROR_CONTINUE"))
+(constant (#.(swig-lispify "ISL_ON_ERROR_ABORT" 'constant) "ISL_ON_ERROR_ABORT"))

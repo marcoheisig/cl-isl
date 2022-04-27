@@ -1,19 +1,18 @@
 (in-package #:cl-isl)
-(ql:quickload :trivial-garbage) ; Used to collect the C memory when the lisp object is collected
 
-(defparameter *print* (%isl-printer-to-str *context*)) ; Maybe useful some day to print things
-(defmacro new-space () '(%isl-space-unit *context*)) ; Is consumed everytime it's used. (Not yet but) its value can be changed during the execution
+(defparameter *print* (%isl-printer-to-str (handle-of *context*))) ; Maybe useful some day to print things
+(defmacro new-space () '(%isl-space-unit (handle-of *context*))) ; Is consumed everytime it's used. (Not yet but) its value can be changed during the execution
 
 
 ;; Execute the function, and catch the error
 (defmacro wrap-for-error (function)
   `(progn
      (let ((answer ,function))
-       (let ((e (%isl-ctx-last-error-msg *context*)))
-         (%isl-ctx-reset-error *context*)
+       (let ((e (%isl-ctx-last-error-msg (handle-of *context*))))
+         (%isl-ctx-reset-error (handle-of *context*))
          (when e (break "<<~a>> when executing ~a" e ',function)))
        answer)))
-(defun print-error () (print %isl-ctx-last-erorr-msg *context*))
+(defun print-error () (print (%isl-ctx-last-erorr-msg (handle-of *context*))))
 (defmacro defun-with-error (name args &rest code) `(defun ,name ,args ,(list 'wrap-for-error (cons 'progn code))))
 (defmacro with-error (code) (subst 'defun-with-error 'defun (macroexpand code)))
 
@@ -121,7 +120,7 @@
                   ;; When the object is created with _allow
                   (let ((name-library (++ "%isl-" s-type "-alloc")))
                     `(defun ,alloc-object ()
-                       (,create-object (,name-library *context*))))
+                       (,create-object (,name-library (handle-of *context*)))))
                   ;; When the object is created with _empty, or with _universe
                   (let ((name-library-empty (++ "%isl-" s-type "-empty"))
                         (name-library-universe (++ "%isl-" s-type "-universe")))
@@ -161,7 +160,7 @@
                 `(progn
                    (defun ,name-me (str)
                      (check-type str string)
-                     (,create-object (,name-library *context* str)))))
+                     (,create-object (,name-library (handle-of *context*) str)))))
              )))))
 
 ;; Convert an isl-bool to a lisp boolean

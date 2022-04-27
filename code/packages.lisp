@@ -5,6 +5,9 @@
   (:use #:common-lisp)
   (:shadow #:set #:map)
   (:export
+   ;; Context
+   #:context
+   ;; Space
    ;; Set
    #:set
    #:basic-set
