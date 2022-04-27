@@ -9,7 +9,11 @@
   :serial t
   :components
   ((:file "packages")
+   (:file "swig-lispify")
    (:cffi-grovel-file "grovel")
-   (:file "isl")
+   (:file "swig-interface")
+   (:file "context")
+   (:file "utilities")
+   (:file "set")
    (:file "code")
    (:file "polyhedral")))

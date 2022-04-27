@@ -1,5 +1,7 @@
 %module isl
 
+%feature("intern_function", "1");
+
 %include "isl/ctx.h"
 %include "isl/multi.h"
 %include "isl/list.h"

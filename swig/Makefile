@@ -5,7 +5,10 @@ INCLUDES := \
  -I/usr/lib/gcc/i386-linux-gnu/9/include \
  -I/usr/include
 
-isl.lisp: isl.swig
-	swig3.0 -cffi $(INCLUDES) -noswig-lisp -module isl $^
+swig-interface.lisp: isl.swig prologue.lisp
+	swig3.0 -cffi $(INCLUDES) -noswig-lisp -module isl $<
+#       We handle structs, enums, unions and constants with CFFI's groveller
+	cat prologue.lisp > swig-interface.lisp
+	sed '/^(\(cffi:defcenum\|cffi:defcunion\|cl:defconstant\)/,/^$$/d' isl.lisp >> swig-interface.lisp
 
 all: isl.lisp

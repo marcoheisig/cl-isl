@@ -1,26 +1,25 @@
 (in-package #:cl-isl)
 (ql:quickload :trivial-garbage) ; Used to collect the C memory when the lisp object is collected
 
-(defparameter *context* (isl_ctx_alloc)) ; Whatever, for threads or idk
-(defparameter *print* (isl_printer_to_str *context*)) ; Maybe useful some day to print things
-(defmacro new-space () '(isl_space_unit *context*)) ; Is consumed everytime it's used. (Not yet but) its value can be changed during the execution
+(defparameter *print* (%isl-printer-to-str *context*)) ; Maybe useful some day to print things
+(defmacro new-space () '(%isl-space-unit *context*)) ; Is consumed everytime it's used. (Not yet but) its value can be changed during the execution
 
 
 ;; Execute the function, and catch the error
 (defmacro wrap-for-error (function)
   `(progn
      (let ((answer ,function))
-       (let ((e (isl_ctx_last_error_msg *context*)))
-         (isl_ctx_reset_error *context*)
+       (let ((e (%isl-ctx-last-error-msg *context*)))
+         (%isl-ctx-reset-error *context*)
          (when e (break "<<~a>> when executing ~a" e ',function)))
        answer)))
-(defun print-error () (print isl_ctx_last_erorr_msg *context*))
+(defun print-error () (print %isl-ctx-last-erorr-msg *context*))
 (defmacro defun-with-error (name args &rest code) `(defun ,name ,args ,(list 'wrap-for-error (cons 'progn code))))
 (defmacro with-error (code) (subst 'defun-with-error 'defun (macroexpand code)))
 
 
 ;; Create a function with type
-;; Usage: (defun-with-type f ((ast isl-ast_build keep) (schedule isl-schedule take)) 'thecode)
+;; Usage: (defun-with-type f ((ast isl-ast-build keep) (schedule isl-schedule take)) 'thecode)
 ;; Ensure arguments have the good type with 'check-type, and copy them when they are marked 'take
 (defmacro defun-with-type (name args &rest code)
   ;; Verify the user gave either take or give for the 3rd part
@@ -45,8 +44,9 @@
 ;; Makes sure the C function is defined when created by the macro
 ;; Todo
 
-(defun my-fboundp (f)
-  (when (fboundp f) f))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun my-fboundp (f)
+    (when (fboundp f) f)))
 
 ;; Crawl a source code and break on each nil function call
 (defun safe-code (code &optional (first-call t))
@@ -82,7 +82,7 @@
          ;; Concatenation of strings to form a symbol
          (++ (&rest rest)
            (let ((result (read-from-string (apply #'concatenate (cons 'string rest)))))
-             (if (string= "isl_" (first rest))
+             (if (string= "%isl-" (first rest))
                  (my-fboundp result) ; Will return nil if the C function doesn't exist, which will break when '(defun nil ...)
                  result)))
          )
@@ -106,7 +106,7 @@
              ;; CREATE THE CLASS
              (defclass ,type () ((obj :initarg :obj :accessor obj)))
              ;; Free -- This shouldn't be used by the user, only by trivial-garbage
-             ,(let ((name-library (++ "isl_" s-type "_free")))
+             ,(let ((name-library (++ "isl-" s-type "-free")))
                 (if free
                     `(defun ,free-object-library (e) (,name-library e))
                     `(defun ,free-object-library (e) ())))
@@ -119,19 +119,19 @@
              ;; Create/alloc empty object
              ,(if alloc
                   ;; When the object is created with _allow
-                  (let ((name-library (++ "isl_" s-type "_alloc")))
+                  (let ((name-library (++ "%isl-" s-type "-alloc")))
                     `(defun ,alloc-object ()
                        (,create-object (,name-library *context*))))
                   ;; When the object is created with _empty, or with _universe
-                  (let ((name-library-empty (++ "isl_" s-type "_empty"))
-                        (name-library-universe (++ "isl_" s-type "_universe")))
+                  (let ((name-library-empty (++ "%isl-" s-type "-empty"))
+                        (name-library-universe (++ "%isl-" s-type "-universe")))
                     `(progn
                        (defun ,create-empty-object ()
                          (,create-object (,name-library-empty (new-space))))
                        (defun ,create-universe-object ()
                          (,create-object (,name-library-universe (new-space)))))))
              ;; Check if the object is empty
-             ,(let ((name-library (++ "isl_" s-type "_is_empty")))
+             ,(let ((name-library (++ "%isl-" s-type "-is-empty")))
                 `(defun ,empty-object-p (object)
                    (create-lisp-bool (,name-library (obj object)))))
              ;; Conversion to other types
@@ -142,21 +142,21 @@
                                  (type-2 (++ "isl-" s-type2))
                                  (name-me (++ s-type2 "-to-" s-type))
                                  ;; Sometimes it's either "to", or "from", or both in the doc. So we select whichever is defined
-                                 (name1 (++ "isl_" s-type2 "_to_" s-type))
-                                 (name2 (++ "isl_" s-type "_from_" s-type2))
+                                 (name1 (++ "%isl-" s-type2 "-to-" s-type))
+                                 (name2 (++ "%isl-" s-type "-from-" s-type2))
                                  (name-library (or (my-fboundp name1) (my-fboundp name2)))) ; my-fboundp is nil when the function isn't defined, otherwise just returns
                             `(defun-with-type ,name-me ((e ,type-2 take))
                                (,create-object (,name-library (obj e)))))))
 
              ;; Copy object
-             ,(let ((name-library (++ "isl_" s-type "_copy")))
+             ,(let ((name-library (++ "%isl-" s-type "-copy")))
                 `(defmethod copy-object ((e ,type)) (,create-object (,name-library (obj e)))))
              ;; FROM/TO STRING - when printable obly
              ,(when printable
-                (let ((name-library (++ "isl_" s-type "_to_str")))
+                (let ((name-library (++ "%isl-" s-type "-to-str")))
                   `(defmethod print-object ((object ,type) out)
                      (format out (,name-library (obj object))))))
-             ,(let ((name-library (++ "isl_" s-type "_read_from_str"))
+             ,(let ((name-library (++ "%isl-" s-type "-read-from-str"))
                     (name-me (++ s-type "-read-from-str")))
                 `(progn
                    (defun ,name-me (str)
@@ -174,15 +174,15 @@
 
 (create-object bool :free nil :printable nil) ; unclear if we should create objects for bools and ints. Right now lisp bool are used
 
-(defun isl_bool_to_str (obj) (create-lisp-bool obj))
-(defmethod print-object ((object isl-bool) out) (format t "~a" (isl_bool_to_str (obj object))))
+(defun %isl-bool-to-str (obj) (create-lisp-bool obj))
+(defmethod print-object ((object isl-bool) out) (format t "~a" (%isl-bool-to-str (obj object))))
 
 ;; Probably want to move boolean/values to a different files
 
-(safe-code (macroexpand '(create-object basic_set)))
-(create-object union_set)
-(create-object union_map)
-(safe-code (macroexpand '(create-object set :conversions (basic_set))))
+(create-object basic-set)
+(create-object union-set)
+(create-object union-map)
+(create-object set :conversions (basic-set))
 
-(assert (type-of (create-universe-basic_set)) 'isl-basic_set)
-(assert (type-of (basic_set-to-set (create-universe-basic_set))) 'isl-set)
+(assert (type-of (create-universe-basic-set)) 'isl-basic-set)
+(assert (type-of (basic-set-to-set (create-universe-basic-set))) 'isl-set)

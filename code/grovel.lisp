@@ -2,7 +2,7 @@
 
 (include "isl/arg.h")
 
-(cenum isl_arg_type
+(cenum #.(swig-lispify "isl_arg_type" 'enumname)
        ((:isl-arg-end "isl_arg_end"))
        ((:isl-arg-alias "isl_arg_alias"))
        ((:isl-arg-arg "isl_arg_arg"))
@@ -21,7 +21,7 @@
 
 (include "isl/ast_type.h")
 
-(cenum isl_ast_expr_op_type
+(cenum #.(swig-lispify "isl_ast_expr_op_type" 'enumname)
        ((:isl-ast-expr-op-error "isl_ast_expr_op_error"))
        ((:isl-ast-expr-op-and "isl_ast_expr_op_and"))
        ((:isl-ast-expr-op-and_then "isl_ast_expr_op_and_then"))
@@ -50,13 +50,13 @@
        ((:isl-ast-expr-op-member "isl_ast_expr_op_member"))
        ((:isl-ast-expr-op-address_of "isl_ast_expr_op_address_of")))
 
-(cenum isl_ast_expr_type
+(cenum #.(swig-lispify "isl_ast_expr_type" 'enumname)
        ((:isl-ast-expr-error "isl_ast_expr_error"))
        ((:isl-ast-expr-op "isl_ast_expr_op"))
        ((:isl-ast-expr-id "isl_ast_expr_id"))
        ((:isl-ast-expr-int "isl_ast_expr_int")))
 
-(cenum isl_ast_node_type
+(cenum #.(swig-lispify "isl_ast_node_type" 'enumname)
        ((:isl-ast-node-error "isl_ast_node_error"))
        ((:isl-ast-node-for "isl_ast_node_for"))
        ((:isl-ast-node-if "isl_ast_node_if"))
@@ -64,7 +64,7 @@
        ((:isl-ast-node-mark "isl_ast_node_mark"))
        ((:isl-ast-node-user "isl_ast_node_user")))
 
-(cenum isl_ast_loop_type
+(cenum #.(swig-lispify "isl_ast_loop_type" 'enumname)
        ((:isl-ast-loop-error "isl_ast_loop_error"))
        ((:isl-ast-loop-default "isl_ast_loop_default"))
        ((:isl-ast-loop-atomic "isl_ast_loop_atomic"))
@@ -73,7 +73,7 @@
 
 (include "isl/ctx.h")
 
-(cenum isl_error
+(cenum #.(swig-lispify "isl_error" 'enumname)
        ((:isl-error-none "isl_error_none"))
        ((:isl-error-abort "isl_error_abort"))
        ((:isl-error-alloc "isl_error_alloc"))
@@ -83,18 +83,18 @@
        ((:isl-error-quota "isl_error_quota"))
        ((:isl-error-unsupported "isl_error_unsupported")))
 
-(cenum isl_stat
+(cenum #.(swig-lispify "isl_stat" 'enumname)
        ((:isl-stat-error "isl_stat_error"))
        ((:isl-stat-ok "isl_stat_ok")))
 
-(cenum isl_bool
+(cenum #.(swig-lispify "isl_bool" 'enumname)
        ((:isl-bool-error "isl_bool_error"))
        ((:isl-bool-false "isl_bool_false"))
        ((:isl-bool-true "isl_bool_true")))
 
 (include "isl/lp.h")
 
-(cenum isl_lp_result
+(cenum #.(swig-lispify "isl_lp_result" 'enumname)
        ((:isl-lp-error "isl_lp_error"))
        ((:isl-lp-ok "isl_lp_ok"))
        ((:isl-lp-unbounded "isl_lp_unbounded"))
@@ -102,7 +102,7 @@
 
 (include "isl/polynomial_type.h")
 
-(cenum isl_fold
+(cenum #.(swig-lispify "isl_fold" 'enumname)
        ((:isl-fold-error "isl_fold_error"))
        ((:isl-fold-min "isl_fold_min"))
        ((:isl-fold-max "isl_fold_max"))
@@ -110,7 +110,7 @@
 
 (include "isl/schedule_type.h")
 
-(cenum isl_schedule_node_type
+(cenum #.(swig-lispify "isl_schedule_node_type" 'enumname)
        ((:isl-schedule-node-error "isl_schedule_node_error"))
        ((:isl-schedule-node-band "isl_schedule_node_band"))
        ((:isl-schedule-node-context "isl_schedule_node_context"))
@@ -126,7 +126,7 @@
 
 (include "isl/space_type.h")
 
-(cenum isl_dim_type
+(cenum #.(swig-lispify "isl_dim_type" 'enumname)
        ((:isl-dim-cst "isl_dim_cst"))
        ((:isl-dim-param "isl_dim_param"))
        ((:isl-dim-in "isl_dim_in"))
@@ -137,7 +137,7 @@
 
 (include "isl/stream.h")
 
-(cenum isl_token_type
+(cenum #.(swig-lispify "isl_token_type" 'enumname)
        ((:isl-token-error "ISL_TOKEN_ERROR"))
        ((:isl-token-unknown "ISL_TOKEN_UNKNOWN"))
        ((:isl-token-value "ISL_TOKEN_VALUE"))
