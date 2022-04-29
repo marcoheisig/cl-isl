@@ -14,6 +14,7 @@
    (:file "swig-interface")
    (:file "utilities")
    (:file "isl-entity")
+   (:file "isl-function")
    (:file "context")
    (:file "value")
    (:file "identifier")
@@ -26,5 +27,4 @@
    (:file "union-map")
    (:file "operation")
    (:file "schedule")
-   (:file "code")
    (:file "polyhedral")))

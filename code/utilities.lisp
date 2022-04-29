@@ -10,4 +10,7 @@
     (:isl-bool-true t)
     (:isl-bool-false nil)
     (:isl-bool-error
-     (break "You try to convert a bool that is an error"))))
+     (isl-bool-error))))
+
+(defun isl-bool-error ()
+  (break "TODO"))
