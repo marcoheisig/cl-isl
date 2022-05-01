@@ -115,7 +115,7 @@
             :ctx (isl-fn-ctx isl-fn)
             :args (isl-fn-args isl-fn))))
 
-(defparameter *isl-fns* (make-hash-table :test #'eq))
+(defvar *isl-fns* (make-hash-table :test #'eq))
 
 (defmacro isl-fn (name)
   `(values (gethash ,name *isl-fns*)))
@@ -174,13 +174,6 @@
        (eql (first form)
             (isl-entity-%make isl-entity-name))))
 
-(defun constructor-of-copy-form-p (form isl-entity-name)
-  (and (constructor-form-p form isl-entity-name)
-       (let ((handle-form (second form)))
-         (and (= 2 (length handle-form))
-              (eql (first handle-form)
-                   (isl-entity-%copy isl-entity-name))))))
-
 (defun creation-form-p (form isl-entity-name)
   (and (consp form)
        (let ((fn (isl-fn (first form))))
@@ -199,32 +192,51 @@
                      (args isl-fn-args))
         (isl-fn name)
       (let* ((worth-expanding recursive)
+             (bindings '())
+             (cleanup '())
              (expanded-arguments
                (loop for arg in args
                      for type = (isl-arg-type arg)
                      for form in forms
                      collect
                      (etypecase arg
-                       (isl-entity-arg
+                       (isl-take
                         (cond
-                          ((constructor-of-copy-form-p form type)
-                           (setf worth-expanding t)
-                           (second (second form)))
                           ((constructor-form-p form type)
                            (setf worth-expanding t)
                            (second form))
                           ((creation-form-p form type)
                            (setf worth-expanding t)
                            (optimize-isl-function-call form :recursive t))
-                          ((typep arg 'isl-take)
-                           `(isl-entity-handle (the ,type ,form))
+                          (t
                            `(,(isl-entity-%copy type)
                              (isl-entity-handle (the ,type ,form))))))
+                       (isl-keep
+                        (cond
+                          ((constructor-form-p form type)
+                           (setf worth-expanding t)
+                           (let ((handle (gensym)))
+                             (push `(,handle ,(second form)) bindings)
+                             (push `(,(isl-entity-%free type) ,handle) cleanup)
+                             handle))
+                          ((creation-form-p form type)
+                           (setf worth-expanding t)
+                           (let ((handle (gensym)))
+                             (push `(,handle ,(optimize-isl-function-call form :recursive t)) bindings)
+                             (push `(,(isl-entity-%free type) ,handle) cleanup)
+                             handle))
+                          (t
+                           `(isl-entity-handle (the ,type ,form)))))
                        (isl-arg `(the ,type ,form)))))
              (expansion
                `(,primitive
                  ,@(when ctx '((isl-entity-handle *context*)))
                  ,@expanded-arguments)))
-        (if (not worth-expanding)
-            whole
-            (if recursive expansion `(,result-wrapper ,expansion)))))))
+        (when cleanup
+          (setf expansion `(unwind-protect ,expansion ,@cleanup)))
+        (when bindings
+          (setf expansion `(let ,bindings ,expansion)))
+        (unless recursive
+          (unless (eql result-wrapper 'identity)
+            (setf expansion `(,result-wrapper ,expansion))))
+        (if (not worth-expanding) whole expansion)))))
