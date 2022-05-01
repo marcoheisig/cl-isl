@@ -92,6 +92,8 @@
        ((:isl-bool-false "isl_bool_false"))
        ((:isl-bool-true "isl_bool_true")))
 
+(constant (#.(swig-lispify "isl_size_error" 'constant) "isl_size_error"))
+
 (include "isl/lp.h")
 
 (cenum #.(swig-lispify "isl_lp_result" 'enumname)

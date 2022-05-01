@@ -5,13 +5,10 @@
 (defmethod write-isl-entity ((value value) stream)
   (write-string (%isl-val-to-str (isl-entity-handle value)) stream))
 
-(define-isl-function value-context %isl-val-get-ctx
-    (:result-type context)
-    (value :keep))
-
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
-                  (:result-type value :ctx t))))
+                  (:give value)
+                  (:parm context *context*))))
   (def value-zero %isl-val-zero)
   (def value-one %isl-val-one)
   (def value-minus-one %isl-val-negone)
@@ -21,21 +18,22 @@
 
 ;; TODO Handle bignums
 (define-isl-function value-from-integer %isl-val-int-from-si
-    (:result-type value :ctx t)
-    ((signed-byte 64)))
+    (:give value)
+    (:parm context *context*)
+    (:keep (signed-byte 64)))
 
 (define-isl-function integer-from-value %isl-val-get-num-si
-    (:result-type (signed-byte 64))
-    (value :keep))
+    (:give (signed-byte 64))
+    (:keep value))
 
 (define-isl-function value-sign %isl-val-sgn
-    (:result-type (integer -1 1))
-    (value :keep))
+    (:give (integer -1 1))
+    (:keep value))
 
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
-                  (:result-type boolean)
-                  (value :keep))))
+                  (:give boolean)
+                  (:keep value))))
   (def value-zerop %isl-val-is-zero)
   (def value-onep %isl-val-is-one)
   (def value-minus-one-p %isl-val-is-negone)
@@ -51,9 +49,9 @@
 
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
-                  (:result-type boolean)
-                  (value :keep)
-                  (value :keep))))
+                  (:give boolean)
+                  (:keep value)
+                  (:keep value))))
   (def value<  %isl-val-lt)
   (def value<= %isl-val-le)
   (def value>  %isl-val-gt)
@@ -63,14 +61,14 @@
   (def value-abs= %isl-val-abs-eq))
 
 (define-isl-function value-divisible-by %isl-val-is-divisible-by
-    (:result-type boolean)
-    (value :keep)
-    (value :keep))
+    (:give boolean)
+    (:keep value)
+    (:keep value))
 
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
-                  (:result-type value)
-                  (value :take))))
+                  (:give value)
+                  (:take value))))
   (def value-abs %isl-val-abs)
   (def value-neg %isl-val-neg)
   (def value-floor %isl-val-floor)
@@ -81,9 +79,9 @@
 
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
-                  (:result-type value)
-                  (value :take)
-                  (value :take))))
+                  (:give value)
+                  (:take value)
+                  (:take value))))
   (def two-arg-value-min %isl-val-min)
   (def two-arg-value-max %isl-val-max)
   (def two-arg-value+ %isl-val-add)
@@ -93,10 +91,9 @@
   (def value-mod %isl-val-mod)
   (def value-gcd %isl-val-gcd))
 
-(defun value-gcdext (a b)
-  (declare (value a b))
-  (cffi:with-foreign-objects ((x :pointer) (y :pointer))
-    (values
-     (%make-value (%isl-val-gcdext (isl-entity-handle a) (isl-entity-handle b) x y))
-     (%make-value (cffi:mem-ref x :pointer))
-     (%make-value (cffi:mem-ref y :pointer)))))
+(define-isl-function value-gcdext %isl-val-gcdext
+    (:give value)
+    (:take value a)
+    (:take value b)
+    (:give value x)
+    (:give value y))

@@ -1,33 +1,61 @@
 (in-package #:cl-isl)
 
-(defgeneric isl-arg-name (isl-arg))
+(defgeneric isl-fn-name (isl-fn))
 
-(defgeneric isl-arg-type (isl-arg))
+(defgeneric isl-fn-primitive (isl-fn))
 
-(defclass isl-arg ()
+(defgeneric isl-fn-result (isl-fn))
+
+(defgeneric isl-fn-args (isl-fn))
+
+(defgeneric isl-name (isl-result-or-arg))
+
+(defgeneric isl-type (isl-result-or-arg))
+
+(defclass isl-result-or-arg ()
   ((%name
     :initarg :name
     :initform (alexandria:required-argument :name)
-    :reader isl-arg-name)
+    :reader isl-name)
    (%type
     :initarg :type
     :initform (alexandria:required-argument :type)
-    :reader isl-arg-type)))
+    :reader isl-type)))
 
-(defclass isl-entity-arg (isl-arg)
+;;; Implicit arguments appear as arguments to the primitive C function, but
+;;; not in the lambda list of the Lisp function we generate.
+(defclass isl-implicit-arg (isl-result-or-arg)
   ())
 
-(defclass isl-keep (isl-entity-arg)
+;;; A function result.  The first result is the return value of the
+;;; primitive.  All further results are returned by the primitive via
+;;; pointers to handles.
+(defclass isl-give (isl-implicit-arg)
   ())
 
-(defclass isl-take (isl-entity-arg)
+;;; The primary result of primitives that return nothing.
+(defclass isl-null (isl-implicit-arg)
   ())
 
-(defmethod print-object ((isl-arg isl-arg) stream)
-  (print-unreadable-object (isl-arg stream :type t)
+;;; A reference to a Lisp special variable (or parameter).  The name 'parm'
+;;; was chosen so that all qualifiers have four letters, which makes the
+;;; source code align nicely.
+(defclass isl-parm (isl-implicit-arg)
+  ())
+
+;;; An regular argument.
+(defclass isl-keep (isl-result-or-arg)
+  ())
+
+;;; An argument that is automatically free'd by the primitive.
+(defclass isl-take (isl-result-or-arg)
+  ())
+
+(defmethod print-object ((isl-result-or-arg isl-result-or-arg) stream)
+  (print-unreadable-object (isl-result-or-arg stream :type t)
     (format stream "~@<~@{~S ~S~^ ~_~}~:>"
-            :name (isl-arg-name isl-arg)
-            :type (isl-arg-type isl-arg))))
+            :name (isl-name isl-result-or-arg)
+            :type (isl-type isl-result-or-arg))))
 
 (defvar *generate-arg-name*)
 
@@ -51,22 +79,21 @@
              (suffix (if (zerop count) "" (format nil "~D" count))))
         (make-isl-sym prefix suffix)))))
 
-(defun parse-isl-args (arg-specs)
+(defun parse-isl-results-and-args (arg-specs)
   (let ((*generate-arg-name* (make-arg-name-generator)))
-    (mapcar #'parse-isl-arg arg-specs)))
+    (mapcar #'parse-isl-result-or-arg arg-specs)))
 
-(defun parse-isl-arg (spec)
-  (assert (consp spec))
-  (let ((type (car spec)))
-    (if (isl-entity-name-p type)
-        (destructuring-bind (kind &optional (name (generate-arg-name type)))
-            (rest spec)
-          (ecase kind
-            (:take (make-instance 'isl-take :type type :name name))
-            (:keep (make-instance 'isl-keep :type type :name name))))
-        (destructuring-bind (&optional (name (generate-arg-name type)))
-            (rest spec)
-          (make-instance 'isl-arg :type type :name name)))))
+(defun parse-isl-result-or-arg (spec)
+  (destructuring-bind (qualifier type &optional (name (generate-arg-name type))) spec
+    (make-instance
+        (ecase qualifier
+          (:null 'isl-null)
+          (:give 'isl-give)
+          (:keep 'isl-keep)
+          (:take 'isl-take)
+          (:parm 'isl-parm))
+      :type type
+      :name name)))
 
 (defclass isl-fn ()
   (;; The name of this function.
@@ -81,25 +108,11 @@
     :initform (alexandria:required-argument :primitive)
     :type symbol
     :reader isl-fn-primitive)
-   ;; The type of the sole value returned by that function.
-   (%result-type
-    :initarg :result-type
-    :initform (alexandria:required-argument :result-type)
-    :reader isl-fn-result-type)
-   ;; The function that turns the primitive's result into a lisp object.
-   (%result-wrapper
-    :initarg :result-wrapper
-    :initform (alexandria:required-argument :result-wrapper)
-    :type symbol
-    :reader isl-fn-result-wrapper)
-   ;; Whether the primitive function expects the current ISL context as a
-   ;; first argument.
-   (%ctx
-    :initarg :ctx
-    :initform nil
-    :type boolean
-    :reader isl-fn-ctx)
-   ;; The parsed arguments.
+   (%result
+    :initarg :result
+    :initform (alexandria:required-argument :result)
+    :type isl-give
+    :reader isl-fn-result)
    (%args
     :initarg :args
     :type list
@@ -110,9 +123,7 @@
     (format stream "~@<~@{~S ~S~^ ~_~}~:>"
             :name (isl-fn-name isl-fn)
             :primitive (isl-fn-primitive isl-fn)
-            :result-type (isl-fn-result-type isl-fn)
-            :result-wrapper (isl-fn-result-wrapper isl-fn)
-            :ctx (isl-fn-ctx isl-fn)
+            :result (isl-fn-result isl-fn)
             :args (isl-fn-args isl-fn))))
 
 (defvar *isl-fns* (make-hash-table :test #'eq))
@@ -129,48 +140,70 @@
          (isl-entity-%make result-type))
         ((eql result-type 'boolean)
          'lispify-isl-bool)
+        ((eql result-type 'size)
+         'lispify-isl-size)
         (t 'identity)))
 
-(defmacro define-isl-function
-    (name primitive (&key (result-type 'null) (result-wrapper (infer-result-wrapper result-type)) (ctx nil))
-     &rest args)
+(defmacro define-isl-function (name primitive &rest results-and-args)
   (check-type name symbol)
   (check-type primitive symbol)
   (with-accessors ((name isl-fn-name)
                    (primitive isl-fn-primitive)
-                   (result-type isl-fn-result-type)
-                   (result-wrapper isl-fn-result-wrapper)
-                   (ctx isl-fn-ctx)
+                   (result isl-fn-result)
                    (args isl-fn-args))
-      (make-instance 'isl-fn
-        :name name
-        :primitive primitive
-        :result-type result-type
-        :result-wrapper result-wrapper
-        :ctx ctx
-        :args (parse-isl-args args))
-    `(progn
-       (declaim (ftype (function ,(mapcar #'isl-arg-type args) (values ,result-type &optional)) ,name))
-       (defun ,name ,(mapcar #'isl-arg-name args)
-         (declare
-          ,@(loop for arg in args collect `(type ,(isl-arg-type arg) ,(isl-arg-name arg))))
-         (,result-wrapper
-          (,primitive
-           ,@(when ctx '((isl-entity-handle *context*)))
-           ,@(loop for arg in args
-                   for name = (isl-arg-name arg)
-                   for type = (isl-arg-type arg)
-                   collect
-                   (etypecase arg
-                     (isl-keep `(isl-entity-handle ,name))
-                     (isl-take `(,(isl-entity-%copy type) (isl-entity-handle ,name)))
-                     (isl-arg name))))))
-       (define-compiler-macro ,name (&whole whole ,@(mapcar #'isl-arg-name args))
-         (declare (ignore ,@(mapcar #'isl-arg-name args)))
-         (optimize-isl-function-call whole)))))
+      (destructuring-bind (result &rest args)
+          (parse-isl-results-and-args results-and-args)
+        (make-instance 'isl-fn
+          :name name
+          :primitive primitive
+          :result result
+          :args args))
+    (let* ((explicit-args (remove-if (lambda (x) (typep x 'isl-implicit-arg)) args))
+           (extra-results (remove-if-not (lambda (x) (typep x 'isl-give)) args))
+           (ftype `(function ,(mapcar #'isl-type explicit-args)
+                             (values ,@(mapcar #'isl-type (list* result extra-results)) &optional))))
+      `(progn
+         (declaim (ftype ,ftype ,name))
+         (defun ,name ,(mapcar #'isl-name explicit-args)
+           ,@(loop for arg in explicit-args
+                   collect `(declare (type ,(isl-type arg) ,(isl-name arg))))
+           (cffi:with-foreign-objects
+               ,(loop for extra-result in extra-results
+                      collect `(,(isl-name extra-result) :pointer))
+             (values
+              (,(infer-result-wrapper (isl-type result))
+               (,primitive
+                ,@(loop for arg in args
+                        for name = (isl-name arg)
+                        for type = (isl-type arg)
+                        collect
+                        (typecase arg
+                          (isl-keep
+                           (if (isl-entity-name-p type)
+                               `(isl-entity-handle ,name)
+                               name))
+                          (isl-parm
+                           (if (isl-entity-name-p type)
+                               `(isl-entity-handle (the ,type ,name))
+                               name))
+                          (isl-take
+                           (assert (isl-entity-name-p type))
+                           `(,(isl-entity-%copy type) (isl-entity-handle ,name)))
+                          (isl-null
+                           (error "Arguments with :null qualifier are not allowed."))
+                          (otherwise name)))))
+              ,@(loop for extra-result in extra-results
+                      collect
+                      `(,(infer-result-wrapper (isl-type extra-result))
+                        (cffi:mem-ref ,(isl-name extra-result) :pointer))))))
+         (define-compiler-macro ,name (&whole whole ,@(mapcar #'isl-name explicit-args))
+           (declare (ignore ,@(mapcar #'isl-name explicit-args)))
+           (optimize-isl-function-call whole))))))
 
 (defun constructor-form-p (form isl-entity-name)
-  (and (= 2 (length form))
+  (and (consp form)
+       (consp (cdr form))
+       (null (cddr form))
        (eql (first form)
             (isl-entity-%make isl-entity-name))))
 
@@ -186,9 +219,7 @@
   (destructuring-bind (name &rest forms) whole
     (with-accessors ((name isl-fn-name)
                      (primitive isl-fn-primitive)
-                     (result-type isl-fn-result-type)
-                     (result-wrapper isl-fn-result-wrapper)
-                     (ctx isl-fn-ctx)
+                     (result isl-fn-result)
                      (args isl-fn-args))
         (isl-fn name)
       (let* ((worth-expanding recursive)
@@ -196,47 +227,48 @@
              (cleanup '())
              (expanded-arguments
                (loop for arg in args
-                     for type = (isl-arg-type arg)
-                     for form in forms
+                     for name = (isl-name arg)
+                     for type = (isl-type arg)
                      collect
                      (etypecase arg
+                       (isl-parm `(isl-entity-handle (the ,type ,name)))
+                       (isl-give (return-from optimize-isl-function-call whole))
                        (isl-take
-                        (cond
-                          ((constructor-form-p form type)
-                           (setf worth-expanding t)
-                           (second form))
-                          ((creation-form-p form type)
-                           (setf worth-expanding t)
-                           (optimize-isl-function-call form :recursive t))
-                          (t
-                           `(,(isl-entity-%copy type)
-                             (isl-entity-handle (the ,type ,form))))))
+                        (let ((form (pop forms)))
+                          (cond
+                            ((constructor-form-p form type)
+                             (setf worth-expanding t)
+                             (second form))
+                            ((creation-form-p form type)
+                             (setf worth-expanding t)
+                             (optimize-isl-function-call form :recursive t))
+                            (t
+                             `(,(isl-entity-%copy type)
+                               (isl-entity-handle (the ,type ,form)))))))
                        (isl-keep
-                        (cond
-                          ((constructor-form-p form type)
-                           (setf worth-expanding t)
-                           (let ((handle (gensym)))
-                             (push `(,handle ,(second form)) bindings)
-                             (push `(,(isl-entity-%free type) ,handle) cleanup)
-                             handle))
-                          ((creation-form-p form type)
-                           (setf worth-expanding t)
-                           (let ((handle (gensym)))
-                             (push `(,handle ,(optimize-isl-function-call form :recursive t)) bindings)
-                             (push `(,(isl-entity-%free type) ,handle) cleanup)
-                             handle))
-                          (t
-                           `(isl-entity-handle (the ,type ,form)))))
-                       (isl-arg `(the ,type ,form)))))
-             (expansion
-               `(,primitive
-                 ,@(when ctx '((isl-entity-handle *context*)))
-                 ,@expanded-arguments)))
+                        (let ((form (pop forms)))
+                          (cond
+                            ((constructor-form-p form type)
+                             (setf worth-expanding t)
+                             (let ((handle (gensym)))
+                               (push `(,handle ,(second form)) bindings)
+                               (push `(,(isl-entity-%free type) ,handle) cleanup)
+                               handle))
+                            ((creation-form-p form type)
+                             (setf worth-expanding t)
+                             (let ((handle (gensym)))
+                               (push `(,handle ,(optimize-isl-function-call form :recursive t)) bindings)
+                               (push `(,(isl-entity-%free type) ,handle) cleanup)
+                               handle))
+                            (t
+                             `(isl-entity-handle (the ,type ,form)))))))))
+             (expansion `(,primitive ,@expanded-arguments)))
         (when cleanup
           (setf expansion `(unwind-protect ,expansion ,@cleanup)))
         (when bindings
           (setf expansion `(let ,bindings ,expansion)))
         (unless recursive
-          (unless (eql result-wrapper 'identity)
-            (setf expansion `(,result-wrapper ,expansion))))
+          (let ((result-wrapper (infer-result-wrapper (isl-type result))))
+            (unless (eql result-wrapper 'identity)
+              (setf expansion `(,result-wrapper ,expansion)))))
         (if (not worth-expanding) whole expansion)))))
