@@ -5,6 +5,10 @@
 (defmethod write-isl-entity ((value value) stream)
   (write-string (%isl-val-to-str (isl-entity-handle value)) stream))
 
+(define-isl-function value-context %isl-val-get-ctx
+    (:give context)
+    (:keep value))
+
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
                   (:give value)

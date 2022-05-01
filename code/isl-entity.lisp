@@ -35,6 +35,10 @@ of type ENTITY-NAME."
   (and (symbolp x)
        (not (null (isl-entity-%make x)))))
 
+;;; This hash table is used in each ISL entity constructor to ensure that
+;;; each handle has exactly one corresponding wrapper object.
+(defvar *isl-entity-table* (trivial-garbage:make-weak-hash-table :weakness :value))
+
 (defmacro define-isl-entity
     (name &key (superclass 'isl-entity)
             ((:free %free) (alexandria:required-argument :free))
@@ -51,7 +55,11 @@ of type ENTITY-NAME."
                          (:copier nil)
                          (:constructor ,%%make (handle))))
        (defun ,%make (handle)
-         (trivial-garbage:finalize (,%%make handle) (lambda () (,%free handle))))
+         (values
+          (alexandria:ensure-gethash
+           (cffi:pointer-address handle)
+           *isl-entity-table*
+           (trivial-garbage:finalize (,%%make handle) (lambda () (,%free handle))))))
        ,@(when %copy
            `((defmethod copy-isl-entity ((,name ,name))
                (,%make (,%copy (isl-entity-handle ,name)))))))))
