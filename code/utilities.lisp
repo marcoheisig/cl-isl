@@ -13,11 +13,11 @@
     (:isl-bool-true t)
     (:isl-bool-false nil)
     (:isl-bool-error
-     (isl-bool-error))))
+     (isl-error))))
 
 (defun lispify-isl-size (isl-size)
   (if (= isl-size +isl-size-error+)
-      (isl-size-error)
+      (isl-error)
       (the size isl-size)))
 
 (defun string-from-symbol (symbol)
@@ -27,8 +27,5 @@
     (with-output-to-string (stream)
       (format stream "~S" symbol))))
 
-(defun isl-bool-error ()
-  (break "TODO"))
-
-(defun isl-size-error ()
+(defun isl-error ()
   (break "TODO"))
