@@ -26,5 +26,4 @@
    (:file "union-set")
    (:file "union-map")
    (:file "operation")
-   (:file "schedule")
-   (:file "polyhedral")))
+   (:file "schedule")))

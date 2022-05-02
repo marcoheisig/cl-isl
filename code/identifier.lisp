@@ -12,8 +12,9 @@
   (declare (identifier identifier))
   (let* ((handle (identifier-handle identifier))
          (char* (%isl-id-get-name handle)))
-    (read-from-string
-     (cffi:foreign-string-to-lisp char*))))
+    (values
+     (read-from-string
+      (cffi:foreign-string-to-lisp char*)))))
 
 (define-isl-function identifier-context %isl-id-get-ctx
     (:give context)
