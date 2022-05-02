@@ -236,6 +236,7 @@
         (isl-fn name)
       (let* ((worth-expanding recursive)
              (bindings '())
+             (foreign-objects '())
              (cleanup '())
              (expanded-arguments
                (loop for arg in args
@@ -246,8 +247,9 @@
                        (isl-parm `(isl-entity-handle (the ,type ,name)))
                        (isl-give
                         (let ((g (gensym)))
-                          (push `(,g (cffi:foreign-alloc :pointer)) bindings)
-                          (push `(cffi:foreign-free ,g) cleanup)
+                          (push `(,g :pointer) foreign-objects)
+                          (push `(,(isl-entity-%free type) (cffi:mem-ref ,g :pointer))
+                                cleanup)
                           g))
                        (isl-take
                         (let ((form (pop forms)))
@@ -280,9 +282,11 @@
                              `(isl-entity-handle (the ,type ,form)))))))))
              (expansion `(,primitive ,@expanded-arguments)))
         (when cleanup
-          (setf expansion `(unwind-protect ,expansion ,@cleanup)))
+          (setf expansion `(unwind-protect ,expansion ,@(reverse cleanup))))
+        (when foreign-objects
+          (setf expansion `(cffi:with-foreign-objects ,(reverse foreign-objects) ,expansion)))
         (when bindings
-          (setf expansion `(let ,bindings ,expansion)))
+          (setf expansion `(let ,(reverse bindings) ,expansion)))
         (unless recursive
           (let ((result-wrapper (infer-result-wrapper (isl-type result))))
             (unless (eql result-wrapper 'identity)
