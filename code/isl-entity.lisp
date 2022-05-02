@@ -41,9 +41,10 @@ of type ENTITY-NAME."
 (defvar *isl-entity-table* (trivial-garbage:make-weak-hash-table :weakness :value))
 
 (defmacro define-isl-entity
-    (name &key (superclass 'isl-entity)
-            ((:free %free) (alexandria:required-argument :free))
-            ((:copy %copy) nil))
+    (name &key (abstract nil)
+            (superclass 'isl-entity)
+            ((:free %free) (isl-entity-%free superclass))
+            ((:copy %copy) (isl-entity-%copy superclass)))
   (let ((predicate (make-isl-sym name (if (find #\- (string name)) "-P" "P")))
         (%make (make-isl-sym "%MAKE-" name))
         (%%make (make-isl-sym "%%MAKE-" name)))
@@ -55,12 +56,14 @@ of type ENTITY-NAME."
                          (:predicate ,predicate)
                          (:copier nil)
                          (:constructor ,%%make (handle))))
-       (defun ,%make (handle)
-         (values
-          (alexandria:ensure-gethash
-           (cffi:pointer-address handle)
-           *isl-entity-table*
-           (trivial-garbage:finalize (,%%make handle) (lambda () (,%free handle))))))
+       (declaim (ftype (function (cffi:foreign-pointer) (values ,name &optional)) ,%make))
+       ,@(unless abstract
+           `((defun ,%make (handle)
+               (values
+                (alexandria:ensure-gethash
+                 (cffi:pointer-address handle)
+                 *isl-entity-table*
+                 (trivial-garbage:finalize (,%%make handle) (lambda () (,%free handle))))))))
        ,@(when %copy
            `((defmethod copy ((,name ,name))
                (,%make (,%copy (isl-entity-handle ,name)))))))))

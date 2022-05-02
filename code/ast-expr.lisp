@@ -2,32 +2,64 @@
 
 (define-isl-entity ast-expr
   :free %isl-ast-expr-free
-  :copy %isl-ast-expr-copy)
+  :copy %isl-ast-expr-copy
+  :abstract t)
 
-(defmethod print-object ((ast ast-expr) stream)
-  (print-unreadable-object (value stream :type t)
-    (write-string (%isl-ast-expr-to-str (value-handle value)) stream)))
+(define-isl-entity op-expr
+  :superclass ast-expr
+  :abstract t)
 
-(define-isl-function expr-get-type %isl-ast-expr-get-type
-  (:give t) ;enum
-  (:keep ast-expr))
+(define-isl-entity id-expr
+  :superclass ast-expr)
+
+(define-isl-entity int-expr
+  :superclass ast-expr)
+
+(defun %make-ast-expr (handle)
+  (ecase (%isl-ast-expr-get-type handle)
+    (:isl-ast-expr-error (isl-error))
+    (:isl-ast-expr-op (%make-op-expr handle))
+    (:isl-ast-expr-id (%make-id-expr handle))
+    (:isl-ast-expr-int (%make-int-expr handle))))
+
+(define-isl-entity op-and
+  :superclass op-expr)
+
+(define-isl-entity op-and-then
+  :superclass op-expr)
+
+(define-isl-entity op-or
+  :superclass op-expr)
+
+(define-isl-entity op-or-else
+  :superclass op-expr)
+
+(defun %make-op-expr (handle)
+  (ecase (%isl-ast-expr-op-get-type handle)
+    (:isl-ast-expr-op-error (isl-error))
+    (:isl-ast-expr-op-and (%make-op-and handle))
+    (:isl-ast-expr-op-and-then (%make-op-and-then handle))
+    (:isl-ast-expr-op-or (%make-op-or handle))
+    (:isl-ast-expr-op-or-else (%make-op-or-else handle))
+    ;; TODO
+    ))
+
+(defmethod print-object ((ast-expr ast-expr) stream)
+  (print-unreadable-object (ast-expr stream :type t)
+    (write-string (%isl-ast-expr-to-str (ast-expr-handle ast-expr)) stream)))
 
 ;; Expr op
 
-(define-isl-function op-expr-get-type %isl-ast-expr-op-ge-type
-  (:give t) ;enum
-  (:keep ast-expr))
-
 (define-isl-function op-expr-get-n-arg %isl-ast-expr-op-get-n-arg
-  (:give t) ;int
+  (:give (unsigned-byte 32)) ;int
   (:keep ast-expr))
 
 (define-isl-function op-expr-get-op-arg %isl-ast-expr-get-op-arg
   (:give ast-expr)
   (:keep ast-expr)
-  (:keep t))
+  (:keep (unsigned-byte 32)))
 
-;; Returns a list of every son of the ast
+;; Returns a list of every son of the ast.
 (defun op-expr-get-list-args (ast)
   ;; assert type ast-exp op
   (let ((n (op-expr-get-n-arg ast)))
