@@ -11,3 +11,18 @@
     (%make-context handle)))
 
 (defvar *context* (make-context))
+
+(defun isl-error ()
+  (break "TODO"))
+
+(defun lispify-isl-bool (isl-bool)
+  (ecase isl-bool
+    (:isl-bool-true t)
+    (:isl-bool-false nil)
+    (:isl-bool-error
+     (isl-error))))
+
+(defun lispify-isl-size (isl-size)
+  (if (= isl-size +isl-size-error+)
+      (isl-error)
+      (the size isl-size)))
