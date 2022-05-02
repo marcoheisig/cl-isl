@@ -2,7 +2,7 @@
 
 (defgeneric isl-entity-plist (isl-entity))
 
-(defgeneric copy-isl-entity (isl-entity))
+(defgeneric copy (isl-entity))
 
 (defstruct (isl-entity (:copier nil))
   (handle (alexandria:required-argument :handle)
@@ -62,5 +62,5 @@ of type ENTITY-NAME."
            *isl-entity-table*
            (trivial-garbage:finalize (,%%make handle) (lambda () (,%free handle))))))
        ,@(when %copy
-           `((defmethod copy-isl-entity ((,name ,name))
+           `((defmethod copy ((,name ,name))
                (,%make (,%copy (isl-entity-handle ,name)))))))))
