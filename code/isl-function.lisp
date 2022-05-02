@@ -27,15 +27,21 @@
 (defclass isl-implicit-arg (isl-result-or-arg)
   ())
 
+(defun isl-implicit-arg-p (x) (typep x 'isl-implicit-arg))
+
 ;;; A function result.  The first result is the return value of the
 ;;; primitive.  All further results are returned by the primitive via
 ;;; pointers to handles.
 (defclass isl-give (isl-implicit-arg)
   ())
 
+(defun isl-give-p (x) (typep x 'isl-give))
+
 ;;; The primary result of primitives that return nothing.
 (defclass isl-null (isl-implicit-arg)
   ())
+
+(defun isl-null-p (x) (typep x 'isl-null))
 
 ;;; A reference to a Lisp special variable (or parameter).  The name 'parm'
 ;;; was chosen so that all qualifiers have four letters, which makes the
@@ -43,13 +49,19 @@
 (defclass isl-parm (isl-implicit-arg)
   ())
 
+(defun isl-parm-p (x) (typep x 'isl-parm))
+
 ;;; An regular argument.
 (defclass isl-keep (isl-result-or-arg)
   ())
 
+(defun isl-keep-p (x) (typep x 'isl-keep))
+
 ;;; An argument that is automatically free'd by the primitive.
 (defclass isl-take (isl-result-or-arg)
   ())
+
+(defun isl-take-p (x) (typep x 'isl-take))
 
 (defmethod print-object ((isl-result-or-arg isl-result-or-arg) stream)
   (print-unreadable-object (isl-result-or-arg stream :type t)
@@ -158,8 +170,8 @@
           :primitive primitive
           :result result
           :args args))
-    (let* ((explicit-args (remove-if (lambda (x) (typep x 'isl-implicit-arg)) args))
-           (extra-results (remove-if-not (lambda (x) (typep x 'isl-give)) args))
+    (let* ((explicit-args (remove-if #'isl-implicit-arg-p args))
+           (extra-results (remove-if-not #'isl-give-p args))
            (ftype `(function ,(mapcar #'isl-type explicit-args)
                              (values ,@(mapcar #'isl-type (list* result extra-results)) &optional))))
       `(progn
@@ -212,8 +224,8 @@
        (let ((fn (isl-fn (first form))))
          (and fn
               (= (length (rest form))
-                 (length (isl-fn-args fn)))
-              (eq (isl-fn-result-type fn) isl-entity-name)))))
+                 (length (remove-if #'isl-implicit-arg-p (isl-fn-args fn))))
+              (eq (isl-type (isl-fn-result fn)) isl-entity-name)))))
 
 (defun optimize-isl-function-call (whole &key (recursive nil))
   (destructuring-bind (name &rest forms) whole
@@ -232,7 +244,11 @@
                      collect
                      (etypecase arg
                        (isl-parm `(isl-entity-handle (the ,type ,name)))
-                       (isl-give (return-from optimize-isl-function-call whole))
+                       (isl-give
+                        (let ((g (gensym)))
+                          (push `(,g (cffi:foreign-alloc :pointer)) bindings)
+                          (push `(cffi:foreign-free ,g) cleanup)
+                          g))
                        (isl-take
                         (let ((form (pop forms)))
                           (cond

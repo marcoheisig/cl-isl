@@ -20,6 +20,13 @@
       (isl-size-error)
       (the size isl-size)))
 
+(defun string-from-symbol (symbol)
+  (let ((*package* (find-package "KEYWORD"))
+        (*print-readably*)
+        (*print-case* :upcase))
+    (with-output-to-string (stream)
+      (format stream "~S" symbol))))
+
 (defun isl-bool-error ()
   (break "TODO"))
 

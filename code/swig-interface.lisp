@@ -1,3 +1,7 @@
+;;; Manual changes to this file:
+;;;
+;;; - Change the result of isl_id_get_name to :pointer
+
 (in-package #:cl-isl)
 
 (cffi:define-foreign-library libisl
@@ -4529,7 +4533,7 @@
 (cffi:defcfun ("isl_id_get_user" #.(swig-lispify "isl_id_get_user" 'function)) :pointer
   (id :pointer))
 
-(cffi:defcfun ("isl_id_get_name" #.(swig-lispify "isl_id_get_name" 'function)) :string
+(cffi:defcfun ("isl_id_get_name" #.(swig-lispify "isl_id_get_name" 'function)) :pointer
   (id :pointer))
 
 (cffi:defcfun ("isl_id_set_free_user" #.(swig-lispify "isl_id_set_free_user" 'function)) :pointer

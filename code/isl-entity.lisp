@@ -1,6 +1,6 @@
 (in-package :cl-isl)
 
-(defgeneric write-isl-entity (isl-entity stream))
+(defgeneric isl-entity-plist (isl-entity))
 
 (defgeneric copy-isl-entity (isl-entity))
 
@@ -10,11 +10,12 @@
 
 (defmethod print-object ((isl-entity isl-entity) stream)
   (print-unreadable-object (isl-entity stream :type t)
-    (write-isl-entity isl-entity stream)))
+    (format stream "~@<~{~S ~S~^ ~_~}~:>"
+            (isl-entity-plist isl-entity))))
 
-(defmethod write-isl-entity ((isl-entity isl-entity) stream)
-  (declare (ignore isl-entity stream))
-  (values))
+(defmethod isl-entity-plist ((isl-entity isl-entity))
+  (declare (ignore isl-entity))
+  '())
 
 (defmacro isl-entity-%copy (entity-name)
   "Returns the name of the function for creating a fresh copy of the

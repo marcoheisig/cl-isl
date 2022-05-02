@@ -2,8 +2,12 @@
 
 (define-isl-entity value :free %isl-val-free :copy %isl-val-copy)
 
-(defmethod write-isl-entity ((value value) stream)
-  (write-string (%isl-val-to-str (isl-entity-handle value)) stream))
+(defmethod isl-entity-plist ((value value))
+  (list :str (%isl-val-to-str (isl-entity-handle value))))
+
+(defmethod print-object ((value value) stream)
+  (print-unreadable-object (value stream :type t)
+    (write-string (%isl-val-to-str (value-handle value)) stream)))
 
 (define-isl-function value-context %isl-val-get-ctx
     (:give context)

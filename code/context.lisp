@@ -2,10 +2,8 @@
 
 (define-isl-entity context :free %isl-ctx-free)
 
-(defmethod write-isl-entity ((context context) stream)
-  (format stream "#x~X"
-          (cffi:pointer-address
-           (context-handle context))))
+(defmethod isl-entity-plist ((context context))
+  (list :handle (context-handle context)))
 
 (defun make-context ()
   (let ((handle (%isl-ctx-alloc)))
