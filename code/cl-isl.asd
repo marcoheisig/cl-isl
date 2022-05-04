@@ -27,5 +27,5 @@
    (:file "union-map")
    (:file "operation")
    (:file "schedule")
-   (:file "ast-node")
-   (:file "ast-expr")))
+   (:file "ast-expr")
+   (:file "ast-node")))

@@ -16,7 +16,6 @@
   :superclass ast-expr)
 
 (defun %make-ast-expr (handle)
-;;  (break "makje expr")
   (ecase (%isl-ast-expr-get-type handle)
     (:isl-ast-expr-error (isl-error))
     (:isl-ast-expr-op (%make-op-expr handle))
