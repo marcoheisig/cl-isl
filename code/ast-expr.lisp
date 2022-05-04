@@ -34,11 +34,18 @@
 (define-isl-entity op-or-else
   :superclass op-expr)
 
+(define-isl-entity op-le
+  :superclass op-expr)
+
 (define-isl-entity op-call
   :superclass op-expr)
 
-(define-isl-entity op-le
+(define-isl-entity op-add
   :superclass op-expr)
+
+(define-isl-entity op-mul
+  :superclass op-expr)
+
 
 (defun %make-op-expr (handle)
   (ecase (%isl-ast-expr-op-get-type handle)
@@ -49,6 +56,8 @@
     (:isl-ast-expr-op-or-else (%make-op-or-else handle))
     (:isl-ast-expr-op-le (%make-op-le handle))
     (:isl-ast-expr-op-call (%make-op-call handle))
+    (:isl-ast-expr-op-add (%make-op-add handle))
+    (:isl-ast-expr-op-mul (%make-op-mul handle))
     ;; TODO
     ))
 
@@ -86,4 +95,48 @@
 (define-isl-function int-expr-get-value %isl-ast-expr-get-val
   (:give value)
   (:keep int-expr))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;; Creation of ast expr
+(define-isl-function ast-from-value %isl-ast-expr-from-val
+  (:give ast-expr)
+  (:take value))
+(define-isl-function ast-from-identifier %isl-ast-expr-from-id
+  (:give ast-expr)
+  (:take identifier))
+
+(define-isl-function ast-add %isl-ast-expr-add
+  (:give ast-expr)
+  (:take ast-expr)
+  (:take ast-expr))
+
+(define-isl-function ast-mul %isl-ast-expr-mul
+  (:give ast-expr)
+  (:take ast-expr)
+  (:take ast-expr))
+
+(define-isl-function ast-access %isl-ast-expr-access
+  (:give ast-expr)
+  (:take ast-expr)
+  (:take ast-expr))
+
+(define-isl-function ast-call %isl-expr-ast-call
+  (:give ast-expr)
+  (:take ast-expr)
+  (:take ast-expr))
 

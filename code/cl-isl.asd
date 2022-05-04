@@ -25,6 +25,7 @@
    (:file "map")
    (:file "union-set")
    (:file "union-map")
+   (:file "point")
    (:file "operation")
    (:file "schedule")
    (:file "ast-expr")

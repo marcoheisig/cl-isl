@@ -133,3 +133,27 @@
          (node (%isl-ast-build-node-from-schedule ast-build schedule)))
     node))
 
+
+(defun get-custom (domain read-access write-access initial-schedule)
+  (let* ((ctx (isl-entity-handle *context*))
+
+         (before (union-map initial-schedule initial-schedule))
+
+         (read-access (intersect read-access domain))
+         (write-access (intersect write-access domain))
+
+         (RaW (intersect-map (before write-access (inverse read-access)) before))
+         (WaW (intersect-map (before write-access (inverse write-access)) before))
+         (WaR (intersect-map (before read-access (inverse write-access)) before))
+
+         (total (union-map (union-map RaW WaW) WaR))
+
+         (schedule (%isl-schedule-constraints-on-domain domain))
+         (schedule (%isl-schedule-constraints-set-validity schedule total))
+         (schedule (%isl-schedule-constraints-set-coincidence schedule RaW))
+         (schedule (%isl-schedule-constraints-compute-schedule schedule))
+
+         (ast-build (%isl-ast-build-alloc ctx))
+         (node (%isl-ast-build-node-from-schedule ast-build schedule)))
+    node))
+
