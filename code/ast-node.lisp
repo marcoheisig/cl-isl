@@ -67,6 +67,18 @@
   (:keep user-node))
 
 
+;; BLOCK NODE - a sequence of instruction
+
+(define-isl-entity block-node
+  :superclass ast-node
+  :free %isl-ast-node-free
+  :copy %isl-ast-node-copy)
+
+(define-isl-function block-node-getlist %isl-ast-node-block-get-children
+  (:give ast-node-list)
+  (:keep block-node))
+
+
 ;; The rest - todo
 
 

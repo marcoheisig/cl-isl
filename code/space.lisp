@@ -30,3 +30,18 @@
   (:keep context)
   (:keep integer)
   (:keep integer))
+
+;; Local spaces
+
+(define-isl-entity local-space :free %isl-local-space-free :copy %isl-local-space-copy)
+
+(defmethod isl-entity-plist ((value local-space))
+  (list :str (%isl-local-space-to-str (isl-entity-handle value))))
+
+(defmethod print-object ((value local-space) stream)
+  (print-unreadable-object (value stream :type t)
+    (write-string (%isl-local-space-to-str (isl-local-space-handle value)) stream)))
+
+(define-isl-function local-space-from-space %isl-local-space-from-space
+  (:give local-space)
+  (:take isl-space))

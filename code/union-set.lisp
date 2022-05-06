@@ -31,3 +31,7 @@
   (:give union-set)
   (:take union-set)
   (:take union-set))
+
+(define-isl-function union-set-from-basic-set %isl-union-set-from-basic-set
+  (:give union-set)
+  (:take basic-set))

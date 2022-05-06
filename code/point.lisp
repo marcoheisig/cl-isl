@@ -25,15 +25,6 @@
     a
     (%isl-val-int-from-si (context-handle *context*) b))))
 
-(defun point-set-coord-id (p type a b)
-  (%make-point
-   (%isl-point-set-coordinate-val
-    (point-handle (copy p))
-    type
-    a
-    (%isl-val-int-from-si (context-handle *context*) b))))
-
-
 ;; get/set coordinate: todo with type
 
 ;; point -> set

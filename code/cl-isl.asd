@@ -29,4 +29,7 @@
    (:file "operation")
    (:file "schedule")
    (:file "ast-expr")
-   (:file "ast-node")))
+   (:file "ast-node")
+   (:file "list")
+   (:file "function")
+   (:file "constraint")))
