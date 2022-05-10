@@ -125,14 +125,14 @@
          (write-access (%isl-union-map-read-from-str ctx s-write))
          (initial-schedule (%isl-union-map-read-from-str ctx s-schedule))
 
-         (before (union-map initial-schedule initial-schedule))
+         (before-map (union-map initial-schedule initial-schedule))
 
          (read-access (intersect read-access domain))
          (write-access (intersect write-access domain))
 
-         (RaW (intersect-map (before write-access (inverse read-access)) before))
-         (WaW (intersect-map (before write-access (inverse write-access)) before))
-         (WaR (intersect-map (before read-access (inverse write-access)) before))
+         (RaW (intersect-map (before write-access (inverse read-access)) before-map))
+         (WaW (intersect-map (before write-access (inverse write-access)) before-map))
+         (WaR (intersect-map (before read-access (inverse write-access)) before-map))
 
          (total (union-map (union-map RaW WaW) WaR))
 
@@ -149,14 +149,14 @@
 (defun get-custom (domain read-access write-access initial-schedule)
   (let* ((ctx (isl-entity-handle *context*))
 
-         (before (union-map initial-schedule initial-schedule))
+         (before-map (union-map initial-schedule initial-schedule))
 
          (read-access (intersect read-access domain))
          (write-access (intersect write-access domain))
 
-         (RaW (intersect-map (before write-access (inverse read-access)) before))
-         (WaW (intersect-map (before write-access (inverse write-access)) before))
-         (WaR (intersect-map (before read-access (inverse write-access)) before))
+         (RaW (intersect-map (before write-access (inverse read-access)) before-map))
+         (WaW (intersect-map (before write-access (inverse write-access)) before-map))
+         (WaR (intersect-map (before read-access (inverse write-access)) before-map))
 
          (total (union-map (union-map RaW WaW) WaR))
 

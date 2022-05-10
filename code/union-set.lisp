@@ -13,9 +13,9 @@
   (:give union-set)
   (:take isl-space))
 
-(define-isl-function union-set-from-point %isl-union-set-from-point
+(define-isl-function union-set-universe %isl-union-set-universe
   (:give union-set)
-  (:take point))
+  (:take isl-space))
 
 (define-isl-function union-set-from-str %isl-union-set-read-from-str
   (:give union-set)
@@ -26,6 +26,11 @@
   (:give boolean)
   (:keep union-set)
   (:keep union-set))
+
+(define-isl-function union-set-product %isl-union-set-product
+  (:give union-set)
+  (:take union-set)
+  (:take union-set))
 
 (define-isl-function union-set-union %isl-union-set-union
   (:give union-set)

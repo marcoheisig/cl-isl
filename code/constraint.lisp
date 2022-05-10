@@ -1,11 +1,8 @@
 (in-package :cl-isl)
 
 (define-isl-entity constraint
-  :free nil ;; We'll write only function that takes constraint, hopefully no memory will leak
+  :free (lambda (c) '()) ;; We'll write only function that takes constraint, hopefully no memory will leak
   :copy (lambda (c) (break "You tried to copy a constraint, you can't!!!!")))
-
-(defmethod isl-entity-plist ((value constraint))
-  (list :str (%isl-constraint-to-str (isl-entity-handle value))))
 
 ;; It's not possible to print a constraint
 

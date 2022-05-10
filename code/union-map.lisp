@@ -18,6 +18,15 @@
   (:take union-set)
   (:take union-set))
 
+(define-isl-function union-map-apply-range %isl-union-map-apply-range
+  (:give union-map)
+  (:take union-map)
+  (:take union-map))
+
+(define-isl-function union-set-identity %isl-union-set-identity
+  (:give union-map)
+  (:take union-set))
+
 (defun create-single-map (p1 p2)
   (union-map-from-domain-and-range
    (union-set-from-point p1)
@@ -41,3 +50,9 @@
   (:give union-map)
   (:take union-map)
   (:take union-set))
+
+(define-isl-function union-map-from-str %isl-union-map-read-from-str
+  (:give union-map)
+  (:keep context)
+  (:keep string))
+

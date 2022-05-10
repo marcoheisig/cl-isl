@@ -18,12 +18,15 @@
   (:take isl-space))
 
 (defun point-set-coord-2 (p type a b)
-  (%make-point
-   (%isl-point-set-coordinate-val
-    (point-handle (copy p))
-    type
-    a
-    (%isl-val-int-from-si (context-handle *context*) b))))
+  (let ((r
+          (%make-point
+           (%isl-point-set-coordinate-val
+            (point-handle (copy p))
+            type
+            a
+            (%isl-val-int-from-si (context-handle *context*) b)))))
+;;    (break "~a" r)
+    r))
 
 ;; get/set coordinate: todo with type
 
@@ -37,7 +40,7 @@
   (:give set)
   (:take point))
 
-(define-isl-function union-set-from-point %isl-set-from-point
+(define-isl-function union-set-from-point %isl-union-set-from-point
   (:give union-set)
   (:take point))
 

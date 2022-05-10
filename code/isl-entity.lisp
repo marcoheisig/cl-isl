@@ -60,10 +60,17 @@ of type ENTITY-NAME."
        ,@(unless abstract
            `((defun ,%make (handle)
                (values
-                (alexandria:ensure-gethash
-                 (cffi:pointer-address handle)
-                 *isl-entity-table*
-                 (trivial-garbage:finalize (,%%make handle) (lambda () (,%free handle))))))))
+              ;  (alexandria:ensure-gethash
+              ;   (cffi:pointer-address handle)
+              ;   *isl-entity-table*
+                 (trivial-garbage:finalize (,%%make handle)
+                                           (lambda ()
+                                           ;  (setf (gethash
+                                           ;         (cffi:pointer-address handle)
+                                           ;         *isl-entity-table*)
+                                           ;        nil)
+                                           ;  (,%free handle)
+                                             ))))))
        ,@(when %copy
            `((defmethod copy ((,name ,name))
                (,%make (,%copy (isl-entity-handle ,name)))))))))

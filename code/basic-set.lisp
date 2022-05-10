@@ -18,3 +18,8 @@
   (:take basic-set)
   (:keep constraint))
 
+(define-isl-function basic-set-from-point %isl-basic-set-from-point
+  (:give basic-set)
+  (:take point))
+
+
