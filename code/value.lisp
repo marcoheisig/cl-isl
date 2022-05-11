@@ -122,3 +122,27 @@
 (define-isl-function value %value
   (:give value)
   (:keep value-designator))
+
+(defun %value-object (handle)
+  (flet ((%numerator (handle)
+           (let ((n (%isl-val-n-abs-num-chunks handle 8))
+                 (num 0))
+             (cffi:with-foreign-object (chunks :uint64 n)
+               (%isl-val-get-abs-num-chunks handle 8 chunks)
+               (loop for index below n do
+                 (setf (ldb (byte 64 (* 64 index)) num)
+                       (cffi:mem-aref chunks :uint64 index))))
+             num)))
+    (cond ((%isl-val-is-rat handle)
+           (let ((abs
+                   (/ (%numerator handle)
+                      (let ((den (%isl-val-get-den-val handle)))
+                        (unwind-protect (%numerator den)
+                          (%isl-val-free den))))))
+             (if (%isl-val-is-neg handle) (- abs) abs)))
+          ((error "Don't know how to convert ~S to a Lisp object."
+                  (%make-value handle))))))
+
+(define-isl-function value-object %value-object
+  (:give value-designator)
+  (:keep value))
