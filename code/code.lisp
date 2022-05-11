@@ -166,9 +166,9 @@
 ;; Convert an isl-bool to a lisp boolean
 (defun create-lisp-bool (obj)
   (cond
-    ((eql obj :isl-bool-true) t)
-    ((eql obj :isl-bool-false) nil)
-    ((eql obj :isl-bool-error) (break "You try to convert a bool that is an error"))
+    ((eql obj :bool-true) t)
+    ((eql obj :bool-false) nil)
+    ((eql obj :bool-error) (break "You try to convert a bool that is an error"))
     (t (break "You try to convert ~a, and it's not an isl-bool" obj))))
 
 (create-object bool :free nil :printable nil) ; unclear if we should create objects for bools and ints. Right now lisp bool are used

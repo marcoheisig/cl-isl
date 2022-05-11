@@ -77,12 +77,12 @@
 
 (defun %make-ast-node (handle)
   (ecase (%isl-ast-node-get-type handle)
-    (:isl-ast-expr-error (isl-error))
-    (:isl-ast-node-for (%make-for-node handle))
-    (:isl-ast-node-if (%make-if-node handle))
-    (:isl-ast-node-block (%make-block-node handle))
-    (:isl-ast-node-mark (%make-mark-node handle))
-    (:isl-ast-node-user (%make-user-node handle))))
+    (:ast-expr-error (isl-error))
+    (:ast-node-for (%make-for-node handle))
+    (:ast-node-if (%make-if-node handle))
+    (:ast-node-block (%make-block-node handle))
+    (:ast-node-mark (%make-mark-node handle))
+    (:ast-node-user (%make-user-node handle))))
 
 ;; Temporary creating the ast
 

@@ -14,9 +14,9 @@
 
 (defun lispify-isl-bool (isl-bool)
   (ecase isl-bool
-    (:isl-bool-true t)
-    (:isl-bool-false nil)
-    (:isl-bool-error
+    (:bool-true t)
+    (:bool-false nil)
+    (:bool-error
      (isl-error))))
 
 (defun lispify-isl-size (isl-size)

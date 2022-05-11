@@ -18,10 +18,10 @@
 
 (defun %make-ast-expr (handle)
   (ecase (%isl-ast-expr-get-type handle)
-    (:isl-ast-expr-error (isl-error))
-    (:isl-ast-expr-op (%make-op-expr handle))
-    (:isl-ast-expr-id (%make-id-expr handle))
-    (:isl-ast-expr-int (%make-int-expr handle))))
+    (:ast-expr-error (isl-error))
+    (:ast-expr-op (%make-op-expr handle))
+    (:ast-expr-id (%make-id-expr handle))
+    (:ast-expr-int (%make-int-expr handle))))
 
 (define-isl-object op-and
   :superclass op-expr)
