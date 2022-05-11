@@ -132,14 +132,14 @@
                (loop for index below n do
                  (setf (ldb (byte 64 (* 64 index)) num)
                        (cffi:mem-aref chunks :uint64 index))))
-             num)))
-    (cond ((%isl-val-is-rat handle)
-           (let ((abs
-                   (/ (%numerator handle)
-                      (let ((den (%isl-val-get-den-val handle)))
-                        (unwind-protect (%numerator den)
-                          (%isl-val-free den))))))
-             (if (%isl-val-is-neg handle) (- abs) abs)))
+             (if (lispify-isl-bool (%isl-val-is-neg handle)) (- num) num))))
+    (cond ((lispify-isl-bool (%isl-val-is-int handle))
+           (%numerator handle))
+          ((lispify-isl-bool (%isl-val-is-rat handle))
+           (/ (%numerator handle)
+              (let ((den (%isl-val-get-den-val handle)))
+                (unwind-protect (%numerator den)
+                  (%isl-val-free den)))))
           ((error "Don't know how to convert ~S to a Lisp object."
                   (%make-value handle))))))
 
