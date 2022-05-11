@@ -3,7 +3,8 @@
 (define-isl-object ast-node
   :abstract t
   :free %isl-ast-node-free
-  :copy %isl-ast-node-copy)
+  :copy %isl-ast-node-copy
+  :list-type ast-node-list)
 
 (defmethod print-object ((ast ast-node) stream)
   (print-unreadable-object (ast stream :type t)

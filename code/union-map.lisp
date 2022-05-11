@@ -1,6 +1,9 @@
 (in-package :cl-isl)
 
-(define-isl-object union-map :free %isl-union-map-free :copy %isl-union-map-copy)
+(define-isl-object union-map
+  :free %isl-union-map-free
+  :copy %isl-union-map-copy
+  :list-type union-map-list)
 
 (defmethod print-object ((value union-map) stream)
   (print-unreadable-object (value stream :type t)

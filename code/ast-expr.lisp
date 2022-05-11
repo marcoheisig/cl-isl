@@ -3,6 +3,7 @@
 (define-isl-object ast-expr
   :free %isl-ast-expr-free
   :copy %isl-ast-expr-copy
+  :list-type ast-expr-list
   :abstract t)
 
 (define-isl-object op-expr
@@ -46,7 +47,6 @@
 (define-isl-object op-mul
   :superclass op-expr)
 
-
 (defun %make-op-expr (handle)
   (ecase (%isl-ast-expr-op-get-type handle)
     (:isl-ast-expr-op-error (isl-error))
@@ -82,7 +82,6 @@
   (let ((n (op-expr-get-n-arg ast)))
     (loop for i below n do
       (op-expr-get-op-arg ast i))))
-
 
 ;; ID
 

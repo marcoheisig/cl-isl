@@ -35,6 +35,7 @@ of type OBJECT-NAME."
 
 (defmacro define-isl-object
     (name &key (abstract nil)
+            (list-type nil)
             (superclass 'isl-object)
             ((:free %free) (isl-object-%free superclass))
             ((:copy %copy) (isl-object-%copy superclass)))
@@ -50,6 +51,8 @@ of type OBJECT-NAME."
                          (:copier nil)
                          (:constructor ,%%make (handle))))
        (declaim (ftype (function (cffi:foreign-pointer) (values ,name &optional)) ,%make))
+       ,@(when list-type
+           `((define-isl-object-list ,list-type ,name)))
        ,@(unless abstract
            `((defun ,%make (handle)
                (values
@@ -63,3 +66,51 @@ of type OBJECT-NAME."
        ,@(when %copy
            `((defmethod copy ((,name ,name))
                (,%make (,%copy (isl-object-handle ,name)))))))))
+
+(defmacro define-isl-object-list (name element-type)
+  (let* ((%name
+           (case name
+             (identifier-list "ID-LIST")
+             (value-list "VAL-LIST")
+             (affine-list "AFF-LIST")
+             (otherwise name)))
+         (%element-type
+           (case element-type
+             (identifier "ID")
+             (value "VAL")
+             (affine "AFF")
+             (otherwise element-type)))
+         (%free (make-isl-sym "%ISL-" %name "-FREE"))
+         (%copy (make-isl-sym "%ISL-" %name "-COPY"))
+         (%size (make-isl-sym "%ISL-" %name "-SIZE"))
+         (%get-elt (make-isl-sym "%ISL-" %name "-GET-" %element-type))
+         (%set-elt (make-isl-sym "%ISL-" %name "-SET-" %element-type))
+         (%to-str (make-isl-sym "%ISL-" %name "-TO-STR"))
+         (size (make-isl-sym name "-SIZE"))
+         (get-elt (make-isl-sym name "-ELT"))
+         (set-elt (make-isl-sym "SET-" name "-ELT"))
+         (elements (make-isl-sym name "-ELEMENTS")))
+    `(progn
+       (define-isl-object ,name
+         :free ,%free
+         :copy ,%copy)
+       (defmethod print-object ((,name ,name) stream)
+         (print-unreadable-object (,name stream :type t)
+           (write-string (,%to-str (isl-object-handle ,name)) stream)))
+       (define-isl-function ,size ,%size
+         (:give size)
+         (:keep ,name))
+       (define-isl-function ,get-elt ,%get-elt
+         (:give ,element-type)
+         (:keep ,name)
+         (:keep unsigned-byte))
+       (define-isl-function ,set-elt ,%set-elt
+         (:give ,name)
+         (:take ,name)
+         (:keep unsigned-byte)
+         (:take ,element-type))
+       (defun ,elements (,name)
+         (declare (type ,name ,name))
+         (loop for index below (,size ,name)
+               collect
+               (,get-elt ,name index))))))

@@ -3,7 +3,8 @@
 (define-isl-object constraint
   :abstract t
   :free %isl-constraint-free
-  :copy %isl-constraint-copy)
+  :copy %isl-constraint-copy
+  :list-type constraint-list)
 
 (defmethod print-object ((constraint constraint) stream)
   (print-unreadable-object (constraint stream :type t)

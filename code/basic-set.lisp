@@ -1,6 +1,9 @@
 (in-package #:cl-isl)
 
-(define-isl-object basic-set :free %isl-basic-set-free :copy %isl-basic-set-copy)
+(define-isl-object basic-set
+  :free %isl-basic-set-free
+  :copy %isl-basic-set-copy
+  :list-type basic-set-list)
 
 (defmethod print-object ((value basic-set) stream)
   (print-unreadable-object (value stream :type t)
