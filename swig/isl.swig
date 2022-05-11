@@ -2,6 +2,10 @@
 
 %feature("intern_function", "1");
 
+%inline %{
+typedef long unsigned int size_t;
+%}
+
 %include "isl/ctx.h"
 %include "isl/multi.h"
 %include "isl/list.h"

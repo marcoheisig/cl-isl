@@ -24,16 +24,6 @@
   (def value-positive-infinity %isl-val-infty)
   (def value-negative-infinity %isl-val-neginfty))
 
-;; TODO Handle bignums
-(define-isl-function value-from-integer %isl-val-int-from-si
-    (:give value)
-    (:parm context *context*)
-    (:keep (signed-byte 64)))
-
-(define-isl-function integer-from-value %isl-val-get-num-si
-    (:give (signed-byte 64))
-    (:keep value))
-
 (define-isl-function value-sign %isl-val-sgn
     (:give (integer -1 1))
     (:keep value))
@@ -105,3 +95,30 @@
     (:take value b)
     (:give value x)
     (:give value y))
+
+(defun %value (value-designator)
+  (etypecase value-designator
+    (value
+     (%isl-val-copy (value-handle value-designator)))
+    ((signed-byte 64) value-designator
+     (%isl-val-int-from-si (context-handle *context*) value-designator))
+    (integer
+     (let* ((n (ceiling (integer-length value-designator) 8))
+            (num (abs value-designator))
+            (handle
+              (cffi:with-foreign-object (chunks :uint64 n)
+                (loop for index below n do
+                  (setf (cffi:mem-aref chunks :uint64 index)
+                        (ldb (byte 64 (* 64 index)) num)))
+                (%isl-val-int-from-chunks (context-handle *context*) n 8 chunks))))
+       (if (minusp value-designator)
+           (%isl-val-neg handle)
+           handle)))
+    (rational
+     (%isl-val-div
+      (%value (numerator value-designator))
+      (%value (denominator value-designator))))))
+
+(define-isl-function value %value
+  (:give value)
+  (:keep value-designator))

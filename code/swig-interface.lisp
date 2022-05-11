@@ -30,17 +30,17 @@
 
 (cffi:defcfun ("isl_malloc_or_die" #.(swig-lispify "isl_malloc_or_die" 'function)) :pointer
   (ctx :pointer)
-  (size :pointer))
+  (size :unsigned-long))
 
 (cffi:defcfun ("isl_calloc_or_die" #.(swig-lispify "isl_calloc_or_die" 'function)) :pointer
   (ctx :pointer)
-  (nmemb :pointer)
-  (size :pointer))
+  (nmemb :unsigned-long)
+  (size :unsigned-long))
 
 (cffi:defcfun ("isl_realloc_or_die" #.(swig-lispify "isl_realloc_or_die" 'function)) :pointer
   (ctx :pointer)
   (ptr :pointer)
-  (size :pointer))
+  (size :unsigned-long))
 
 (cffi:defcfun ("isl_handle_error" #.(swig-lispify "isl_handle_error" 'function)) :void
   (ctx :pointer)
@@ -2996,7 +2996,7 @@
 	(#.(swig-lispify "short_name" 'slotname) :char)
 	(#.(swig-lispify "long_name" 'slotname) :string)
 	(#.(swig-lispify "argument_name" 'slotname) :string)
-	(#.(swig-lispify "offset" 'slotname) :pointer)
+	(#.(swig-lispify "offset" 'slotname) :unsigned-long)
 	(#.(swig-lispify "help_msg" 'slotname) :string)
 	(#.(swig-lispify "flags" 'slotname) :unsigned-int)
 	(#.(swig-lispify "u" 'slotname) :pointer))
@@ -3012,7 +3012,7 @@
 	(#.(swig-lispify "child" 'slotname) :pointer))
 
 (cffi:defcstruct #.(swig-lispify "isl_arg_u_str_list" 'classname)
-	(#.(swig-lispify "offset_n" 'slotname) :pointer))
+	(#.(swig-lispify "offset_n" 'slotname) :unsigned-long))
 
 (cffi:defcstruct #.(swig-lispify "isl_arg_u_str" 'classname)
 	(#.(swig-lispify "default_value" 'slotname) :string))
@@ -3043,7 +3043,7 @@
 	(#.(swig-lispify "set" 'slotname) :pointer))
 
 (cffi:defcstruct #.(swig-lispify "isl_args" 'classname)
-	(#.(swig-lispify "options_size" 'slotname) :pointer)
+	(#.(swig-lispify "options_size" 'slotname) :unsigned-long)
 	(#.(swig-lispify "args" 'slotname) :pointer))
 
 (cffi:defcfun ("isl_args_set_defaults" #.(swig-lispify "isl_args_set_defaults" 'function)) :void
@@ -4240,7 +4240,7 @@
 (cffi:defcfun ("isl_hash_mem" #.(swig-lispify "isl_hash_mem" 'function)) :pointer
   (hash :pointer)
   (p :pointer)
-  (len :pointer))
+  (len :unsigned-long))
 
 (cffi:defcstruct #.(swig-lispify "isl_hash_table_entry" 'classname)
 	(#.(swig-lispify "hash" 'slotname) :pointer)
@@ -7357,7 +7357,7 @@
   (pwf1 :pointer)
   (pwf2 :pointer))
 
-(cffi:defcfun ("isl_pw_qpolynomial_fold_size" #.(swig-lispify "isl_pw_qpolynomial_fold_size" 'function)) :pointer
+(cffi:defcfun ("isl_pw_qpolynomial_fold_size" #.(swig-lispify "isl_pw_qpolynomial_fold_size" 'function)) :unsigned-long
   (pwf :pointer))
 
 (cffi:defcfun ("isl_pw_qpolynomial_fold_zero" #.(swig-lispify "isl_pw_qpolynomial_fold_zero" 'function)) :pointer
@@ -11308,8 +11308,8 @@
 
 (cffi:defcfun ("isl_val_int_from_chunks" #.(swig-lispify "isl_val_int_from_chunks" 'function)) :pointer
   (ctx :pointer)
-  (n :pointer)
-  (size :pointer)
+  (n :unsigned-long)
+  (size :unsigned-long)
   (chunks :pointer))
 
 (cffi:defcfun ("isl_val_copy" #.(swig-lispify "isl_val_copy" 'function)) :pointer
@@ -11338,11 +11338,11 @@
 
 (cffi:defcfun ("isl_val_n_abs_num_chunks" #.(swig-lispify "isl_val_n_abs_num_chunks" 'function)) :int
   (v :pointer)
-  (size :pointer))
+  (size :unsigned-long))
 
 (cffi:defcfun ("isl_val_get_abs_num_chunks" #.(swig-lispify "isl_val_get_abs_num_chunks" 'function)) #.(swig-lispify "isl_stat" 'enumname)
   (v :pointer)
-  (size :pointer)
+  (size :unsigned-long)
   (chunks :pointer))
 
 (cffi:defcfun ("isl_val_set_si" #.(swig-lispify "isl_val_set_si" 'function)) :pointer

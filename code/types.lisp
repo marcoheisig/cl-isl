@@ -8,3 +8,6 @@
 
 (deftype dim-type ()
   `(member ,@(cffi:foreign-enum-keyword-list 'isl-dim-type)))
+
+(deftype value-designator ()
+  '(or rational value))
