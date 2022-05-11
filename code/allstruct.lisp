@@ -24,6 +24,8 @@
 
 (define-isl-entity basic-set :free %isl-basic-set-free :copy %isl-basic-set-copy)
 
+(define-isl-entity basic-map :free %isl-basic-map-free :copy %isl-basic-map-copy)
+
 
 (define-isl-entity set :free %isl-set-free)
 

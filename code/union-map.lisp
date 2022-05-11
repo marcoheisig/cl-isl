@@ -13,6 +13,14 @@
   (:give union-map)
   (:take isl-space))
 
+(define-isl-function union-map-universe %isl-union-map-universe
+  (:give union-map)
+  (:take isl-space))
+
+(define-isl-function union-map-from-basic-map %isl-union-map-from-basic-map
+  (:give union-map)
+  (:take basic-map))
+
 (define-isl-function union-map-from-domain-and-range %isl-union-map-from-domain-and-range
   (:give union-map)
   (:take union-set)
@@ -55,4 +63,9 @@
   (:give union-map)
   (:keep context)
   (:keep string))
+
+(define-isl-function union-map-add-constraint %isl-union-map-add-constraint
+  (:give union-map)
+  (:take union-map)
+  (:keep constraint))
 

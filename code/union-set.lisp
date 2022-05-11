@@ -13,10 +13,6 @@
   (:give union-set)
   (:take isl-space))
 
-(define-isl-function union-set-universe %isl-union-set-universe
-  (:give union-set)
-  (:take isl-space))
-
 (define-isl-function union-set-from-str %isl-union-set-read-from-str
   (:give union-set)
   (:keep context)
