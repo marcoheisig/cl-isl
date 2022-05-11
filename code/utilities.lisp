@@ -1,8 +1,5 @@
 (in-package #:cl-isl)
 
-(deftype size ()
-  '(and unsigned-byte fixnum))
-
 (defun make-isl-sym (&rest things)
   (intern
    (apply #'concatenate 'string (mapcar #'string things))

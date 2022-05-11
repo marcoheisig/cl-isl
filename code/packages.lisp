@@ -3,7 +3,7 @@
 (defpackage #:cl-isl
   (:nicknames #:isl)
   (:use #:common-lisp)
-  (:shadow #:set #:map)
+  (:shadow #:set #:map #:space)
   (:export
    #:copy
    ;; Context

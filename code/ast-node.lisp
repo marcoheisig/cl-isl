@@ -1,6 +1,7 @@
 (in-package :cl-isl)
 
-(define-isl-entity ast-node
+(define-isl-object ast-node
+  :abstract t
   :free %isl-ast-node-free
   :copy %isl-ast-node-copy)
 
@@ -8,19 +9,14 @@
   (print-unreadable-object (ast stream :type t)
     (write-string (%isl-ast-node-to-str (ast-node-handle ast)) stream)))
 
-(deftype ast-expr-type ()
-  `(member ,@(remove :isl-ast-expr-error (cffi:foreign-enum-keyword-list 'isl-ast-expr-type))))
-
 (define-isl-function node-get-type %isl-ast-node-get-type
   (:give ast-expr-type)
   (:keep ast-node))
 
 ;; FOR NODE
 
-(define-isl-entity for-node
-  :superclass ast-node
-  :free %isl-ast-node-free
-  :copy %isl-ast-node-copy)
+(define-isl-object for-node
+  :superclass ast-node)
 
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
@@ -37,10 +33,8 @@
 
 ;; IF NODE
 
-(define-isl-entity if-node
-  :superclass ast-node
-  :free %isl-ast-node-free
-  :copy %isl-ast-node-copy)
+(define-isl-object if-node
+  :superclass ast-node)
 
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
@@ -56,11 +50,8 @@
 
 ;; USER NODE
 
-
-(define-isl-entity user-node
-  :superclass ast-node
-  :free %isl-ast-node-free
-  :copy %isl-ast-node-copy)
+(define-isl-object user-node
+  :superclass ast-node)
 
 (define-isl-function user-node-get-expr %isl-ast-node-user-get-expr
   (:give ast-expr)
@@ -69,18 +60,19 @@
 
 ;; BLOCK NODE - a sequence of instruction
 
-(define-isl-entity block-node
-  :superclass ast-node
-  :free %isl-ast-node-free
-  :copy %isl-ast-node-copy)
+(define-isl-object block-node
+  :superclass ast-node)
 
 (define-isl-function block-node-getlist %isl-ast-node-block-get-children
   (:give ast-node-list)
   (:keep block-node))
 
+;; MARK NODE
+
+(define-isl-object mark-node
+  :superclass ast-node)
 
 ;; The rest - todo
-
 
 (defun %make-ast-node (handle)
   (ecase (%isl-ast-node-get-type handle)
@@ -119,7 +111,7 @@
                      (%isl-union-map-copy b)))
 
 (defun get-perfect-ast (s-domain s-read s-write s-schedule)
-  (let* ((ctx (isl-entity-handle *context*))
+  (let* ((ctx (isl-object-handle *context*))
          (domain (%isl-union-set-read-from-str ctx s-domain))
          (read-access (%isl-union-map-read-from-str ctx s-read))
          (write-access (%isl-union-map-read-from-str ctx s-write))
@@ -147,7 +139,7 @@
 
 
 (defun get-custom (domain read-access write-access initial-schedule)
-  (let* ((ctx (isl-entity-handle *context*))
+  (let* ((ctx (isl-object-handle *context*))
 
          (before-map (union-map initial-schedule initial-schedule))
 
@@ -171,7 +163,7 @@
 
 
 (defun get-initial-result (domain read-access write-access initial-schedule)
-  (let* ((ctx (isl-entity-handle *context*))
+  (let* ((ctx (isl-object-handle *context*))
 
          ;;(before-map (union-map initial-schedule initial-schedule))
 
@@ -193,4 +185,4 @@
     ast-node))
 
 (defun print-node (node)
-  (print (%isl-ast-node-to-C-str (isl-entity-handle node))))
+  (print (%isl-ast-node-to-C-str (isl-object-handle node))))

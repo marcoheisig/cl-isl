@@ -1,9 +1,6 @@
 (in-package #:cl-isl)
 
-(define-isl-entity basic-set :free %isl-basic-set-free :copy %isl-basic-set-copy)
-
-(defmethod isl-entity-plist ((value basic-set))
-  (list :str (%isl-basic-set-to-str (isl-entity-handle value))))
+(define-isl-object basic-set :free %isl-basic-set-free :copy %isl-basic-set-copy)
 
 (defmethod print-object ((value basic-set) stream)
   (print-unreadable-object (value stream :type t)
@@ -11,15 +8,9 @@
 
 (define-isl-function basic-set-universe %isl-basic-set-universe
   (:give basic-set)
-  (:take isl-space))
+  (:take space))
 
 (define-isl-function basic-set-add-constraint %isl-basic-set-add-constraint
   (:give basic-set)
   (:take basic-set)
   (:keep constraint))
-
-(define-isl-function basic-set-from-point %isl-basic-set-from-point
-  (:give basic-set)
-  (:take point))
-
-

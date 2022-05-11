@@ -1,9 +1,6 @@
 (in-package #:cl-isl)
 
-(define-isl-entity context :free %isl-ctx-free)
-
-(defmethod isl-entity-plist ((context context))
-  (list :handle (context-handle context)))
+(define-isl-object context :free %isl-ctx-free)
 
 (defun make-context ()
   (let ((handle (%isl-ctx-alloc)))

@@ -1,21 +1,15 @@
 (in-package :cl-isl)
 
-(define-isl-entity point :free %isl-point-free :copy %isl-point-copy)
-
-(defmethod isl-entity-plist ((value point))
-  (list :str (%isl-point-to-str (isl-entity-handle value))))
+(define-isl-object point :free %isl-point-free :copy %isl-point-copy)
 
 (defmethod print-object ((value point) stream)
   (print-unreadable-object (value stream :type t)
     (write-string (%isl-point-to-str (point-handle value)) stream)))
 
 ;; What type of point it is
-(deftype dim-type ()
-  `(member ,@(remove nil (cffi:foreign-enum-keyword-list 'isl-dim-type))))
-
 (define-isl-function point-zero %isl-point-zero
   (:give point)
-  (:take isl-space))
+  (:take space))
 
 (defun point-set-coord-2 (p type a b)
   (let ((r
@@ -46,12 +40,12 @@
 
 ;; (point, point) -> set
 
-(define-isl-function basic-set-box-from-point %isl-basic-set-box-from-point
+(define-isl-function basic-set-box-from-points %isl-basic-set-box-from-points
   (:give basic-set)
   (:take point)
   (:take point))
 
-(define-isl-function set-box-from-point %isl-set-box-from-point
+(define-isl-function set-box-from-points %isl-set-box-from-points
   (:give set)
   (:take point)
   (:take point))

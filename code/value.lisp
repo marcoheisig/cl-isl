@@ -1,9 +1,6 @@
 (in-package :cl-isl)
 
-(define-isl-entity value :free %isl-val-free :copy %isl-val-copy)
-
-(defmethod isl-entity-plist ((value value))
-  (list :str (%isl-val-to-str (isl-entity-handle value))))
+(define-isl-object value :free %isl-val-free :copy %isl-val-copy)
 
 (defmethod print-object ((value value) stream)
   (print-unreadable-object (value stream :type t)

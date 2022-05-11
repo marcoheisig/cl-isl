@@ -1,18 +1,18 @@
 (in-package #:cl-isl)
 
-(define-isl-entity ast-expr
+(define-isl-object ast-expr
   :free %isl-ast-expr-free
   :copy %isl-ast-expr-copy
   :abstract t)
 
-(define-isl-entity op-expr
+(define-isl-object op-expr
   :superclass ast-expr
   :abstract t)
 
-(define-isl-entity id-expr
+(define-isl-object id-expr
   :superclass ast-expr)
 
-(define-isl-entity int-expr
+(define-isl-object int-expr
   :superclass ast-expr)
 
 (defun %make-ast-expr (handle)
@@ -22,28 +22,28 @@
     (:isl-ast-expr-id (%make-id-expr handle))
     (:isl-ast-expr-int (%make-int-expr handle))))
 
-(define-isl-entity op-and
+(define-isl-object op-and
   :superclass op-expr)
 
-(define-isl-entity op-and-then
+(define-isl-object op-and-then
   :superclass op-expr)
 
-(define-isl-entity op-or
+(define-isl-object op-or
   :superclass op-expr)
 
-(define-isl-entity op-or-else
+(define-isl-object op-or-else
   :superclass op-expr)
 
-(define-isl-entity op-le
+(define-isl-object op-le
   :superclass op-expr)
 
-(define-isl-entity op-call
+(define-isl-object op-call
   :superclass op-expr)
 
-(define-isl-entity op-add
+(define-isl-object op-add
   :superclass op-expr)
 
-(define-isl-entity op-mul
+(define-isl-object op-mul
   :superclass op-expr)
 
 
@@ -96,22 +96,6 @@
   (:give value)
   (:keep int-expr))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;; Creation of ast expr
 (define-isl-function ast-from-value %isl-ast-expr-from-val
   (:give ast-expr)
@@ -135,7 +119,7 @@
   (:take ast-expr)
   (:take ast-expr))
 
-(define-isl-function ast-call %isl-expr-ast-call
+(define-isl-function ast-call %isl-ast-expr-call
   (:give ast-expr)
   (:take ast-expr)
   (:take ast-expr))

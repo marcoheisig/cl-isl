@@ -2,4 +2,4 @@
 
 (defgeneric make-empty-set (space))
 
-(define-isl-entity set :free %isl-set-free)
+(define-isl-object set :free %isl-set-free)

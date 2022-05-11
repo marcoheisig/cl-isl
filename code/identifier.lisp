@@ -1,6 +1,10 @@
 (in-package #:cl-isl)
 
-(define-isl-entity identifier :free %isl-id-free :copy %isl-id-copy)
+(define-isl-object identifier :free %isl-id-free :copy %isl-id-copy)
+
+(defmethod print-object ((identifier identifier) stream)
+  (print-unreadable-object (identifier stream :type t)
+    (write-string (%isl-id-to-str (identifier-handle identifier)) stream)))
 
 (defun make-identifier (name)
   (declare (symbol name))
@@ -19,6 +23,3 @@
 (define-isl-function identifier-context %isl-id-get-ctx
     (:give context)
     (:keep identifier))
-
-(defmethod isl-entity-plist ((identifier identifier))
-  (list :name (identifier-name identifier)))

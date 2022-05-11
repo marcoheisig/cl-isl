@@ -6,12 +6,9 @@
 
 (in-package :cl-isl)
 
-(define-isl-entity aff
+(define-isl-object aff
   :free %isl-aff-free
   :copy %isl-aff-copy)
-
-(defmethod isl-entity-plist ((value aff))
-  (list :str (%isl-aff-to-str (isl-entity-handle value))))
 
 (defmethod print-object ((value aff) stream)
   (print-unreadable-object (value stream :type t)
@@ -19,7 +16,7 @@
 
 (define-isl-function aff-val-on-domain-space %isl-aff-val-on-domain-space
   (:give aff)
-  (:take isl-space)
+  (:take space)
   (:take value))
 
 (define-isl-function aff-le-basic-set %isl-aff-le-basic-set

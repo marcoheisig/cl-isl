@@ -148,8 +148,8 @@
         isl-fn))
 
 (defun infer-result-wrapper (result-type)
-  (cond ((isl-entity-name-p result-type)
-         (isl-entity-%make result-type))
+  (cond ((isl-object-name-p result-type)
+         (isl-object-%make result-type))
         ((eql result-type 'boolean)
          'lispify-isl-bool)
         ((eql result-type 'size)
@@ -191,16 +191,16 @@
                         collect
                         (typecase arg
                           (isl-keep
-                           (if (isl-entity-name-p type)
-                               `(isl-entity-handle ,name)
+                           (if (isl-object-name-p type)
+                               `(isl-object-handle ,name)
                                name))
                           (isl-parm
-                           (if (isl-entity-name-p type)
-                               `(isl-entity-handle (the ,type ,name))
+                           (if (isl-object-name-p type)
+                               `(isl-object-handle (the ,type ,name))
                                name))
                           (isl-take
-                           (assert (isl-entity-name-p type))
-                           `(,(isl-entity-%copy type) (isl-entity-handle ,name)))
+                           (assert (isl-object-name-p type))
+                           `(,(isl-object-%copy type) (isl-object-handle ,name)))
                           (isl-null
                            (error "Arguments with :null qualifier are not allowed."))
                           (otherwise name)))))
@@ -212,20 +212,20 @@
            (declare (ignore ,@(mapcar #'isl-name explicit-args)))
            (optimize-isl-function-call whole))))))
 
-(defun constructor-form-p (form isl-entity-name)
+(defun constructor-form-p (form isl-object-name)
   (and (consp form)
        (consp (cdr form))
        (null (cddr form))
        (eql (first form)
-            (isl-entity-%make isl-entity-name))))
+            (isl-object-%make isl-object-name))))
 
-(defun creation-form-p (form isl-entity-name)
+(defun creation-form-p (form isl-object-name)
   (and (consp form)
        (let ((fn (isl-fn (first form))))
          (and fn
               (= (length (rest form))
                  (length (remove-if #'isl-implicit-arg-p (isl-fn-args fn))))
-              (eq (isl-type (isl-fn-result fn)) isl-entity-name)))))
+              (eq (isl-type (isl-fn-result fn)) isl-object-name)))))
 
 (defun optimize-isl-function-call (whole &key (recursive nil))
   (destructuring-bind (name &rest forms) whole
@@ -244,11 +244,11 @@
                      for type = (isl-type arg)
                      collect
                      (etypecase arg
-                       (isl-parm `(isl-entity-handle (the ,type ,name)))
+                       (isl-parm `(isl-object-handle (the ,type ,name)))
                        (isl-give
                         (let ((g (gensym)))
                           (push `(,g :pointer) foreign-objects)
-                          (push `(,(isl-entity-%free type) (cffi:mem-ref ,g :pointer))
+                          (push `(,(isl-object-%free type) (cffi:mem-ref ,g :pointer))
                                 cleanup)
                           g))
                        (isl-take
@@ -261,8 +261,8 @@
                              (setf worth-expanding t)
                              (optimize-isl-function-call form :recursive t))
                             (t
-                             `(,(isl-entity-%copy type)
-                               (isl-entity-handle (the ,type ,form)))))))
+                             `(,(isl-object-%copy type)
+                               (isl-object-handle (the ,type ,form)))))))
                        (isl-keep
                         (let ((form (pop forms)))
                           (cond
@@ -270,16 +270,16 @@
                              (setf worth-expanding t)
                              (let ((handle (gensym)))
                                (push `(,handle ,(second form)) bindings)
-                               (push `(,(isl-entity-%free type) ,handle) cleanup)
+                               (push `(,(isl-object-%free type) ,handle) cleanup)
                                handle))
                             ((creation-form-p form type)
                              (setf worth-expanding t)
                              (let ((handle (gensym)))
                                (push `(,handle ,(optimize-isl-function-call form :recursive t)) bindings)
-                               (push `(,(isl-entity-%free type) ,handle) cleanup)
+                               (push `(,(isl-object-%free type) ,handle) cleanup)
                                handle))
                             (t
-                             `(isl-entity-handle (the ,type ,form)))))))))
+                             `(isl-object-handle (the ,type ,form)))))))))
              (expansion `(,primitive ,@expanded-arguments)))
         (when cleanup
           (setf expansion `(unwind-protect ,expansion ,@(reverse cleanup))))

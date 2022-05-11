@@ -12,12 +12,9 @@
 ;; Right now, only ast-block, and todo loop over types to generate all possible versions
 (in-package :cl-isl)
 
-(define-isl-entity ast-node-list
+(define-isl-object ast-node-list
   :free %isl-ast-node-list-free
   :copy %isl-ast-node-list-copy)
-
-(defmethod isl-entity-plist ((value ast-node-list))
-  (list :str (%isl-ast-node-list-to-str (isl-entity-handle value))))
 
 (defmethod print-object ((value ast-node-list) stream)
   (print-unreadable-object (value stream :type t)

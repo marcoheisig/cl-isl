@@ -1,18 +1,41 @@
 (in-package :cl-isl)
 
-(define-isl-entity constraint
-  :free (lambda (c) '()) ;; We'll write only function that takes constraint, hopefully no memory will leak
-  :copy (lambda (c) (break "You tried to copy a constraint, you can't!!!!")))
+(define-isl-object constraint
+  :abstract t
+  :free %isl-constraint-free
+  :copy %isl-constraint-copy)
 
-;; It's not possible to print a constraint
+(defmethod print-object ((constraint constraint) stream)
+  (print-unreadable-object (constraint stream :type t)
+    (let ((aff (%isl-constraint-get-aff (constraint-handle constraint))))
+      (unwind-protect (write-string (%isl-aff-to-str aff) stream)
+        (%isl-aff-free aff)))))
 
-(defun constraint-set-constant-si (c i)
-  (%make-constraint
-   (%isl-constraint-set-constant-si (isl-entity-handle c) i)))
+(define-isl-object equality-constraint
+  :superclass constraint)
 
-(defun constraint-set-coefficient-si (c type a b)
-  (%make-constraint
-   (%isl-constraint-set-coefficient-si (isl-entity-handle c) type a b)))
+(define-isl-object inequality-constraint
+  :superclass constraint)
+
+(define-isl-function make-equality-constraint %isl-equality-alloc
+  (:give constraint)
+  (:take local-space))
+
+(define-isl-function make-inequality-constraint %isl-inequality-alloc
+  (:give constraint)
+  (:take local-space))
+
+(define-isl-function constraint-set-constant-si %isl-constraint-set-constant-si
+  (:give constraint)
+  (:take constraint)
+  (:keep integer))
+
+(define-isl-function constraint-set-coefficient-si %isl-constraint-set-coefficient-si
+  (:give constraint)
+  (:take constraint)
+  (:keep dim-type)
+  (:keep integer pos)
+  (:keep integer value))
 
 (define-isl-function constraint-alloc-equality %isl-constraint-alloc-equality
   (:give constraint)
