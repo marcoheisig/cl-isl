@@ -9,6 +9,8 @@
   (print-unreadable-object (value stream :type t)
     (write-string (%isl-union-map-to-str (union-map-handle value)) stream)))
 
+;; Creation
+
 (define-isl-function union-map-empty %isl-union-map-empty
   (:give union-map)
   (:take space))
@@ -17,9 +19,23 @@
   (:give union-map)
   (:take space))
 
+;; Conversion
+
 (define-isl-function union-map-from-basic-map %isl-union-map-from-basic-map
   (:give union-map)
   (:take basic-map))
+
+(define-isl-function union-map-from-map %isl-union-map-from-map
+  (:give union-map)
+  (:take map))
+
+;; Unary operations
+
+(define-isl-function union-map-reverse %isl-union-map-reverse
+  (:give union-map)
+  (:take union-map))
+
+;; Binary operations
 
 (define-isl-function union-map-from-domain-and-range %isl-union-map-from-domain-and-range
   (:give union-map)
@@ -40,6 +56,11 @@
   (:take union-map)
   (:take union-map))
 
+(define-isl-function union-map-intersection %isl-union-map-intersect
+  (:give union-map)
+  (:take union-map)
+  (:take union-map))
+
 (define-isl-function union-map-intersect-domain %isl-union-map-intersect-domain
   (:give union-map)
   (:take union-map)
@@ -49,4 +70,9 @@
   (:give union-map)
   (:keep context)
   (:keep string))
+
+(define-isl-function union-map-lex-lt-union-map %isl-union-map-lex-lt-union-map
+  (:give union-map)
+  (:take union-map)
+  (:take union-map))
 

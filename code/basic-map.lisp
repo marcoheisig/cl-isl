@@ -16,7 +16,7 @@
 (define-isl-function basic-map-add-constraint %isl-basic-map-add-constraint
   (:give basic-map)
   (:take basic-map)
-  (:keep constraint))
+  (:take constraint))
 
 
 

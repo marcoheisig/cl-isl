@@ -30,7 +30,7 @@
    (:file "union-map")
    (:file "point")
    (:file "operation")
-   (:file "schedule")
    (:file "ast-expr")
    (:file "ast-node")
+   (:file "schedule")
    (:file "functions")))

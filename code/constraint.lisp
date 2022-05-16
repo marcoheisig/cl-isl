@@ -1,7 +1,7 @@
 (in-package :cl-isl)
 
 (define-isl-object constraint
-  :abstract t
+  ;;:abstract t
   :free %isl-constraint-free
   :copy %isl-constraint-copy
   :list-type constraint-list)
@@ -34,7 +34,7 @@
 (define-isl-function constraint-set-coefficient-si %isl-constraint-set-coefficient-si
   (:give constraint)
   (:take constraint)
-  (:keep dim-type)
+  (:keep t te);;dim-type)
   (:keep integer pos)
   (:keep integer value))
 

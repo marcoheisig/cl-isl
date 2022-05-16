@@ -16,4 +16,4 @@
 (define-isl-function basic-set-add-constraint %isl-basic-set-add-constraint
   (:give basic-set)
   (:take basic-set)
-  (:keep constraint))
+  (:take constraint))

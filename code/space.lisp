@@ -21,11 +21,11 @@
 
 (define-isl-function space-params-alloc %isl-space-params-alloc
   (:give space)
-  (:keep context)
+  (:parm context *context*)
   (:keep integer))
 
 (define-isl-function space-set-alloc %isl-space-set-alloc
   (:give space)
-  (:keep context)
+  (:parm context *context*)
   (:keep integer)
   (:keep integer))
