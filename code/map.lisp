@@ -1,4 +1,4 @@
-(in-package #:cl-isl)
+(in-package :cl-isl)
 
 (define-isl-object map
   :free %isl-map-free
@@ -18,3 +18,10 @@
 (define-isl-function map-universe %isl-map-universe
   (:give map)
   (:take space))
+
+;; Conversion
+
+(define-isl-function basic-map-map %isl-map-from-basic-map
+  (:give map)
+  (:take basic-map))
+

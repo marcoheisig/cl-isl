@@ -1,4 +1,4 @@
-(in-package #:cl-isl)
+(in-package :cl-isl)
 
 (define-isl-object basic-set
   :free %isl-basic-set-free

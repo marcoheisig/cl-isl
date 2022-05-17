@@ -83,12 +83,12 @@
    #:set-empty
    #:set-universe
    ;; Basic set
-   #:basic-set-set
    #:basic-set
    #:basic-set-p
    #:basic-set-from-str
    #:basic-set-empty
    #:basic-set-universe
+   #:basic-set-set
    #:basic-set-add-constraint
    ;; Union set
    #:union-set
@@ -113,8 +113,51 @@
    ;;#:union-set->
    ;; Map
    #:map
+   #:mapp
+   #:map-from-str
+   #:map-empty
+   #:map-universe
+   ;; Basic map
    #:basic-map
+   #:basic-map-p
+   #:basic-map-from-str
+   #:basic-map-empty
+   #:basic-map-universe
+   #:basic-map-map
+   #:basic-map-add-constraint
+   ;; Union map
    #:union-map
+   #:union-map-p
+   #:union-map-from-str
+   #:union-map-empty
+   #:union-map-universe
+   #:basic-map-union-map
+   #:map-union-map
+   #:union-map-reverse
+   #:union-map-intersect
+   #:union-map-union
+   #:union-map-subtract
+   #:union-map-apply-range
+   #:union-map-apply-domain
+   #:union-map-product
+   #:union-map-lex-lt-union-map
+   #:union-map-lex-le-union-map
+   #:union-map-lex-gt-union-map
+   #:union-map-lex-ge-union-map
+   #:union-map-is-equal
+   #:union-map-<=
+   #:union-map-<
+   ;;#:union-map->=
+   ;;#:union-map-<
+   #:union-map-domain
+   #:union-map-range
+   #:union-map-from-domain-and-range
+   #:union-set-identity
+   #:union-map-intersect-domain
+   #:union-map-intersect-range
+   #:union-map-subtract-domain
+   #:union-map-subtract-range
+   #:union-set-apply
    ;; Ast
    #:ast-node
    #:ast-build
