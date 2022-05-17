@@ -29,19 +29,43 @@
   (:give union-set)
   (:take set))
 
-;; Todo check which operation to include
+;; Operations
 
-(define-isl-function union-set-is-equal %isl-union-set-is-equal
-  (:give boolean)
-  (:keep union-set)
-  (:keep union-set))
+;; (set, set) -> set
 
-(define-isl-function union-set-product %isl-union-set-product
-  (:give union-set)
-  (:take union-set)
-  (:take union-set))
+(macrolet ((def (name impl)
+             `(define-isl-function ,name ,impl
+                (:give union-set)
+                (:take union-set)
+                (:take union-set))))
+  (def union-set-intersect %isl-union-set-intersect)
+  (def union-set-union %isl-union-set-union)
+  (def union-set-subtract %isl-union-set-subtract)
+  (def union-set-product %isl-union-set-product)
+  (def union-set-lex-lt-union-set %isl-union-set-lex-lt-union-set)
+  (def union-set-lex-le-union-set %isl-union-set-lex-le-union-set)
+  (def union-set-lex-gt-union-set %isl-union-set-lex-gt-union-set)
+  (def union-set-lex-ge-union-set %isl-union-set-lex-ge-union-set))
 
-(define-isl-function union-set-union %isl-union-set-union
-  (:give union-set)
-  (:take union-set)
-  (:take union-set))
+
+
+;; union is +
+;; intersect is *
+
+;; works for map too, * too
+;; generic thing? or union-map-* and union-set-*
+
+;; (set, set) -> bool
+;; Todo check what is returned (the isl boolean or the lisp boolean)
+
+(macrolet ((def (name impl)
+             `(define-isl-function ,name ,impl
+                (:give boolean)
+                (:take union-set)
+                (:take union-set))))
+  (def union-set-is-equal %isl-union-set-is-equal)
+  (def union-set-<= %isl-union-set-is-subset)
+  (def union-set-< %isl-union-set-is-strict-subset)
+  ;;(def union-set->= (lambda (a b) (%isl-union-set-is-subset a b)))
+  ;;(def union-set-> nil)
+  )

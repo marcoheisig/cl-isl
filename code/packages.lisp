@@ -98,7 +98,19 @@
    #:union-set-universe
    #:basic-set-union-set
    #:set-union-set
-   ;; Todo operations on union sets
+   #:union-set-intersect
+   #:union-set-union
+   #:union-set-subtract
+   #:union-set-product
+   #:union-set-lex-lt-union-set
+   #:union-set-lex-le-union-set
+   #:union-set-lex-gt-union-set
+   #:union-set-lex-ge-union-set
+   #:union-set-is-equal
+   #:union-set-<=
+   #:union-set-<
+   ;;#:union-set->=
+   ;;#:union-set->
    ;; Map
    #:map
    #:basic-map
