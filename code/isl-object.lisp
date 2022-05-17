@@ -37,11 +37,15 @@ of type OBJECT-NAME."
     (name &key (abstract nil)
             (list-type nil)
             (superclass 'isl-object)
+            (from-str t)
             ((:free %free) (isl-object-%free superclass))
             ((:copy %copy) (isl-object-%copy superclass)))
   (let ((predicate (make-isl-sym name (if (find #\- (string name)) "-P" "P")))
         (%make (make-isl-sym "%MAKE-" name))
-        (%%make (make-isl-sym "%%MAKE-" name)))
+        (%%make (make-isl-sym "%%MAKE-" name))
+        (%from-str-us (make-isl-sym name "-FROM-STR"))
+        (%from-str-library (make-isl-sym "%ISL-" name "-READ-FROM-STR"))
+        )
     (setf (isl-object-%copy name) %copy)
     (setf (isl-object-%make name) %make)
     (setf (isl-object-%free name) %free)
@@ -53,6 +57,11 @@ of type OBJECT-NAME."
        (declaim (ftype (function (cffi:foreign-pointer) (values ,name &optional)) ,%make))
        ,@(when list-type
            `((define-isl-object-list ,list-type ,name)))
+       ,@(when from-str
+           `((define-isl-function ,%from-str-us ,%from-str-library
+               (:give ,name)
+               (:parm context *context*)
+               (:keep string))))
        ,@(unless abstract
            `((defun ,%make (handle)
                (values
@@ -93,7 +102,8 @@ of type OBJECT-NAME."
     `(progn
        (define-isl-object ,name
          :free ,%free
-         :copy ,%copy)
+         :copy ,%copy
+         :from-str nil)
        (defmethod print-object ((,name ,name) stream)
          (print-unreadable-object (,name stream :type t)
            (write-string (,%to-str (isl-object-handle ,name)) stream)))

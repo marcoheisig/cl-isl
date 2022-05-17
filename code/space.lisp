@@ -2,7 +2,8 @@
 
 (define-isl-object space
   :free %isl-space-free
-  :copy %isl-space-copy)
+  :copy %isl-space-copy
+  :from-str nil)
 
 (defmethod print-object ((value space) stream)
   (print-unreadable-object (value stream :type t)
@@ -22,10 +23,10 @@
 (define-isl-function space-params-alloc %isl-space-params-alloc
   (:give space)
   (:parm context *context*)
-  (:keep integer))
+  (:keep integer nparam))
 
 (define-isl-function space-set-alloc %isl-space-set-alloc
   (:give space)
   (:parm context *context*)
-  (:keep integer)
-  (:keep integer))
+  (:keep integer nparam)
+  (:keep integer dim))

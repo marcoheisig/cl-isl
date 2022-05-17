@@ -1,6 +1,8 @@
 (in-package #:cl-isl)
 
-(define-isl-object context :free %isl-ctx-free)
+(define-isl-object context
+  :free %isl-ctx-free
+  :from-str nil)
 
 (defun make-context ()
   (let ((handle (%isl-ctx-alloc)))

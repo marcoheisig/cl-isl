@@ -9,9 +9,17 @@
   (print-unreadable-object (value stream :type t)
     (write-string (%isl-basic-set-to-str (basic-set-handle value)) stream)))
 
+;; Creation
+
+(define-isl-function basic-set-empty %isl-basic-set-empty
+  (:give basic-set)
+  (:take space))
+
 (define-isl-function basic-set-universe %isl-basic-set-universe
   (:give basic-set)
   (:take space))
+
+;; Constraints
 
 (define-isl-function basic-set-add-constraint %isl-basic-set-add-constraint
   (:give basic-set)

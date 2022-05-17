@@ -11,6 +11,12 @@
    #:contextp
    #:*context*
    #:make-context
+   ;; Identifier
+   #:identifier
+   #:identifierp
+   #:make-identifier
+   #:identifier-name
+   #:identifier-context
    ;; Value
    #:value
    #:valuep
@@ -58,17 +64,41 @@
    #:value-mod
    #:value-gcd
    #:value-gcdext
-   ;; Identifier
-   #:identifier
-   #:identifierp
-   #:make-identifier
-   #:identifier-name
-   #:identifier-context
    ;; Space
+   #:space
+   #:spacep
+   #:space-unit
+   #:space-alloc
+   #:space-params-alloc
+   #:space-set-alloc
+   ;; Local Space
+   #:local-space
+   #:local-space-p
+   #:local-space-from-space
+   #:local-space-space
    ;; Set
    #:set
+   #:setp
+   #:set-from-str
+   #:set-empty
+   #:set-universe
+   ;; Basic set
+   #:basic-set-set
    #:basic-set
+   #:basic-set-p
+   #:basic-set-from-str
+   #:basic-set-empty
+   #:basic-set-universe
+   #:basic-set-add-constraint
+   ;; Union set
    #:union-set
+   #:union-set-p
+   #:union-set-from-str
+   #:union-set-empty
+   #:union-set-universe
+   #:basic-set-union-set
+   #:set-union-set
+   ;; Todo operations on union sets
    ;; Map
    #:map
    #:basic-map
