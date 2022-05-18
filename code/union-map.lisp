@@ -73,32 +73,49 @@
 
 (define-isl-function union-map-domain %isl-union-map-domain
   (:give union-set)
-  (:take union-map))
+  (:take union-map domain))
 
 (define-isl-function union-map-range %isl-union-map-range
   (:give union-set)
-  (:take union-map))
+  (:take union-map range))
 
 (define-isl-function union-map-from-domain-and-range %isl-union-map-from-domain-and-range
   (:give union-map)
-  (:take union-set)
-  (:take union-set))
+  (:take union-set domain)
+  (:take union-set range))
 
 (define-isl-function union-set-identity %isl-union-set-identity
   (:give union-map)
   (:take union-set))
 
-(macrolet ((def (name impl)
-             `(define-isl-function ,name ,impl
-                (:give union-map)
-                (:take union-map)
-                (:take union-set))))
-  (def union-map-intersect-domain %isl-union-map-intersect-domain)
-  (def union-map-intersect-range %isl-union-map-intersect-range)
-  (def union-map-subtract-domain %isl-union-map-subtract-domain)
-  (def union-map-subtract-range %isl-union-map-subtract-range))
+(DEFINE-ISL-FUNCTION UNION-MAP-INTERSECT-DOMAIN %ISL-UNION-MAP-INTERSECT-DOMAIN
+  (:GIVE UNION-MAP)
+  (:TAKE UNION-MAP)
+  (:TAKE UNION-SET DOMAIN))
+(DEFINE-ISL-FUNCTION UNION-MAP-INTERSECT-RANGE %ISL-UNION-MAP-INTERSECT-RANGE
+  (:GIVE UNION-MAP)
+  (:TAKE UNION-MAP)
+  (:TAKE UNION-SET range))
+(DEFINE-ISL-FUNCTION UNION-MAP-SUBTRACT-DOMAIN %ISL-UNION-MAP-SUBTRACT-DOMAIN
+  (:GIVE UNION-MAP)
+  (:TAKE UNION-MAP)
+  (:TAKE UNION-SET DOMAIN))
+(DEFINE-ISL-FUNCTION UNION-MAP-SUBTRACT-RANGE %ISL-UNION-MAP-SUBTRACT-RANGE
+  (:GIVE UNION-MAP)
+  (:TAKE UNION-MAP)
+  (:TAKE UNION-SET range))
 
 (define-isl-function union-set-apply %isl-union-set-apply
   (:give union-set)
   (:take union-map)
   (:take union-set))
+
+(DEFINE-ISL-FUNCTION UNION-MAP-APPLY-RANGE %ISL-UNION-MAP-APPLY-RANGE
+  (:GIVE UNION-MAP)
+  (:TAKE UNION-MAP)
+  (:TAKE UNION-MAP range))
+
+(DEFINE-ISL-FUNCTION UNION-MAP-APPLY-DOMAIN %ISL-UNION-MAP-APPLY-DOMAIN
+  (:GIVE UNION-MAP)
+  (:TAKE UNION-MAP)
+  (:TAKE UNION-MAP domain))

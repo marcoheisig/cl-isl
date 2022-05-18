@@ -41,7 +41,10 @@
   (:give schedule-constraints)
   (:take schedule-constraints)
   (:take union-map))
-
+(define-isl-function schedule-constraints-set-proximity %isl-schedule-constraints-set-proximity
+  (:give schedule-constraints)
+  (:take schedule-constraints)
+  (:take union-map))
 ;; Ast build - new file?
 
 (define-isl-object ast-build
@@ -95,21 +98,28 @@
          (read-access (union-map-intersect-domain read-access domain))
          (write-access (union-map-intersect-domain write-access domain))
 
-         (RaW (union-map-intersection
+         (RaW (union-map-intersect
                (union-map-apply-range write-access (union-map-reverse read-access))
                before-map))
-         (WaW (union-map-intersection
+         (WaW (union-map-intersect
                (union-map-apply-range write-access (union-map-reverse write-access))
                before-map))
-         (WaR (union-map-intersection
-               (union-map-apply-range read-access (union-map-reverse write-access))
+         (WaR (union-map-intersect
+                (union-map-apply-range read-access (union-map-reverse write-access))
+                before-map))
+         (RaR (union-map-intersect
+               (union-map-apply-range read-access (union-map-reverse read-access))
                before-map))
+         #+or(RaR (union-map-intersect-domain
+               (union-map-from-str " { [i0, i1, i2] -> [i0', i1, i2'] : i2 <= i2' } ")
+               domain))
 
          (total (union-map-union (union-map-union RaW WaW) WaR))
 
          (schedule (schedule-constraints-on-domain domain))
          (schedule (schedule-constraints-set-validity schedule total))
          (schedule (schedule-constraints-set-coincidence schedule RaW))
+         ;;(schedule (schedule-constraints-set-proximity schedule RaR))
          (schedule (schedule-constraints-compute-schedule schedule))
 
          (ast-build (ast-build-alloc))

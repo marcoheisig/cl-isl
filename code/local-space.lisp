@@ -11,6 +11,8 @@
      (%isl-space-to-str
       (space-handle (local-space-space local-space))) stream)))
 
+
+;; space-local-space ?
 (define-isl-function local-space-from-space %isl-local-space-from-space
   (:give local-space)
   (:take space))

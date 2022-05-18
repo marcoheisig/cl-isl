@@ -137,8 +137,6 @@
    #:union-map-intersect
    #:union-map-union
    #:union-map-subtract
-   #:union-map-apply-range
-   #:union-map-apply-domain
    #:union-map-product
    #:union-map-lex-lt-union-map
    #:union-map-lex-le-union-map
@@ -158,6 +156,8 @@
    #:union-map-subtract-domain
    #:union-map-subtract-range
    #:union-set-apply
+   #:union-map-apply-range
+   #:union-map-apply-domain
    ;; Ast
    #:ast-node
    #:ast-build
