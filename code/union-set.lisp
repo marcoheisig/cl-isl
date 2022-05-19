@@ -3,7 +3,8 @@
 (define-isl-object union-set
   :free %isl-union-set-free
   :copy %isl-union-set-copy
-  :list-type union-set-list)
+  :list-type union-set-list
+  :from-str t)
 
 (defmethod print-object ((value union-set) stream)
   (print-unreadable-object (value stream :type t)

@@ -10,6 +10,10 @@
   (print-unreadable-object (ast stream :type t)
     (write-string (%isl-ast-node-to-str (ast-node-handle ast)) stream)))
 
+;; Print the node in the form of C code. Much prettier than "default" print
+(defun pretty-print-node (node)
+  (print (%isl-ast-node-to-C-str (isl-object-handle node))))
+
 (define-isl-function node-get-type %isl-ast-node-get-type
   (:give ast-expr-type)
   (:keep ast-node))
@@ -45,19 +49,9 @@
   (def if-node-get-then %isl-ast-node-if-get-then)
   (def if-node-get-else %isl-ast-node-if-get-else))
 
-(define-isl-function if-node-hash-else %isl-ast-node-if-has-else
+(define-isl-function if-node-has-else %isl-ast-node-if-has-else
   (:give boolean)
   (:keep ast-node))
-
-;; USER NODE
-
-(define-isl-object user-node
-  :superclass ast-node)
-
-(define-isl-function user-node-get-expr %isl-ast-node-user-get-expr
-  (:give ast-expr)
-  (:keep user-node))
-
 
 ;; BLOCK NODE - a sequence of instruction
 
@@ -73,7 +67,16 @@
 (define-isl-object mark-node
   :superclass ast-node)
 
-;; The rest - todo
+;; USER NODE
+
+(define-isl-object user-node
+  :superclass ast-node)
+
+(define-isl-function user-node-get-expr %isl-ast-node-user-get-expr
+  (:give ast-expr)
+  (:keep user-node))
+
+;; Creation of which node it is based on type
 
 (defun %make-ast-node (handle)
   (ecase (%isl-ast-node-get-type handle)

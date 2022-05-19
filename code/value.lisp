@@ -3,8 +3,7 @@
 (define-isl-object value
   :free %isl-val-free
   :copy %isl-val-copy
-  :list-type value-list
-  :from-str nil)
+  :list-type value-list)
 
 (defmethod print-object ((value value) stream)
   (print-unreadable-object (value stream :type t)

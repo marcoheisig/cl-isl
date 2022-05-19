@@ -171,8 +171,91 @@
    #:union-set-apply
    #:union-map-apply-range
    #:union-map-apply-domain
-   ;; Ast
+   ;; Ast expr
+   #:ast-expr
+   #:ast-expr-p
+   ;; -- Op expr
+   #:op-expr
+   #:op-expr-p
+   #:op-and
+   #:op-and-then
+   #:op-or
+   #:op-or-else
+   #:op-max
+   #:op-min
+   #:op-minus
+   #:op-add
+   #:op-sub
+   #:op-mul
+   #:op-div
+   #:op-fdiv-q
+   #:op-pdiv-q
+   #:op-pdiv-r
+   ;;#:op-zdiv-r
+   #:op-cond
+   #:op-select
+   #:op-eq
+   #:op-le
+   #:op-lt
+   #:op-ge
+   #:op-gt
+   #:op-call
+   #:op-access
+   #:op-member
+   #:op-address-of
+   #:op-expr-get-list-args
+   ;; -- Id expr
+   #:id-expr
+   #:id-expr-p
+   #:id-expr-get-id
+   ;; -- Int expr
+   #:int-expr
+   #:int-expr-p
+   #:int-expr-get-value
+   ;; Ast node
    #:ast-node
+   #:ast-node-p
+   #:pretty-print-node
+   ;; -- For node
+   #:for-node
+   #:for-node-p
+   #:for-node-get-iterator
+   #:for-node-get-init
+   #:for-node-get-cond
+   #:for-node-get-inc
+   #:for-node-get-body
+   ;; -- If node
+   #:if-node
+   #:if-node-p
+   #:if-node-get-cond
+   #:if-node-get-then
+   #:if-node-get-else
+   #:if-node-has-else
+   ;; -- Block node
+   #:block-node
+   #:block-node-p
+   #:block-node-getlist
+   ;; -- Mark node
+   #:mark-node
+   #:mark-node-p
+   ;; -- User node
+   #:user-node
+   #:user-node-p
+   #:user-node-get-expr
+   ;; Ast build
    #:ast-build
+   #:ast-build-p
+   #:create-ast-build
+   ;; Schedule
    #:schedule
+   #:schedulep
+   #:schedule-constraints-compute-schedule
+   ;; Schedule constraints
+   #:schedule-constraints
+   #:schedule-constraints-p
+   #:schedule-constraints-set-context
+   #:schedule-constraints-set-validity
+   #:schedule-constraints-set-coincidence
+   #:schedule-constraints-set-proximity
+   #:schedule-constraints-set-conditional-validity
    ))

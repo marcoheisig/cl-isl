@@ -5,8 +5,7 @@
   :abstract t
   :free %isl-constraint-free
   :copy %isl-constraint-copy
-  :list-type constraint-list
-  :from-str nil)
+  :list-type constraint-list)
 
 (defmethod print-object ((constraint constraint) stream)
   (print-unreadable-object (constraint stream :type t)
@@ -15,8 +14,7 @@
         (%isl-aff-free aff)))))
 
 (define-isl-object equality-constraint
-  :superclass constraint
-  :from-str nil)
+  :superclass constraint)
 (define-isl-function make-equality-constraint %isl-constraint-alloc-equality
   (:give equality-constraint)
   (:take local-space))
@@ -32,8 +30,7 @@
   (:take value value))
 
 (define-isl-object inequality-constraint
-  :superclass constraint
-  :from-str nil)
+  :superclass constraint)
 (define-isl-function make-inequality-constraint %isl-constraint-alloc-inequality
   (:give inequality-constraint)
   (:take local-space))

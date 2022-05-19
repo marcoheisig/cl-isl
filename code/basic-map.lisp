@@ -3,7 +3,8 @@
 (define-isl-object basic-map
   :free %isl-basic-map-free
   :copy %isl-basic-map-copy
-  :list-type basic-map-list)
+  :list-type basic-map-list
+  :from-str t)
 
 (defmethod print-object ((value basic-map) stream)
   (print-unreadable-object (value stream :type t)

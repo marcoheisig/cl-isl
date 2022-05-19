@@ -3,8 +3,7 @@
 (define-isl-object identifier
   :free %isl-id-free
   :copy %isl-id-copy
-  :list-type identifier-list
-  :from-str nil)
+  :list-type identifier-list)
 
 (defmethod print-object ((identifier identifier) stream)
   (print-unreadable-object (identifier stream :type t)

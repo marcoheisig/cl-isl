@@ -37,7 +37,7 @@ of type OBJECT-NAME."
     (name &key (abstract nil)
             (list-type nil)
             (superclass 'isl-object)
-            (from-str t)
+            (from-str nil)
             ((:free %free) (isl-object-%free superclass))
             ((:copy %copy) (isl-object-%copy superclass)))
   (let ((predicate (make-isl-sym name (if (find #\- (string name)) "-P" "P")))

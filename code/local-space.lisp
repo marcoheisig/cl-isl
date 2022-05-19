@@ -2,8 +2,7 @@
 
 (define-isl-object local-space
   :free %isl-local-space-free
-  :copy %isl-local-space-copy
-  :from-str nil)
+  :copy %isl-local-space-copy)
 
 (defmethod print-object ((local-space local-space) stream)
   (print-unreadable-object (local-space stream :type t)

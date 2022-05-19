@@ -30,5 +30,8 @@
    (:file "union-map")
    (:file "ast-expr")
    (:file "ast-node")
+   (:file "ast-build")
+   (:file "schedule-constraints")
    (:file "schedule")
+   (:file "ast-generation")
    #+or(:file "functions")))

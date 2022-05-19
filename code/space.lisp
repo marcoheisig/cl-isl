@@ -2,8 +2,7 @@
 
 (define-isl-object space
   :free %isl-space-free
-  :copy %isl-space-copy
-  :from-str nil)
+  :copy %isl-space-copy)
 
 (defmethod print-object ((value space) stream)
   (print-unreadable-object (value stream :type t)
