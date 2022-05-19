@@ -1,4 +1,4 @@
-(in-package #:cl-isl)
+(in-package :cl-isl)
 
 ;; Schedule
 
@@ -119,7 +119,8 @@
          (schedule (schedule-constraints-on-domain domain))
          (schedule (schedule-constraints-set-validity schedule total))
          (schedule (schedule-constraints-set-coincidence schedule RaW))
-         ;;(schedule (schedule-constraints-set-proximity schedule RaR))
+         (ok (isl::union-map-from-str " { [i0, i1, i2] -> [i0', i1, i2] : i0' > i0; [2, i1+1, i2] -> [0, i1, i2]} "))
+         (schedule (schedule-constraints-set-proximity schedule ok))
          (schedule (schedule-constraints-compute-schedule schedule))
 
          (ast-build (ast-build-alloc))

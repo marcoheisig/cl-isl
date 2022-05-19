@@ -1,4 +1,4 @@
-(in-package #:cl-isl)
+(in-package :cl-isl)
 
 (define-isl-object ast-expr
   :free %isl-ast-expr-free
