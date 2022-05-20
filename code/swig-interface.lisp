@@ -119,6 +119,390 @@
 	(#.(swig-lispify "valid" 'slotname) #.(swig-lispify "isl_bool" 'enumname))
 	(#.(swig-lispify "value" 'slotname) :pointer))
 
+(cffi:defcfun ("isl_ast_expr_list_get_ctx" #.(swig-lispify "isl_ast_expr_list_get_ctx" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_from_ast_expr" #.(swig-lispify "isl_ast_expr_list_from_ast_expr" 'function)) :pointer
+  (el :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_alloc" #.(swig-lispify "isl_ast_expr_list_alloc" 'function)) :pointer
+  (ctx :pointer)
+  (n :int))
+
+(cffi:defcfun ("isl_ast_expr_list_copy" #.(swig-lispify "isl_ast_expr_list_copy" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_free" #.(swig-lispify "isl_ast_expr_list_free" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_add" #.(swig-lispify "isl_ast_expr_list_add" 'function)) :pointer
+  (list :pointer)
+  (el :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_insert" #.(swig-lispify "isl_ast_expr_list_insert" 'function)) :pointer
+  (list :pointer)
+  (pos :unsigned-int)
+  (el :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_drop" #.(swig-lispify "isl_ast_expr_list_drop" 'function)) :pointer
+  (list :pointer)
+  (first :unsigned-int)
+  (n :unsigned-int))
+
+(cffi:defcfun ("isl_ast_expr_list_clear" #.(swig-lispify "isl_ast_expr_list_clear" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_swap" #.(swig-lispify "isl_ast_expr_list_swap" 'function)) :pointer
+  (list :pointer)
+  (pos1 :unsigned-int)
+  (pos2 :unsigned-int))
+
+(cffi:defcfun ("isl_ast_expr_list_reverse" #.(swig-lispify "isl_ast_expr_list_reverse" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_concat" #.(swig-lispify "isl_ast_expr_list_concat" 'function)) :pointer
+  (list1 :pointer)
+  (list2 :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_size" #.(swig-lispify "isl_ast_expr_list_size" 'function)) :int
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_n_ast_expr" #.(swig-lispify "isl_ast_expr_list_n_ast_expr" 'function)) :int
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_get_at" #.(swig-lispify "isl_ast_expr_list_get_at" 'function)) :pointer
+  (list :pointer)
+  (index :int))
+
+(cffi:defcfun ("isl_ast_expr_list_get_ast_expr" #.(swig-lispify "isl_ast_expr_list_get_ast_expr" 'function)) :pointer
+  (list :pointer)
+  (index :int))
+
+(cffi:defcfun ("isl_ast_expr_list_set_ast_expr" #.(swig-lispify "isl_ast_expr_list_set_ast_expr" 'function)) :pointer
+  (list :pointer)
+  (index :int)
+  (el :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_foreach" #.(swig-lispify "isl_ast_expr_list_foreach" 'function)) #.(swig-lispify "isl_stat" 'enumname)
+  (list :pointer)
+  (fn :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_map" #.(swig-lispify "isl_ast_expr_list_map" 'function)) :pointer
+  (list :pointer)
+  (fn :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_sort" #.(swig-lispify "isl_ast_expr_list_sort" 'function)) :pointer
+  (list :pointer)
+  (cmp :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_foreach_scc" #.(swig-lispify "isl_ast_expr_list_foreach_scc" 'function)) #.(swig-lispify "isl_stat" 'enumname)
+  (list :pointer)
+  (follows :pointer)
+  (follows_user :pointer)
+  (fn :pointer)
+  (fn_user :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_to_str" #.(swig-lispify "isl_ast_expr_list_to_str" 'function)) :string
+  (list :pointer))
+
+(cffi:defcfun ("isl_printer_print_ast_expr_list" #.(swig-lispify "isl_printer_print_ast_expr_list" 'function)) :pointer
+  (p :pointer)
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_expr_list_dump" #.(swig-lispify "isl_ast_expr_list_dump" 'function)) :void
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_get_ctx" #.(swig-lispify "isl_ast_node_list_get_ctx" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_from_ast_node" #.(swig-lispify "isl_ast_node_list_from_ast_node" 'function)) :pointer
+  (el :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_alloc" #.(swig-lispify "isl_ast_node_list_alloc" 'function)) :pointer
+  (ctx :pointer)
+  (n :int))
+
+(cffi:defcfun ("isl_ast_node_list_copy" #.(swig-lispify "isl_ast_node_list_copy" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_free" #.(swig-lispify "isl_ast_node_list_free" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_add" #.(swig-lispify "isl_ast_node_list_add" 'function)) :pointer
+  (list :pointer)
+  (el :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_insert" #.(swig-lispify "isl_ast_node_list_insert" 'function)) :pointer
+  (list :pointer)
+  (pos :unsigned-int)
+  (el :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_drop" #.(swig-lispify "isl_ast_node_list_drop" 'function)) :pointer
+  (list :pointer)
+  (first :unsigned-int)
+  (n :unsigned-int))
+
+(cffi:defcfun ("isl_ast_node_list_clear" #.(swig-lispify "isl_ast_node_list_clear" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_swap" #.(swig-lispify "isl_ast_node_list_swap" 'function)) :pointer
+  (list :pointer)
+  (pos1 :unsigned-int)
+  (pos2 :unsigned-int))
+
+(cffi:defcfun ("isl_ast_node_list_reverse" #.(swig-lispify "isl_ast_node_list_reverse" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_concat" #.(swig-lispify "isl_ast_node_list_concat" 'function)) :pointer
+  (list1 :pointer)
+  (list2 :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_size" #.(swig-lispify "isl_ast_node_list_size" 'function)) :int
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_n_ast_node" #.(swig-lispify "isl_ast_node_list_n_ast_node" 'function)) :int
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_get_at" #.(swig-lispify "isl_ast_node_list_get_at" 'function)) :pointer
+  (list :pointer)
+  (index :int))
+
+(cffi:defcfun ("isl_ast_node_list_get_ast_node" #.(swig-lispify "isl_ast_node_list_get_ast_node" 'function)) :pointer
+  (list :pointer)
+  (index :int))
+
+(cffi:defcfun ("isl_ast_node_list_set_ast_node" #.(swig-lispify "isl_ast_node_list_set_ast_node" 'function)) :pointer
+  (list :pointer)
+  (index :int)
+  (el :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_foreach" #.(swig-lispify "isl_ast_node_list_foreach" 'function)) #.(swig-lispify "isl_stat" 'enumname)
+  (list :pointer)
+  (fn :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_map" #.(swig-lispify "isl_ast_node_list_map" 'function)) :pointer
+  (list :pointer)
+  (fn :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_sort" #.(swig-lispify "isl_ast_node_list_sort" 'function)) :pointer
+  (list :pointer)
+  (cmp :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_foreach_scc" #.(swig-lispify "isl_ast_node_list_foreach_scc" 'function)) #.(swig-lispify "isl_stat" 'enumname)
+  (list :pointer)
+  (follows :pointer)
+  (follows_user :pointer)
+  (fn :pointer)
+  (fn_user :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_to_str" #.(swig-lispify "isl_ast_node_list_to_str" 'function)) :string
+  (list :pointer))
+
+(cffi:defcfun ("isl_printer_print_ast_node_list" #.(swig-lispify "isl_printer_print_ast_node_list" 'function)) :pointer
+  (p :pointer)
+  (list :pointer))
+
+(cffi:defcfun ("isl_ast_node_list_dump" #.(swig-lispify "isl_ast_node_list_dump" 'function)) :void
+  (list :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_get_ctx" #.(swig-lispify "isl_basic_set_list_get_ctx" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_from_basic_set" #.(swig-lispify "isl_basic_set_list_from_basic_set" 'function)) :pointer
+  (el :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_alloc" #.(swig-lispify "isl_basic_set_list_alloc" 'function)) :pointer
+  (ctx :pointer)
+  (n :int))
+
+(cffi:defcfun ("isl_basic_set_list_copy" #.(swig-lispify "isl_basic_set_list_copy" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_free" #.(swig-lispify "isl_basic_set_list_free" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_add" #.(swig-lispify "isl_basic_set_list_add" 'function)) :pointer
+  (list :pointer)
+  (el :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_insert" #.(swig-lispify "isl_basic_set_list_insert" 'function)) :pointer
+  (list :pointer)
+  (pos :unsigned-int)
+  (el :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_drop" #.(swig-lispify "isl_basic_set_list_drop" 'function)) :pointer
+  (list :pointer)
+  (first :unsigned-int)
+  (n :unsigned-int))
+
+(cffi:defcfun ("isl_basic_set_list_clear" #.(swig-lispify "isl_basic_set_list_clear" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_swap" #.(swig-lispify "isl_basic_set_list_swap" 'function)) :pointer
+  (list :pointer)
+  (pos1 :unsigned-int)
+  (pos2 :unsigned-int))
+
+(cffi:defcfun ("isl_basic_set_list_reverse" #.(swig-lispify "isl_basic_set_list_reverse" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_concat" #.(swig-lispify "isl_basic_set_list_concat" 'function)) :pointer
+  (list1 :pointer)
+  (list2 :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_size" #.(swig-lispify "isl_basic_set_list_size" 'function)) :int
+  (list :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_n_basic_set" #.(swig-lispify "isl_basic_set_list_n_basic_set" 'function)) :int
+  (list :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_get_at" #.(swig-lispify "isl_basic_set_list_get_at" 'function)) :pointer
+  (list :pointer)
+  (index :int))
+
+(cffi:defcfun ("isl_basic_set_list_get_basic_set" #.(swig-lispify "isl_basic_set_list_get_basic_set" 'function)) :pointer
+  (list :pointer)
+  (index :int))
+
+(cffi:defcfun ("isl_basic_set_list_set_basic_set" #.(swig-lispify "isl_basic_set_list_set_basic_set" 'function)) :pointer
+  (list :pointer)
+  (index :int)
+  (el :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_foreach" #.(swig-lispify "isl_basic_set_list_foreach" 'function)) #.(swig-lispify "isl_stat" 'enumname)
+  (list :pointer)
+  (fn :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_map" #.(swig-lispify "isl_basic_set_list_map" 'function)) :pointer
+  (list :pointer)
+  (fn :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_sort" #.(swig-lispify "isl_basic_set_list_sort" 'function)) :pointer
+  (list :pointer)
+  (cmp :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_foreach_scc" #.(swig-lispify "isl_basic_set_list_foreach_scc" 'function)) #.(swig-lispify "isl_stat" 'enumname)
+  (list :pointer)
+  (follows :pointer)
+  (follows_user :pointer)
+  (fn :pointer)
+  (fn_user :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_to_str" #.(swig-lispify "isl_basic_set_list_to_str" 'function)) :string
+  (list :pointer))
+
+(cffi:defcfun ("isl_printer_print_basic_set_list" #.(swig-lispify "isl_printer_print_basic_set_list" 'function)) :pointer
+  (p :pointer)
+  (list :pointer))
+
+(cffi:defcfun ("isl_basic_set_list_dump" #.(swig-lispify "isl_basic_set_list_dump" 'function)) :void
+  (list :pointer))
+
+(cffi:defcfun ("isl_set_list_get_ctx" #.(swig-lispify "isl_set_list_get_ctx" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_set_list_from_set" #.(swig-lispify "isl_set_list_from_set" 'function)) :pointer
+  (el :pointer))
+
+(cffi:defcfun ("isl_set_list_alloc" #.(swig-lispify "isl_set_list_alloc" 'function)) :pointer
+  (ctx :pointer)
+  (n :int))
+
+(cffi:defcfun ("isl_set_list_copy" #.(swig-lispify "isl_set_list_copy" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_set_list_free" #.(swig-lispify "isl_set_list_free" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_set_list_add" #.(swig-lispify "isl_set_list_add" 'function)) :pointer
+  (list :pointer)
+  (el :pointer))
+
+(cffi:defcfun ("isl_set_list_insert" #.(swig-lispify "isl_set_list_insert" 'function)) :pointer
+  (list :pointer)
+  (pos :unsigned-int)
+  (el :pointer))
+
+(cffi:defcfun ("isl_set_list_drop" #.(swig-lispify "isl_set_list_drop" 'function)) :pointer
+  (list :pointer)
+  (first :unsigned-int)
+  (n :unsigned-int))
+
+(cffi:defcfun ("isl_set_list_clear" #.(swig-lispify "isl_set_list_clear" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_set_list_swap" #.(swig-lispify "isl_set_list_swap" 'function)) :pointer
+  (list :pointer)
+  (pos1 :unsigned-int)
+  (pos2 :unsigned-int))
+
+(cffi:defcfun ("isl_set_list_reverse" #.(swig-lispify "isl_set_list_reverse" 'function)) :pointer
+  (list :pointer))
+
+(cffi:defcfun ("isl_set_list_concat" #.(swig-lispify "isl_set_list_concat" 'function)) :pointer
+  (list1 :pointer)
+  (list2 :pointer))
+
+(cffi:defcfun ("isl_set_list_size" #.(swig-lispify "isl_set_list_size" 'function)) :int
+  (list :pointer))
+
+(cffi:defcfun ("isl_set_list_n_set" #.(swig-lispify "isl_set_list_n_set" 'function)) :int
+  (list :pointer))
+
+(cffi:defcfun ("isl_set_list_get_at" #.(swig-lispify "isl_set_list_get_at" 'function)) :pointer
+  (list :pointer)
+  (index :int))
+
+(cffi:defcfun ("isl_set_list_get_set" #.(swig-lispify "isl_set_list_get_set" 'function)) :pointer
+  (list :pointer)
+  (index :int))
+
+(cffi:defcfun ("isl_set_list_set_set" #.(swig-lispify "isl_set_list_set_set" 'function)) :pointer
+  (list :pointer)
+  (index :int)
+  (el :pointer))
+
+(cffi:defcfun ("isl_set_list_foreach" #.(swig-lispify "isl_set_list_foreach" 'function)) #.(swig-lispify "isl_stat" 'enumname)
+  (list :pointer)
+  (fn :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_set_list_map" #.(swig-lispify "isl_set_list_map" 'function)) :pointer
+  (list :pointer)
+  (fn :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_set_list_sort" #.(swig-lispify "isl_set_list_sort" 'function)) :pointer
+  (list :pointer)
+  (cmp :pointer)
+  (user :pointer))
+
+(cffi:defcfun ("isl_set_list_foreach_scc" #.(swig-lispify "isl_set_list_foreach_scc" 'function)) #.(swig-lispify "isl_stat" 'enumname)
+  (list :pointer)
+  (follows :pointer)
+  (follows_user :pointer)
+  (fn :pointer)
+  (fn_user :pointer))
+
+(cffi:defcfun ("isl_set_list_to_str" #.(swig-lispify "isl_set_list_to_str" 'function)) :string
+  (list :pointer))
+
+(cffi:defcfun ("isl_printer_print_set_list" #.(swig-lispify "isl_printer_print_set_list" 'function)) :pointer
+  (p :pointer)
+  (list :pointer))
+
+(cffi:defcfun ("isl_set_list_dump" #.(swig-lispify "isl_set_list_dump" 'function)) :void
+  (list :pointer))
+
 (cffi:defcfun ("isl_aff_zero_on_domain" #.(swig-lispify "isl_aff_zero_on_domain" 'function)) :pointer
   (ls :pointer))
 
@@ -132,7 +516,7 @@
 
 (cffi:defcfun ("isl_aff_var_on_domain" #.(swig-lispify "isl_aff_var_on_domain" 'function)) :pointer
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_aff_nan_on_domain" #.(swig-lispify "isl_aff_nan_on_domain" 'function)) :pointer
@@ -151,7 +535,7 @@
 (cffi:defcfun ("isl_aff_get_ctx" #.(swig-lispify "isl_aff_get_ctx" 'function)) :pointer
   (aff :pointer))
 
-(cffi:defcfun ("isl_aff_get_hash" #.(swig-lispify "isl_aff_get_hash" 'function)) :pointer
+(cffi:defcfun ("isl_aff_get_hash" #.(swig-lispify "isl_aff_get_hash" 'function)) :unsigned-int
   (aff :pointer))
 
 (cffi:defcfun ("isl_aff_involves_locals" #.(swig-lispify "isl_aff_involves_locals" 'function)) #.(swig-lispify "isl_bool" 'enumname)
@@ -159,11 +543,11 @@
 
 (cffi:defcfun ("isl_aff_dim" #.(swig-lispify "isl_aff_dim" 'function)) :int
   (aff :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_aff_involves_dims" #.(swig-lispify "isl_aff_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -181,7 +565,7 @@
 
 (cffi:defcfun ("isl_aff_get_dim_name" #.(swig-lispify "isl_aff_get_dim_name" 'function)) :string
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_aff_get_constant_val" #.(swig-lispify "isl_aff_get_constant_val" 'function)) :pointer
@@ -189,12 +573,12 @@
 
 (cffi:defcfun ("isl_aff_get_coefficient_val" #.(swig-lispify "isl_aff_get_coefficient_val" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int))
 
 (cffi:defcfun ("isl_aff_coefficient_sgn" #.(swig-lispify "isl_aff_coefficient_sgn" 'function)) :int
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int))
 
 (cffi:defcfun ("isl_aff_get_denominator_val" #.(swig-lispify "isl_aff_get_denominator_val" 'function)) :pointer
@@ -210,13 +594,13 @@
 
 (cffi:defcfun ("isl_aff_set_coefficient_si" #.(swig-lispify "isl_aff_set_coefficient_si" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (v :int))
 
 (cffi:defcfun ("isl_aff_set_coefficient_val" #.(swig-lispify "isl_aff_set_coefficient_val" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (v :pointer))
 
@@ -234,13 +618,13 @@
 
 (cffi:defcfun ("isl_aff_add_coefficient_si" #.(swig-lispify "isl_aff_add_coefficient_si" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (v :int))
 
 (cffi:defcfun ("isl_aff_add_coefficient_val" #.(swig-lispify "isl_aff_add_coefficient_val" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (v :pointer))
 
@@ -249,24 +633,24 @@
 
 (cffi:defcfun ("isl_aff_set_tuple_id" #.(swig-lispify "isl_aff_set_tuple_id" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_aff_set_dim_name" #.(swig-lispify "isl_aff_set_dim_name" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_aff_set_dim_id" #.(swig-lispify "isl_aff_set_dim_id" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (id :pointer))
 
 (cffi:defcfun ("isl_aff_find_dim_by_name" #.(swig-lispify "isl_aff_find_dim_by_name" 'function)) :int
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_aff_plain_is_equal" #.(swig-lispify "isl_aff_plain_is_equal" 'function)) #.(swig-lispify "isl_bool" 'enumname)
@@ -329,26 +713,26 @@
 
 (cffi:defcfun ("isl_aff_insert_dims" #.(swig-lispify "isl_aff_insert_dims" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_aff_add_dims" #.(swig-lispify "isl_aff_add_dims" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_aff_move_dims" #.(swig-lispify "isl_aff_move_dims" 'function)) :pointer
   (aff :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_aff_drop_dims" #.(swig-lispify "isl_aff_drop_dims" 'function)) :pointer
   (aff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -454,7 +838,7 @@
 (cffi:defcfun ("isl_pw_aff_get_ctx" #.(swig-lispify "isl_pw_aff_get_ctx" 'function)) :pointer
   (pwaff :pointer))
 
-(cffi:defcfun ("isl_pw_aff_get_hash" #.(swig-lispify "isl_pw_aff_get_hash" 'function)) :pointer
+(cffi:defcfun ("isl_pw_aff_get_hash" #.(swig-lispify "isl_pw_aff_get_hash" 'function)) :unsigned-int
   (pa :pointer))
 
 (cffi:defcfun ("isl_pw_aff_get_domain_space" #.(swig-lispify "isl_pw_aff_get_domain_space" 'function)) :pointer
@@ -478,7 +862,7 @@
 
 (cffi:defcfun ("isl_pw_aff_var_on_domain" #.(swig-lispify "isl_pw_aff_var_on_domain" 'function)) :pointer
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_pw_aff_nan_on_domain" #.(swig-lispify "isl_pw_aff_nan_on_domain" 'function)) :pointer
@@ -497,28 +881,28 @@
 
 (cffi:defcfun ("isl_pw_aff_get_dim_name" #.(swig-lispify "isl_pw_aff_get_dim_name" 'function)) :string
   (pa :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_pw_aff_has_dim_id" #.(swig-lispify "isl_pw_aff_has_dim_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pa :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_pw_aff_get_dim_id" #.(swig-lispify "isl_pw_aff_get_dim_id" 'function)) :pointer
   (pa :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_pw_aff_set_dim_id" #.(swig-lispify "isl_pw_aff_set_dim_id" 'function)) :pointer
   (pma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (id :pointer))
 
 (cffi:defcfun ("isl_pw_aff_find_dim_by_name" #.(swig-lispify "isl_pw_aff_find_dim_by_name" 'function)) :int
   (pa :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_pw_aff_is_empty" #.(swig-lispify "isl_pw_aff_is_empty" 'function)) #.(swig-lispify "isl_bool" 'enumname)
@@ -559,7 +943,7 @@
 
 (cffi:defcfun ("isl_pw_aff_dim" #.(swig-lispify "isl_pw_aff_dim" 'function)) :int
   (pwaff :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_aff_involves_param_id" #.(swig-lispify "isl_pw_aff_involves_param_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pa :pointer)
@@ -567,7 +951,7 @@
 
 (cffi:defcfun ("isl_pw_aff_involves_dims" #.(swig-lispify "isl_pw_aff_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pwaff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -586,20 +970,20 @@
 
 (cffi:defcfun ("isl_pw_aff_has_tuple_id" #.(swig-lispify "isl_pw_aff_has_tuple_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pa :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_aff_get_tuple_id" #.(swig-lispify "isl_pw_aff_get_tuple_id" 'function)) :pointer
   (pa :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_aff_set_tuple_id" #.(swig-lispify "isl_pw_aff_set_tuple_id" 'function)) :pointer
   (pwaff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_pw_aff_reset_tuple_id" #.(swig-lispify "isl_pw_aff_reset_tuple_id" 'function)) :pointer
   (pa :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_aff_reset_user" #.(swig-lispify "isl_pw_aff_reset_user" 'function)) :pointer
   (pa :pointer))
@@ -693,26 +1077,26 @@
 
 (cffi:defcfun ("isl_pw_aff_insert_dims" #.(swig-lispify "isl_pw_aff_insert_dims" 'function)) :pointer
   (pwaff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_pw_aff_add_dims" #.(swig-lispify "isl_pw_aff_add_dims" 'function)) :pointer
   (pwaff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_pw_aff_move_dims" #.(swig-lispify "isl_pw_aff_move_dims" 'function)) :pointer
   (pa :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_pw_aff_drop_dims" #.(swig-lispify "isl_pw_aff_drop_dims" 'function)) :pointer
   (pwaff :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -1001,29 +1385,29 @@
 
 (cffi:defcfun ("isl_multi_aff_dim" #.(swig-lispify "isl_multi_aff_dim" 'function)) :int
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_aff_drop_dims" #.(swig-lispify "isl_multi_aff_drop_dims" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_multi_aff_involves_dims" #.(swig-lispify "isl_multi_aff_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_multi_aff_insert_dims" #.(swig-lispify "isl_multi_aff_insert_dims" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_multi_aff_add_dims" #.(swig-lispify "isl_multi_aff_add_dims" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_multi_aff_project_domain_on_params" #.(swig-lispify "isl_multi_aff_project_domain_on_params" 'function)) :pointer
@@ -1034,56 +1418,56 @@
 
 (cffi:defcfun ("isl_multi_aff_find_dim_by_name" #.(swig-lispify "isl_multi_aff_find_dim_by_name" 'function)) :int
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_multi_aff_find_dim_by_id" #.(swig-lispify "isl_multi_aff_find_dim_by_id" 'function)) :int
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_multi_aff_get_dim_id" #.(swig-lispify "isl_multi_aff_get_dim_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_multi_aff_set_dim_name" #.(swig-lispify "isl_multi_aff_set_dim_name" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_multi_aff_set_dim_id" #.(swig-lispify "isl_multi_aff_set_dim_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (id :pointer))
 
 (cffi:defcfun ("isl_multi_aff_get_tuple_name" #.(swig-lispify "isl_multi_aff_get_tuple_name" 'function)) :string
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_aff_has_tuple_id" #.(swig-lispify "isl_multi_aff_has_tuple_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_aff_get_tuple_id" #.(swig-lispify "isl_multi_aff_get_tuple_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_aff_set_tuple_name" #.(swig-lispify "isl_multi_aff_set_tuple_name" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (s :string))
 
 (cffi:defcfun ("isl_multi_aff_set_tuple_id" #.(swig-lispify "isl_multi_aff_set_tuple_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_multi_aff_reset_tuple_id" #.(swig-lispify "isl_multi_aff_reset_tuple_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_aff_product" #.(swig-lispify "isl_multi_aff_product" 'function)) :pointer
   (multi1 :pointer)
@@ -1114,7 +1498,7 @@
 
 (cffi:defcfun ("isl_multi_aff_project_out_map" #.(swig-lispify "isl_multi_aff_project_out_map" 'function)) :pointer
   (space :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -1143,9 +1527,9 @@
 
 (cffi:defcfun ("isl_multi_aff_move_dims" #.(swig-lispify "isl_multi_aff_move_dims" 'function)) :pointer
   (ma :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
@@ -1313,29 +1697,29 @@
 
 (cffi:defcfun ("isl_multi_pw_aff_dim" #.(swig-lispify "isl_multi_pw_aff_dim" 'function)) :int
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_pw_aff_drop_dims" #.(swig-lispify "isl_multi_pw_aff_drop_dims" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_multi_pw_aff_involves_dims" #.(swig-lispify "isl_multi_pw_aff_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_multi_pw_aff_insert_dims" #.(swig-lispify "isl_multi_pw_aff_insert_dims" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_multi_pw_aff_add_dims" #.(swig-lispify "isl_multi_pw_aff_add_dims" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_multi_pw_aff_project_domain_on_params" #.(swig-lispify "isl_multi_pw_aff_project_domain_on_params" 'function)) :pointer
@@ -1343,56 +1727,56 @@
 
 (cffi:defcfun ("isl_multi_pw_aff_find_dim_by_name" #.(swig-lispify "isl_multi_pw_aff_find_dim_by_name" 'function)) :int
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_multi_pw_aff_find_dim_by_id" #.(swig-lispify "isl_multi_pw_aff_find_dim_by_id" 'function)) :int
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_multi_pw_aff_get_dim_id" #.(swig-lispify "isl_multi_pw_aff_get_dim_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_multi_pw_aff_set_dim_name" #.(swig-lispify "isl_multi_pw_aff_set_dim_name" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_multi_pw_aff_set_dim_id" #.(swig-lispify "isl_multi_pw_aff_set_dim_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (id :pointer))
 
 (cffi:defcfun ("isl_multi_pw_aff_get_tuple_name" #.(swig-lispify "isl_multi_pw_aff_get_tuple_name" 'function)) :string
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_pw_aff_has_tuple_id" #.(swig-lispify "isl_multi_pw_aff_has_tuple_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_pw_aff_get_tuple_id" #.(swig-lispify "isl_multi_pw_aff_get_tuple_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_pw_aff_set_tuple_name" #.(swig-lispify "isl_multi_pw_aff_set_tuple_name" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (s :string))
 
 (cffi:defcfun ("isl_multi_pw_aff_set_tuple_id" #.(swig-lispify "isl_multi_pw_aff_set_tuple_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_multi_pw_aff_reset_tuple_id" #.(swig-lispify "isl_multi_pw_aff_reset_tuple_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_pw_aff_product" #.(swig-lispify "isl_multi_pw_aff_product" 'function)) :pointer
   (multi1 :pointer)
@@ -1431,7 +1815,7 @@
 
 (cffi:defcfun ("isl_pw_multi_aff_project_out_map" #.(swig-lispify "isl_pw_multi_aff_project_out_map" 'function)) :pointer
   (space :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -1453,7 +1837,7 @@
 
 (cffi:defcfun ("isl_pw_multi_aff_dim" #.(swig-lispify "isl_pw_multi_aff_dim" 'function)) :int
   (pma :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_multi_aff_involves_param_id" #.(swig-lispify "isl_pw_multi_aff_involves_param_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pma :pointer)
@@ -1461,7 +1845,7 @@
 
 (cffi:defcfun ("isl_pw_multi_aff_involves_dims" #.(swig-lispify "isl_pw_multi_aff_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -1485,40 +1869,40 @@
 
 (cffi:defcfun ("isl_pw_multi_aff_has_tuple_name" #.(swig-lispify "isl_pw_multi_aff_has_tuple_name" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pma :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_multi_aff_get_tuple_name" #.(swig-lispify "isl_pw_multi_aff_get_tuple_name" 'function)) :string
   (pma :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_multi_aff_get_tuple_id" #.(swig-lispify "isl_pw_multi_aff_get_tuple_id" 'function)) :pointer
   (pma :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_multi_aff_has_tuple_id" #.(swig-lispify "isl_pw_multi_aff_has_tuple_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pma :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_multi_aff_set_tuple_id" #.(swig-lispify "isl_pw_multi_aff_set_tuple_id" 'function)) :pointer
   (pma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_pw_multi_aff_reset_tuple_id" #.(swig-lispify "isl_pw_multi_aff_reset_tuple_id" 'function)) :pointer
   (pma :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_multi_aff_reset_user" #.(swig-lispify "isl_pw_multi_aff_reset_user" 'function)) :pointer
   (pma :pointer))
 
 (cffi:defcfun ("isl_pw_multi_aff_find_dim_by_name" #.(swig-lispify "isl_pw_multi_aff_find_dim_by_name" 'function)) :int
   (pma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_pw_multi_aff_drop_dims" #.(swig-lispify "isl_pw_multi_aff_drop_dims" 'function)) :pointer
   (pma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -1537,17 +1921,17 @@
 
 (cffi:defcfun ("isl_pw_multi_aff_get_dim_name" #.(swig-lispify "isl_pw_multi_aff_get_dim_name" 'function)) :string
   (pma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_pw_multi_aff_get_dim_id" #.(swig-lispify "isl_pw_multi_aff_get_dim_id" 'function)) :pointer
   (pma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_pw_multi_aff_set_dim_id" #.(swig-lispify "isl_pw_multi_aff_set_dim_id" 'function)) :pointer
   (pma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (id :pointer))
 
@@ -1564,7 +1948,7 @@
 
 (cffi:defcfun ("isl_pw_multi_aff_fix_si" #.(swig-lispify "isl_pw_multi_aff_fix_si" 'function)) :pointer
   (pma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
@@ -1775,22 +2159,22 @@
 
 (cffi:defcfun ("isl_union_pw_multi_aff_dim" #.(swig-lispify "isl_union_pw_multi_aff_dim" 'function)) :int
   (upma :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_union_pw_multi_aff_set_dim_name" #.(swig-lispify "isl_union_pw_multi_aff_set_dim_name" 'function)) :pointer
   (upma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_union_pw_multi_aff_find_dim_by_name" #.(swig-lispify "isl_union_pw_multi_aff_find_dim_by_name" 'function)) :int
   (upma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_union_pw_multi_aff_drop_dims" #.(swig-lispify "isl_union_pw_multi_aff_drop_dims" 'function)) :pointer
   (upma :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -1924,7 +2308,7 @@
 (cffi:defcfun ("isl_union_pw_multi_aff_to_str" #.(swig-lispify "isl_union_pw_multi_aff_to_str" 'function)) :string
   (upma :pointer))
 
-(cffi:defcfun ("isl_multi_pw_aff_get_hash" #.(swig-lispify "isl_multi_pw_aff_get_hash" 'function)) :pointer
+(cffi:defcfun ("isl_multi_pw_aff_get_hash" #.(swig-lispify "isl_multi_pw_aff_get_hash" 'function)) :unsigned-int
   (mpa :pointer))
 
 (cffi:defcfun ("isl_multi_pw_aff_from_multi_aff" #.(swig-lispify "isl_multi_pw_aff_from_multi_aff" 'function)) :pointer
@@ -1976,9 +2360,9 @@
 
 (cffi:defcfun ("isl_multi_pw_aff_move_dims" #.(swig-lispify "isl_multi_pw_aff_move_dims" 'function)) :pointer
   (pma :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
@@ -2041,22 +2425,22 @@
 
 (cffi:defcfun ("isl_union_pw_aff_dim" #.(swig-lispify "isl_union_pw_aff_dim" 'function)) :int
   (upa :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_union_pw_aff_set_dim_name" #.(swig-lispify "isl_union_pw_aff_set_dim_name" 'function)) :pointer
   (upa :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_union_pw_aff_find_dim_by_name" #.(swig-lispify "isl_union_pw_aff_find_dim_by_name" 'function)) :int
   (upa :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_union_pw_aff_drop_dims" #.(swig-lispify "isl_union_pw_aff_drop_dims" 'function)) :pointer
   (upa :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -2330,66 +2714,66 @@
 
 (cffi:defcfun ("isl_multi_union_pw_aff_dim" #.(swig-lispify "isl_multi_union_pw_aff_dim" 'function)) :int
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_drop_dims" #.(swig-lispify "isl_multi_union_pw_aff_drop_dims" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_find_dim_by_name" #.(swig-lispify "isl_multi_union_pw_aff_find_dim_by_name" 'function)) :int
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_find_dim_by_id" #.(swig-lispify "isl_multi_union_pw_aff_find_dim_by_id" 'function)) :int
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_get_dim_id" #.(swig-lispify "isl_multi_union_pw_aff_get_dim_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_set_dim_name" #.(swig-lispify "isl_multi_union_pw_aff_set_dim_name" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_set_dim_id" #.(swig-lispify "isl_multi_union_pw_aff_set_dim_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (id :pointer))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_get_tuple_name" #.(swig-lispify "isl_multi_union_pw_aff_get_tuple_name" 'function)) :string
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_has_tuple_id" #.(swig-lispify "isl_multi_union_pw_aff_has_tuple_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_get_tuple_id" #.(swig-lispify "isl_multi_union_pw_aff_get_tuple_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_set_tuple_name" #.(swig-lispify "isl_multi_union_pw_aff_set_tuple_name" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (s :string))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_set_tuple_id" #.(swig-lispify "isl_multi_union_pw_aff_set_tuple_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_reset_tuple_id" #.(swig-lispify "isl_multi_union_pw_aff_reset_tuple_id" 'function)) :pointer
   (multi :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_multi_union_pw_aff_from_multi_aff" #.(swig-lispify "isl_multi_union_pw_aff_from_multi_aff" 'function)) :pointer
   (ma :pointer))
@@ -3223,198 +3607,6 @@
   (build :pointer)
   (schedule :pointer))
 
-(cffi:defcfun ("isl_ast_expr_list_get_ctx" #.(swig-lispify "isl_ast_expr_list_get_ctx" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_from_ast_expr" #.(swig-lispify "isl_ast_expr_list_from_ast_expr" 'function)) :pointer
-  (el :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_alloc" #.(swig-lispify "isl_ast_expr_list_alloc" 'function)) :pointer
-  (ctx :pointer)
-  (n :int))
-
-(cffi:defcfun ("isl_ast_expr_list_copy" #.(swig-lispify "isl_ast_expr_list_copy" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_free" #.(swig-lispify "isl_ast_expr_list_free" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_add" #.(swig-lispify "isl_ast_expr_list_add" 'function)) :pointer
-  (list :pointer)
-  (el :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_insert" #.(swig-lispify "isl_ast_expr_list_insert" 'function)) :pointer
-  (list :pointer)
-  (pos :unsigned-int)
-  (el :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_drop" #.(swig-lispify "isl_ast_expr_list_drop" 'function)) :pointer
-  (list :pointer)
-  (first :unsigned-int)
-  (n :unsigned-int))
-
-(cffi:defcfun ("isl_ast_expr_list_clear" #.(swig-lispify "isl_ast_expr_list_clear" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_swap" #.(swig-lispify "isl_ast_expr_list_swap" 'function)) :pointer
-  (list :pointer)
-  (pos1 :unsigned-int)
-  (pos2 :unsigned-int))
-
-(cffi:defcfun ("isl_ast_expr_list_reverse" #.(swig-lispify "isl_ast_expr_list_reverse" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_concat" #.(swig-lispify "isl_ast_expr_list_concat" 'function)) :pointer
-  (list1 :pointer)
-  (list2 :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_size" #.(swig-lispify "isl_ast_expr_list_size" 'function)) :int
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_n_ast_expr" #.(swig-lispify "isl_ast_expr_list_n_ast_expr" 'function)) :int
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_get_at" #.(swig-lispify "isl_ast_expr_list_get_at" 'function)) :pointer
-  (list :pointer)
-  (index :int))
-
-(cffi:defcfun ("isl_ast_expr_list_get_ast_expr" #.(swig-lispify "isl_ast_expr_list_get_ast_expr" 'function)) :pointer
-  (list :pointer)
-  (index :int))
-
-(cffi:defcfun ("isl_ast_expr_list_set_ast_expr" #.(swig-lispify "isl_ast_expr_list_set_ast_expr" 'function)) :pointer
-  (list :pointer)
-  (index :int)
-  (el :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_foreach" #.(swig-lispify "isl_ast_expr_list_foreach" 'function)) #.(swig-lispify "isl_stat" 'enumname)
-  (list :pointer)
-  (fn :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_map" #.(swig-lispify "isl_ast_expr_list_map" 'function)) :pointer
-  (list :pointer)
-  (fn :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_sort" #.(swig-lispify "isl_ast_expr_list_sort" 'function)) :pointer
-  (list :pointer)
-  (cmp :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_foreach_scc" #.(swig-lispify "isl_ast_expr_list_foreach_scc" 'function)) #.(swig-lispify "isl_stat" 'enumname)
-  (list :pointer)
-  (follows :pointer)
-  (follows_user :pointer)
-  (fn :pointer)
-  (fn_user :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_to_str" #.(swig-lispify "isl_ast_expr_list_to_str" 'function)) :string
-  (list :pointer))
-
-(cffi:defcfun ("isl_printer_print_ast_expr_list" #.(swig-lispify "isl_printer_print_ast_expr_list" 'function)) :pointer
-  (p :pointer)
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_expr_list_dump" #.(swig-lispify "isl_ast_expr_list_dump" 'function)) :void
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_get_ctx" #.(swig-lispify "isl_ast_node_list_get_ctx" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_from_ast_node" #.(swig-lispify "isl_ast_node_list_from_ast_node" 'function)) :pointer
-  (el :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_alloc" #.(swig-lispify "isl_ast_node_list_alloc" 'function)) :pointer
-  (ctx :pointer)
-  (n :int))
-
-(cffi:defcfun ("isl_ast_node_list_copy" #.(swig-lispify "isl_ast_node_list_copy" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_free" #.(swig-lispify "isl_ast_node_list_free" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_add" #.(swig-lispify "isl_ast_node_list_add" 'function)) :pointer
-  (list :pointer)
-  (el :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_insert" #.(swig-lispify "isl_ast_node_list_insert" 'function)) :pointer
-  (list :pointer)
-  (pos :unsigned-int)
-  (el :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_drop" #.(swig-lispify "isl_ast_node_list_drop" 'function)) :pointer
-  (list :pointer)
-  (first :unsigned-int)
-  (n :unsigned-int))
-
-(cffi:defcfun ("isl_ast_node_list_clear" #.(swig-lispify "isl_ast_node_list_clear" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_swap" #.(swig-lispify "isl_ast_node_list_swap" 'function)) :pointer
-  (list :pointer)
-  (pos1 :unsigned-int)
-  (pos2 :unsigned-int))
-
-(cffi:defcfun ("isl_ast_node_list_reverse" #.(swig-lispify "isl_ast_node_list_reverse" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_concat" #.(swig-lispify "isl_ast_node_list_concat" 'function)) :pointer
-  (list1 :pointer)
-  (list2 :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_size" #.(swig-lispify "isl_ast_node_list_size" 'function)) :int
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_n_ast_node" #.(swig-lispify "isl_ast_node_list_n_ast_node" 'function)) :int
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_get_at" #.(swig-lispify "isl_ast_node_list_get_at" 'function)) :pointer
-  (list :pointer)
-  (index :int))
-
-(cffi:defcfun ("isl_ast_node_list_get_ast_node" #.(swig-lispify "isl_ast_node_list_get_ast_node" 'function)) :pointer
-  (list :pointer)
-  (index :int))
-
-(cffi:defcfun ("isl_ast_node_list_set_ast_node" #.(swig-lispify "isl_ast_node_list_set_ast_node" 'function)) :pointer
-  (list :pointer)
-  (index :int)
-  (el :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_foreach" #.(swig-lispify "isl_ast_node_list_foreach" 'function)) #.(swig-lispify "isl_stat" 'enumname)
-  (list :pointer)
-  (fn :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_map" #.(swig-lispify "isl_ast_node_list_map" 'function)) :pointer
-  (list :pointer)
-  (fn :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_sort" #.(swig-lispify "isl_ast_node_list_sort" 'function)) :pointer
-  (list :pointer)
-  (cmp :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_foreach_scc" #.(swig-lispify "isl_ast_node_list_foreach_scc" 'function)) #.(swig-lispify "isl_stat" 'enumname)
-  (list :pointer)
-  (follows :pointer)
-  (follows_user :pointer)
-  (fn :pointer)
-  (fn_user :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_to_str" #.(swig-lispify "isl_ast_node_list_to_str" 'function)) :string
-  (list :pointer))
-
-(cffi:defcfun ("isl_printer_print_ast_node_list" #.(swig-lispify "isl_printer_print_ast_node_list" 'function)) :pointer
-  (p :pointer)
-  (list :pointer))
-
-(cffi:defcfun ("isl_ast_node_list_dump" #.(swig-lispify "isl_ast_node_list_dump" 'function)) :void
-  (list :pointer))
-
 (cffi:defcfun ("isl_options_set_ast_iterator_type" #.(swig-lispify "isl_options_set_ast_iterator_type" 'function)) #.(swig-lispify "isl_stat" 'enumname)
   (ctx :pointer)
   (val :string))
@@ -3905,7 +4097,7 @@
 
 (cffi:defcfun ("isl_basic_set_foreach_bound_pair" #.(swig-lispify "isl_basic_set_foreach_bound_pair" 'function)) #.(swig-lispify "isl_stat" 'enumname)
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (fn :pointer)
   (user :pointer))
@@ -3928,19 +4120,19 @@
 
 (cffi:defcfun ("isl_basic_map_has_defining_equality" #.(swig-lispify "isl_basic_map_has_defining_equality" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (c :pointer))
 
 (cffi:defcfun ("isl_basic_set_has_defining_equality" #.(swig-lispify "isl_basic_set_has_defining_equality" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (constraint :pointer))
 
 (cffi:defcfun ("isl_basic_set_has_defining_inequalities" #.(swig-lispify "isl_basic_set_has_defining_inequalities" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (lower :pointer)
   (upper :pointer))
@@ -3953,17 +4145,17 @@
 
 (cffi:defcfun ("isl_constraint_dim" #.(swig-lispify "isl_constraint_dim" 'function)) :int
   (constraint :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_constraint_involves_dims" #.(swig-lispify "isl_constraint_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (constraint :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_constraint_get_dim_name" #.(swig-lispify "isl_constraint_get_dim_name" 'function)) :string
   (constraint :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_constraint_get_constant_val" #.(swig-lispify "isl_constraint_get_constant_val" 'function)) :pointer
@@ -3971,7 +4163,7 @@
 
 (cffi:defcfun ("isl_constraint_get_coefficient_val" #.(swig-lispify "isl_constraint_get_coefficient_val" 'function)) :pointer
   (constraint :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int))
 
 (cffi:defcfun ("isl_constraint_set_constant_si" #.(swig-lispify "isl_constraint_set_constant_si" 'function)) :pointer
@@ -3984,13 +4176,13 @@
 
 (cffi:defcfun ("isl_constraint_set_coefficient_si" #.(swig-lispify "isl_constraint_set_coefficient_si" 'function)) :pointer
   (constraint :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (v :int))
 
 (cffi:defcfun ("isl_constraint_set_coefficient_val" #.(swig-lispify "isl_constraint_set_coefficient_val" 'function)) :pointer
   (constraint :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (v :pointer))
 
@@ -4009,12 +4201,12 @@
 
 (cffi:defcfun ("isl_constraint_is_lower_bound" #.(swig-lispify "isl_constraint_is_lower_bound" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (constraint :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_constraint_is_upper_bound" #.(swig-lispify "isl_constraint_is_upper_bound" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (constraint :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_from_constraint" #.(swig-lispify "isl_basic_map_from_constraint" 'function)) :pointer
@@ -4025,7 +4217,7 @@
 
 (cffi:defcfun ("isl_constraint_get_bound" #.(swig-lispify "isl_constraint_get_bound" 'function)) :pointer
   (constraint :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int))
 
 (cffi:defcfun ("isl_constraint_get_aff" #.(swig-lispify "isl_constraint_get_aff" 'function)) :pointer
@@ -4233,17 +4425,17 @@
   (must_no_source :pointer)
   (may_no_source :pointer))
 
-(cffi:defcfun ("isl_hash_string" #.(swig-lispify "isl_hash_string" 'function)) :pointer
-  (hash :pointer)
+(cffi:defcfun ("isl_hash_string" #.(swig-lispify "isl_hash_string" 'function)) :unsigned-int
+  (hash :unsigned-int)
   (s :string))
 
-(cffi:defcfun ("isl_hash_mem" #.(swig-lispify "isl_hash_mem" 'function)) :pointer
-  (hash :pointer)
+(cffi:defcfun ("isl_hash_mem" #.(swig-lispify "isl_hash_mem" 'function)) :unsigned-int
+  (hash :unsigned-int)
   (p :pointer)
   (len :unsigned-long))
 
 (cffi:defcstruct #.(swig-lispify "isl_hash_table_entry" 'classname)
-	(#.(swig-lispify "hash" 'slotname) :pointer)
+	(#.(swig-lispify "hash" 'slotname) :unsigned-int)
 	(#.(swig-lispify "data" 'slotname) :pointer))
 
 (cffi:defcstruct #.(swig-lispify "isl_hash_table" 'classname)
@@ -4273,7 +4465,7 @@
 (cffi:defcfun ("isl_hash_table_find" #.(swig-lispify "isl_hash_table_find" 'function)) :pointer
   (ctx :pointer)
   (table :pointer)
-  (key_hash :pointer)
+  (key_hash :unsigned-int)
   (eq :pointer)
   (val :pointer)
   (reserve :int))
@@ -4516,7 +4708,7 @@
 (cffi:defcfun ("isl_id_get_ctx" #.(swig-lispify "isl_id_get_ctx" 'function)) :pointer
   (id :pointer))
 
-(cffi:defcfun ("isl_id_get_hash" #.(swig-lispify "isl_id_get_hash" 'function)) :pointer
+(cffi:defcfun ("isl_id_get_hash" #.(swig-lispify "isl_id_get_hash" 'function)) :unsigned-int
   (id :pointer))
 
 (cffi:defcfun ("isl_id_alloc" #.(swig-lispify "isl_id_alloc" 'function)) :pointer
@@ -4620,42 +4812,42 @@
 
 (cffi:defcfun ("isl_local_space_set_tuple_id" #.(swig-lispify "isl_local_space_set_tuple_id" 'function)) :pointer
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_local_space_dim" #.(swig-lispify "isl_local_space_dim" 'function)) :int
   (ls :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_local_space_has_dim_name" #.(swig-lispify "isl_local_space_has_dim_name" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_local_space_get_dim_name" #.(swig-lispify "isl_local_space_get_dim_name" 'function)) :string
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_local_space_set_dim_name" #.(swig-lispify "isl_local_space_set_dim_name" 'function)) :pointer
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_local_space_has_dim_id" #.(swig-lispify "isl_local_space_has_dim_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_local_space_get_dim_id" #.(swig-lispify "isl_local_space_get_dim_id" 'function)) :pointer
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_local_space_set_dim_id" #.(swig-lispify "isl_local_space_set_dim_id" 'function)) :pointer
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (id :pointer))
 
@@ -4668,7 +4860,7 @@
 
 (cffi:defcfun ("isl_local_space_find_dim_by_name" #.(swig-lispify "isl_local_space_find_dim_by_name" 'function)) :int
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_local_space_domain" #.(swig-lispify "isl_local_space_domain" 'function)) :pointer
@@ -4682,18 +4874,18 @@
 
 (cffi:defcfun ("isl_local_space_add_dims" #.(swig-lispify "isl_local_space_add_dims" 'function)) :pointer
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_local_space_drop_dims" #.(swig-lispify "isl_local_space_drop_dims" 'function)) :pointer
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_local_space_insert_dims" #.(swig-lispify "isl_local_space_insert_dims" 'function)) :pointer
   (ls :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -4735,208 +4927,16 @@
   (bset :pointer)
   (obj :pointer))
 
-(cffi:defcfun ("isl_basic_set_list_get_ctx" #.(swig-lispify "isl_basic_set_list_get_ctx" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_from_basic_set" #.(swig-lispify "isl_basic_set_list_from_basic_set" 'function)) :pointer
-  (el :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_alloc" #.(swig-lispify "isl_basic_set_list_alloc" 'function)) :pointer
-  (ctx :pointer)
-  (n :int))
-
-(cffi:defcfun ("isl_basic_set_list_copy" #.(swig-lispify "isl_basic_set_list_copy" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_free" #.(swig-lispify "isl_basic_set_list_free" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_add" #.(swig-lispify "isl_basic_set_list_add" 'function)) :pointer
-  (list :pointer)
-  (el :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_insert" #.(swig-lispify "isl_basic_set_list_insert" 'function)) :pointer
-  (list :pointer)
-  (pos :unsigned-int)
-  (el :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_drop" #.(swig-lispify "isl_basic_set_list_drop" 'function)) :pointer
-  (list :pointer)
-  (first :unsigned-int)
-  (n :unsigned-int))
-
-(cffi:defcfun ("isl_basic_set_list_clear" #.(swig-lispify "isl_basic_set_list_clear" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_swap" #.(swig-lispify "isl_basic_set_list_swap" 'function)) :pointer
-  (list :pointer)
-  (pos1 :unsigned-int)
-  (pos2 :unsigned-int))
-
-(cffi:defcfun ("isl_basic_set_list_reverse" #.(swig-lispify "isl_basic_set_list_reverse" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_concat" #.(swig-lispify "isl_basic_set_list_concat" 'function)) :pointer
-  (list1 :pointer)
-  (list2 :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_size" #.(swig-lispify "isl_basic_set_list_size" 'function)) :int
-  (list :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_n_basic_set" #.(swig-lispify "isl_basic_set_list_n_basic_set" 'function)) :int
-  (list :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_get_at" #.(swig-lispify "isl_basic_set_list_get_at" 'function)) :pointer
-  (list :pointer)
-  (index :int))
-
-(cffi:defcfun ("isl_basic_set_list_get_basic_set" #.(swig-lispify "isl_basic_set_list_get_basic_set" 'function)) :pointer
-  (list :pointer)
-  (index :int))
-
-(cffi:defcfun ("isl_basic_set_list_set_basic_set" #.(swig-lispify "isl_basic_set_list_set_basic_set" 'function)) :pointer
-  (list :pointer)
-  (index :int)
-  (el :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_foreach" #.(swig-lispify "isl_basic_set_list_foreach" 'function)) #.(swig-lispify "isl_stat" 'enumname)
-  (list :pointer)
-  (fn :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_map" #.(swig-lispify "isl_basic_set_list_map" 'function)) :pointer
-  (list :pointer)
-  (fn :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_sort" #.(swig-lispify "isl_basic_set_list_sort" 'function)) :pointer
-  (list :pointer)
-  (cmp :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_foreach_scc" #.(swig-lispify "isl_basic_set_list_foreach_scc" 'function)) #.(swig-lispify "isl_stat" 'enumname)
-  (list :pointer)
-  (follows :pointer)
-  (follows_user :pointer)
-  (fn :pointer)
-  (fn_user :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_to_str" #.(swig-lispify "isl_basic_set_list_to_str" 'function)) :string
-  (list :pointer))
-
-(cffi:defcfun ("isl_printer_print_basic_set_list" #.(swig-lispify "isl_printer_print_basic_set_list" 'function)) :pointer
-  (p :pointer)
-  (list :pointer))
-
-(cffi:defcfun ("isl_basic_set_list_dump" #.(swig-lispify "isl_basic_set_list_dump" 'function)) :void
-  (list :pointer))
-
-(cffi:defcfun ("isl_set_list_get_ctx" #.(swig-lispify "isl_set_list_get_ctx" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_set_list_from_set" #.(swig-lispify "isl_set_list_from_set" 'function)) :pointer
-  (el :pointer))
-
-(cffi:defcfun ("isl_set_list_alloc" #.(swig-lispify "isl_set_list_alloc" 'function)) :pointer
-  (ctx :pointer)
-  (n :int))
-
-(cffi:defcfun ("isl_set_list_copy" #.(swig-lispify "isl_set_list_copy" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_set_list_free" #.(swig-lispify "isl_set_list_free" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_set_list_add" #.(swig-lispify "isl_set_list_add" 'function)) :pointer
-  (list :pointer)
-  (el :pointer))
-
-(cffi:defcfun ("isl_set_list_insert" #.(swig-lispify "isl_set_list_insert" 'function)) :pointer
-  (list :pointer)
-  (pos :unsigned-int)
-  (el :pointer))
-
-(cffi:defcfun ("isl_set_list_drop" #.(swig-lispify "isl_set_list_drop" 'function)) :pointer
-  (list :pointer)
-  (first :unsigned-int)
-  (n :unsigned-int))
-
-(cffi:defcfun ("isl_set_list_clear" #.(swig-lispify "isl_set_list_clear" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_set_list_swap" #.(swig-lispify "isl_set_list_swap" 'function)) :pointer
-  (list :pointer)
-  (pos1 :unsigned-int)
-  (pos2 :unsigned-int))
-
-(cffi:defcfun ("isl_set_list_reverse" #.(swig-lispify "isl_set_list_reverse" 'function)) :pointer
-  (list :pointer))
-
-(cffi:defcfun ("isl_set_list_concat" #.(swig-lispify "isl_set_list_concat" 'function)) :pointer
-  (list1 :pointer)
-  (list2 :pointer))
-
-(cffi:defcfun ("isl_set_list_size" #.(swig-lispify "isl_set_list_size" 'function)) :int
-  (list :pointer))
-
-(cffi:defcfun ("isl_set_list_n_set" #.(swig-lispify "isl_set_list_n_set" 'function)) :int
-  (list :pointer))
-
-(cffi:defcfun ("isl_set_list_get_at" #.(swig-lispify "isl_set_list_get_at" 'function)) :pointer
-  (list :pointer)
-  (index :int))
-
-(cffi:defcfun ("isl_set_list_get_set" #.(swig-lispify "isl_set_list_get_set" 'function)) :pointer
-  (list :pointer)
-  (index :int))
-
-(cffi:defcfun ("isl_set_list_set_set" #.(swig-lispify "isl_set_list_set_set" 'function)) :pointer
-  (list :pointer)
-  (index :int)
-  (el :pointer))
-
-(cffi:defcfun ("isl_set_list_foreach" #.(swig-lispify "isl_set_list_foreach" 'function)) #.(swig-lispify "isl_stat" 'enumname)
-  (list :pointer)
-  (fn :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_set_list_map" #.(swig-lispify "isl_set_list_map" 'function)) :pointer
-  (list :pointer)
-  (fn :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_set_list_sort" #.(swig-lispify "isl_set_list_sort" 'function)) :pointer
-  (list :pointer)
-  (cmp :pointer)
-  (user :pointer))
-
-(cffi:defcfun ("isl_set_list_foreach_scc" #.(swig-lispify "isl_set_list_foreach_scc" 'function)) #.(swig-lispify "isl_stat" 'enumname)
-  (list :pointer)
-  (follows :pointer)
-  (follows_user :pointer)
-  (fn :pointer)
-  (fn_user :pointer))
-
-(cffi:defcfun ("isl_set_list_to_str" #.(swig-lispify "isl_set_list_to_str" 'function)) :string
-  (list :pointer))
-
-(cffi:defcfun ("isl_printer_print_set_list" #.(swig-lispify "isl_printer_print_set_list" 'function)) :pointer
-  (p :pointer)
-  (list :pointer))
-
-(cffi:defcfun ("isl_set_list_dump" #.(swig-lispify "isl_set_list_dump" 'function)) :void
-  (list :pointer))
-
 (cffi:defcfun ("isl_basic_map_total_dim" #.(swig-lispify "isl_basic_map_total_dim" 'function)) :int
   (bmap :pointer))
 
 (cffi:defcfun ("isl_basic_map_dim" #.(swig-lispify "isl_basic_map_dim" 'function)) :int
   (bmap :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_map_dim" #.(swig-lispify "isl_map_dim" 'function)) :int
   (map :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_basic_map_get_ctx" #.(swig-lispify "isl_basic_map_get_ctx" 'function)) :pointer
   (bmap :pointer))
@@ -4959,112 +4959,112 @@
 
 (cffi:defcfun ("isl_basic_map_set_tuple_name" #.(swig-lispify "isl_basic_map_set_tuple_name" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (s :string))
 
 (cffi:defcfun ("isl_basic_map_get_tuple_name" #.(swig-lispify "isl_basic_map_get_tuple_name" 'function)) :string
   (bmap :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_map_has_tuple_name" #.(swig-lispify "isl_map_has_tuple_name" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (map :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_map_get_tuple_name" #.(swig-lispify "isl_map_get_tuple_name" 'function)) :string
   (map :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_map_set_tuple_name" #.(swig-lispify "isl_map_set_tuple_name" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (s :string))
 
 (cffi:defcfun ("isl_basic_map_get_dim_name" #.(swig-lispify "isl_basic_map_get_dim_name" 'function)) :string
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_map_has_dim_name" #.(swig-lispify "isl_map_has_dim_name" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_map_get_dim_name" #.(swig-lispify "isl_map_get_dim_name" 'function)) :string
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_set_dim_name" #.(swig-lispify "isl_basic_map_set_dim_name" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_map_set_dim_name" #.(swig-lispify "isl_map_set_dim_name" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_basic_map_set_tuple_id" #.(swig-lispify "isl_basic_map_set_tuple_id" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_map_set_dim_id" #.(swig-lispify "isl_map_set_dim_id" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (id :pointer))
 
 (cffi:defcfun ("isl_basic_map_has_dim_id" #.(swig-lispify "isl_basic_map_has_dim_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_map_has_dim_id" #.(swig-lispify "isl_map_has_dim_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_map_get_dim_id" #.(swig-lispify "isl_map_get_dim_id" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_map_set_tuple_id" #.(swig-lispify "isl_map_set_tuple_id" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_map_reset_tuple_id" #.(swig-lispify "isl_map_reset_tuple_id" 'function)) :pointer
   (map :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_map_has_tuple_id" #.(swig-lispify "isl_map_has_tuple_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (map :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_map_get_tuple_id" #.(swig-lispify "isl_map_get_tuple_id" 'function)) :pointer
   (map :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_map_reset_user" #.(swig-lispify "isl_map_reset_user" 'function)) :pointer
   (map :pointer))
 
 (cffi:defcfun ("isl_basic_map_find_dim_by_name" #.(swig-lispify "isl_basic_map_find_dim_by_name" 'function)) :int
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_map_find_dim_by_id" #.(swig-lispify "isl_map_find_dim_by_id" 'function)) :int
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_map_find_dim_by_name" #.(swig-lispify "isl_map_find_dim_by_name" 'function)) :int
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_basic_map_is_rational" #.(swig-lispify "isl_basic_map_is_rational" 'function)) #.(swig-lispify "isl_bool" 'enumname)
@@ -5174,13 +5174,13 @@
 
 (cffi:defcfun ("isl_basic_map_remove_dims" #.(swig-lispify "isl_basic_map_remove_dims" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_eliminate" #.(swig-lispify "isl_basic_map_eliminate" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -5228,25 +5228,25 @@
 
 (cffi:defcfun ("isl_basic_map_fix_si" #.(swig-lispify "isl_basic_map_fix_si" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
 (cffi:defcfun ("isl_basic_map_fix_val" #.(swig-lispify "isl_basic_map_fix_val" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (v :pointer))
 
 (cffi:defcfun ("isl_basic_map_lower_bound_si" #.(swig-lispify "isl_basic_map_lower_bound_si" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
 (cffi:defcfun ("isl_basic_map_upper_bound_si" #.(swig-lispify "isl_basic_map_upper_bound_si" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
@@ -5334,7 +5334,7 @@
 
 (cffi:defcfun ("isl_basic_map_plain_get_val_if_fixed" #.(swig-lispify "isl_basic_map_plain_get_val_if_fixed" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_image_is_bounded" #.(swig-lispify "isl_basic_map_image_is_bounded" 'function)) #.(swig-lispify "isl_bool" 'enumname)
@@ -5569,25 +5569,25 @@
 
 (cffi:defcfun ("isl_map_fix_si" #.(swig-lispify "isl_map_fix_si" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
 (cffi:defcfun ("isl_map_fix_val" #.(swig-lispify "isl_map_fix_val" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (v :pointer))
 
 (cffi:defcfun ("isl_map_lower_bound_si" #.(swig-lispify "isl_map_lower_bound_si" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
 (cffi:defcfun ("isl_map_upper_bound_si" #.(swig-lispify "isl_map_upper_bound_si" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
@@ -5617,51 +5617,51 @@
 
 (cffi:defcfun ("isl_basic_map_add_dims" #.(swig-lispify "isl_basic_map_add_dims" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_map_add_dims" #.(swig-lispify "isl_map_add_dims" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_insert_dims" #.(swig-lispify "isl_basic_map_insert_dims" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_map_insert_dims" #.(swig-lispify "isl_map_insert_dims" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_move_dims" #.(swig-lispify "isl_basic_map_move_dims" 'function)) :pointer
   (bmap :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_map_move_dims" #.(swig-lispify "isl_map_move_dims" 'function)) :pointer
   (map :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_project_out" #.(swig-lispify "isl_basic_map_project_out" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_map_project_out" #.(swig-lispify "isl_map_project_out" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -5679,25 +5679,25 @@
 
 (cffi:defcfun ("isl_map_eliminate" #.(swig-lispify "isl_map_eliminate" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_map_remove_dims" #.(swig-lispify "isl_map_remove_dims" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_remove_divs_involving_dims" #.(swig-lispify "isl_basic_map_remove_divs_involving_dims" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_map_remove_divs_involving_dims" #.(swig-lispify "isl_map_remove_divs_involving_dims" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -5708,65 +5708,65 @@
 
 (cffi:defcfun ("isl_basic_map_equate" #.(swig-lispify "isl_basic_map_equate" 'function)) :pointer
   (bmap :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_basic_map_order_ge" #.(swig-lispify "isl_basic_map_order_ge" 'function)) :pointer
   (bmap :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_map_order_ge" #.(swig-lispify "isl_map_order_ge" 'function)) :pointer
   (map :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_map_order_le" #.(swig-lispify "isl_map_order_le" 'function)) :pointer
   (map :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_map_equate" #.(swig-lispify "isl_map_equate" 'function)) :pointer
   (map :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_map_oppose" #.(swig-lispify "isl_map_oppose" 'function)) :pointer
   (map :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_map_order_lt" #.(swig-lispify "isl_map_order_lt" 'function)) :pointer
   (map :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_basic_map_order_gt" #.(swig-lispify "isl_basic_map_order_gt" 'function)) :pointer
   (bmap :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_map_order_gt" #.(swig-lispify "isl_map_order_gt" 'function)) :pointer
   (map :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_set_identity" #.(swig-lispify "isl_set_identity" 'function)) :pointer
@@ -5978,37 +5978,37 @@
 
 (cffi:defcfun ("isl_basic_map_drop_constraints_involving_dims" #.(swig-lispify "isl_basic_map_drop_constraints_involving_dims" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_drop_constraints_not_involving_dims" #.(swig-lispify "isl_basic_map_drop_constraints_not_involving_dims" 'function)) :pointer
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_map_drop_constraints_involving_dims" #.(swig-lispify "isl_map_drop_constraints_involving_dims" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_map_drop_constraints_not_involving_dims" #.(swig-lispify "isl_map_drop_constraints_not_involving_dims" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_involves_dims" #.(swig-lispify "isl_basic_map_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (bmap :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_map_involves_dims" #.(swig-lispify "isl_map_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -6019,7 +6019,7 @@
 
 (cffi:defcfun ("isl_map_plain_get_val_if_fixed" #.(swig-lispify "isl_map_plain_get_val_if_fixed" 'function)) :pointer
   (map :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_basic_map_gist_domain" #.(swig-lispify "isl_basic_map_gist_domain" 'function)) :pointer
@@ -6064,7 +6064,7 @@
   (map1 :pointer)
   (map2 :pointer))
 
-(cffi:defcfun ("isl_map_get_hash" #.(swig-lispify "isl_map_get_hash" 'function)) :pointer
+(cffi:defcfun ("isl_map_get_hash" #.(swig-lispify "isl_map_get_hash" 'function)) :unsigned-int
   (map :pointer))
 
 (cffi:defcfun ("isl_map_n_basic_map" #.(swig-lispify "isl_map_n_basic_map" 'function)) :int
@@ -6126,29 +6126,29 @@
 
 (cffi:defcfun ("isl_basic_map_equalities_matrix" #.(swig-lispify "isl_basic_map_equalities_matrix" 'function)) :pointer
   (bmap :pointer)
-  (c1 :pointer)
-  (c2 :pointer)
-  (c3 :pointer)
-  (c4 :pointer)
-  (c5 :pointer))
+  (c1 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c2 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c3 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c4 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c5 #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_basic_map_inequalities_matrix" #.(swig-lispify "isl_basic_map_inequalities_matrix" 'function)) :pointer
   (bmap :pointer)
-  (c1 :pointer)
-  (c2 :pointer)
-  (c3 :pointer)
-  (c4 :pointer)
-  (c5 :pointer))
+  (c1 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c2 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c3 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c4 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c5 #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_basic_map_from_constraint_matrices" #.(swig-lispify "isl_basic_map_from_constraint_matrices" 'function)) :pointer
   (dim :pointer)
   (eq :pointer)
   (ineq :pointer)
-  (c1 :pointer)
-  (c2 :pointer)
-  (c3 :pointer)
-  (c4 :pointer)
-  (c5 :pointer))
+  (c1 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c2 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c3 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c4 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c5 #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_basic_map_from_aff" #.(swig-lispify "isl_basic_map_from_aff" 'function)) :pointer
   (aff :pointer))
@@ -6701,24 +6701,24 @@
 
 (cffi:defcfun ("isl_point_get_coordinate_val" #.(swig-lispify "isl_point_get_coordinate_val" 'function)) :pointer
   (pnt :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int))
 
 (cffi:defcfun ("isl_point_set_coordinate_val" #.(swig-lispify "isl_point_set_coordinate_val" 'function)) :pointer
   (pnt :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (v :pointer))
 
 (cffi:defcfun ("isl_point_add_ui" #.(swig-lispify "isl_point_add_ui" 'function)) :pointer
   (pnt :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (val :unsigned-int))
 
 (cffi:defcfun ("isl_point_sub_ui" #.(swig-lispify "isl_point_sub_ui" 'function)) :pointer
   (pnt :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :int)
   (val :unsigned-int))
 
@@ -6749,11 +6749,11 @@
 
 (cffi:defcfun ("isl_qpolynomial_dim" #.(swig-lispify "isl_qpolynomial_dim" 'function)) :int
   (qp :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_qpolynomial_involves_dims" #.(swig-lispify "isl_qpolynomial_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (qp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -6762,7 +6762,7 @@
 
 (cffi:defcfun ("isl_qpolynomial_set_dim_name" #.(swig-lispify "isl_qpolynomial_set_dim_name" 'function)) :pointer
   (qp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
@@ -6787,7 +6787,7 @@
 
 (cffi:defcfun ("isl_qpolynomial_var_on_domain" #.(swig-lispify "isl_qpolynomial_var_on_domain" 'function)) :pointer
   (domain :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_qpolynomial_copy" #.(swig-lispify "isl_qpolynomial_copy" 'function)) :pointer
@@ -6844,20 +6844,20 @@
 
 (cffi:defcfun ("isl_qpolynomial_insert_dims" #.(swig-lispify "isl_qpolynomial_insert_dims" 'function)) :pointer
   (qp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_qpolynomial_add_dims" #.(swig-lispify "isl_qpolynomial_add_dims" 'function)) :pointer
   (qp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_qpolynomial_move_dims" #.(swig-lispify "isl_qpolynomial_move_dims" 'function)) :pointer
   (qp :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
@@ -6866,13 +6866,13 @@
 
 (cffi:defcfun ("isl_qpolynomial_drop_dims" #.(swig-lispify "isl_qpolynomial_drop_dims" 'function)) :pointer
   (qp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_qpolynomial_substitute" #.(swig-lispify "isl_qpolynomial_substitute" 'function)) :pointer
   (qp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int)
   (subs :pointer))
@@ -6901,14 +6901,14 @@
 
 (cffi:defcfun ("isl_term_dim" #.(swig-lispify "isl_term_dim" 'function)) :int
   (term :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_term_get_coefficient_val" #.(swig-lispify "isl_term_get_coefficient_val" 'function)) :pointer
   (term :pointer))
 
 (cffi:defcfun ("isl_term_get_exp" #.(swig-lispify "isl_term_get_exp" 'function)) :int
   (term :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_term_get_div" #.(swig-lispify "isl_term_get_div" 'function)) :pointer
@@ -6934,7 +6934,7 @@
 
 (cffi:defcfun ("isl_qpolynomial_from_constraint" #.(swig-lispify "isl_qpolynomial_from_constraint" 'function)) :pointer
   (c :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_qpolynomial_from_term" #.(swig-lispify "isl_qpolynomial_from_term" 'function)) :pointer
@@ -6999,7 +6999,7 @@
 
 (cffi:defcfun ("isl_pw_qpolynomial_dim" #.(swig-lispify "isl_pw_qpolynomial_dim" 'function)) :int
   (pwqp :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_qpolynomial_involves_param_id" #.(swig-lispify "isl_pw_qpolynomial_involves_param_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pwqp :pointer)
@@ -7007,7 +7007,7 @@
 
 (cffi:defcfun ("isl_pw_qpolynomial_involves_dims" #.(swig-lispify "isl_pw_qpolynomial_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -7017,13 +7017,13 @@
 
 (cffi:defcfun ("isl_pw_qpolynomial_set_dim_name" #.(swig-lispify "isl_pw_qpolynomial_set_dim_name" 'function)) :pointer
   (pwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_pw_qpolynomial_find_dim_by_name" #.(swig-lispify "isl_pw_qpolynomial_find_dim_by_name" 'function)) :int
   (pwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_pw_qpolynomial_reset_user" #.(swig-lispify "isl_pw_qpolynomial_reset_user" 'function)) :pointer
@@ -7060,13 +7060,13 @@
 
 (cffi:defcfun ("isl_pw_qpolynomial_drop_dims" #.(swig-lispify "isl_pw_qpolynomial_drop_dims" 'function)) :pointer
   (pwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_pw_qpolynomial_split_dims" #.(swig-lispify "isl_pw_qpolynomial_split_dims" 'function)) :pointer
   (pwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -7106,26 +7106,26 @@
 
 (cffi:defcfun ("isl_pw_qpolynomial_insert_dims" #.(swig-lispify "isl_pw_qpolynomial_insert_dims" 'function)) :pointer
   (pwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_pw_qpolynomial_add_dims" #.(swig-lispify "isl_pw_qpolynomial_add_dims" 'function)) :pointer
   (pwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_pw_qpolynomial_move_dims" #.(swig-lispify "isl_pw_qpolynomial_move_dims" 'function)) :pointer
   (pwqp :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_pw_qpolynomial_fix_val" #.(swig-lispify "isl_pw_qpolynomial_fix_val" 'function)) :pointer
   (pwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int)
   (v :pointer))
 
@@ -7253,22 +7253,22 @@
 
 (cffi:defcfun ("isl_qpolynomial_fold_move_dims" #.(swig-lispify "isl_qpolynomial_fold_move_dims" 'function)) :pointer
   (fold :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_qpolynomial_fold_substitute" #.(swig-lispify "isl_qpolynomial_fold_substitute" 'function)) :pointer
   (fold :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int)
   (subs :pointer))
 
 (cffi:defcfun ("isl_pw_qpolynomial_fold_fix_val" #.(swig-lispify "isl_pw_qpolynomial_fold_fix_val" 'function)) :pointer
   (pwf :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int)
   (v :pointer))
 
@@ -7347,7 +7347,7 @@
 
 (cffi:defcfun ("isl_pw_qpolynomial_fold_dim" #.(swig-lispify "isl_pw_qpolynomial_fold_dim" 'function)) :int
   (pwf :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_pw_qpolynomial_fold_involves_param_id" #.(swig-lispify "isl_pw_qpolynomial_fold_involves_param_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (pwf :pointer)
@@ -7366,13 +7366,13 @@
 
 (cffi:defcfun ("isl_pw_qpolynomial_fold_set_dim_name" #.(swig-lispify "isl_pw_qpolynomial_fold_set_dim_name" 'function)) :pointer
   (pwf :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_pw_qpolynomial_fold_find_dim_by_name" #.(swig-lispify "isl_pw_qpolynomial_fold_find_dim_by_name" 'function)) :int
   (pwf :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_pw_qpolynomial_fold_reset_user" #.(swig-lispify "isl_pw_qpolynomial_fold_reset_user" 'function)) :pointer
@@ -7429,15 +7429,15 @@
 
 (cffi:defcfun ("isl_pw_qpolynomial_fold_drop_dims" #.(swig-lispify "isl_pw_qpolynomial_fold_drop_dims" 'function)) :pointer
   (pwf :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_pw_qpolynomial_fold_move_dims" #.(swig-lispify "isl_pw_qpolynomial_fold_move_dims" 'function)) :pointer
   (pwf :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
@@ -7524,7 +7524,7 @@
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_dim" #.(swig-lispify "isl_union_pw_qpolynomial_dim" 'function)) :int
   (upwqp :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_involves_nan" #.(swig-lispify "isl_union_pw_qpolynomial_involves_nan" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (upwqp :pointer))
@@ -7616,18 +7616,18 @@
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_set_dim_name" #.(swig-lispify "isl_union_pw_qpolynomial_set_dim_name" 'function)) :pointer
   (upwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_find_dim_by_name" #.(swig-lispify "isl_union_pw_qpolynomial_find_dim_by_name" 'function)) :int
   (upwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_drop_dims" #.(swig-lispify "isl_union_pw_qpolynomial_drop_dims" 'function)) :pointer
   (upwqp :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -7674,7 +7674,7 @@
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_fold_dim" #.(swig-lispify "isl_union_pw_qpolynomial_fold_dim" 'function)) :int
   (upwf :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_fold_involves_nan" #.(swig-lispify "isl_union_pw_qpolynomial_fold_involves_nan" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (upwf :pointer))
@@ -7758,18 +7758,18 @@
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_fold_set_dim_name" #.(swig-lispify "isl_union_pw_qpolynomial_fold_set_dim_name" 'function)) :pointer
   (upwf :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_fold_find_dim_by_name" #.(swig-lispify "isl_union_pw_qpolynomial_fold_find_dim_by_name" 'function)) :int
   (upwf :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_union_pw_qpolynomial_fold_drop_dims" #.(swig-lispify "isl_union_pw_qpolynomial_fold_drop_dims" 'function)) :pointer
   (upwf :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -8733,7 +8733,7 @@
 
 (cffi:defcfun ("isl_basic_set_dim" #.(swig-lispify "isl_basic_set_dim" 'function)) :int
   (bset :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_set_n_dim" #.(swig-lispify "isl_set_n_dim" 'function)) :int
   (set :pointer))
@@ -8743,7 +8743,7 @@
 
 (cffi:defcfun ("isl_set_dim" #.(swig-lispify "isl_set_dim" 'function)) :int
   (set :pointer)
-  (type :pointer))
+  (type #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_basic_set_get_ctx" #.(swig-lispify "isl_basic_set_get_ctx" 'function)) :pointer
   (bset :pointer))
@@ -8787,34 +8787,34 @@
 
 (cffi:defcfun ("isl_basic_set_get_dim_name" #.(swig-lispify "isl_basic_set_get_dim_name" 'function)) :string
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_set_dim_name" #.(swig-lispify "isl_basic_set_set_dim_name" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_set_has_dim_name" #.(swig-lispify "isl_set_has_dim_name" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_set_get_dim_name" #.(swig-lispify "isl_set_get_dim_name" 'function)) :string
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_set_set_dim_name" #.(swig-lispify "isl_set_set_dim_name" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (s :string))
 
 (cffi:defcfun ("isl_basic_set_get_dim_id" #.(swig-lispify "isl_basic_set_get_dim_id" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_set_tuple_id" #.(swig-lispify "isl_basic_set_set_tuple_id" 'function)) :pointer
@@ -8823,18 +8823,18 @@
 
 (cffi:defcfun ("isl_set_set_dim_id" #.(swig-lispify "isl_set_set_dim_id" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (id :pointer))
 
 (cffi:defcfun ("isl_set_has_dim_id" #.(swig-lispify "isl_set_has_dim_id" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_set_get_dim_id" #.(swig-lispify "isl_set_get_dim_id" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_set_set_tuple_id" #.(swig-lispify "isl_set_set_tuple_id" 'function)) :pointer
@@ -8855,12 +8855,12 @@
 
 (cffi:defcfun ("isl_set_find_dim_by_id" #.(swig-lispify "isl_set_find_dim_by_id" 'function)) :int
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (id :pointer))
 
 (cffi:defcfun ("isl_set_find_dim_by_name" #.(swig-lispify "isl_set_find_dim_by_name" 'function)) :int
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (name :string))
 
 (cffi:defcfun ("isl_basic_set_is_rational" #.(swig-lispify "isl_basic_set_is_rational" 'function)) :int
@@ -8910,7 +8910,7 @@
 
 (cffi:defcfun ("isl_basic_set_remove_dims" #.(swig-lispify "isl_basic_set_remove_dims" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -8964,63 +8964,63 @@
 
 (cffi:defcfun ("isl_basic_set_fix_si" #.(swig-lispify "isl_basic_set_fix_si" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
 (cffi:defcfun ("isl_basic_set_fix_val" #.(swig-lispify "isl_basic_set_fix_val" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (v :pointer))
 
 (cffi:defcfun ("isl_set_fix_si" #.(swig-lispify "isl_set_fix_si" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
 (cffi:defcfun ("isl_set_lower_bound_si" #.(swig-lispify "isl_set_lower_bound_si" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
 (cffi:defcfun ("isl_basic_set_lower_bound_val" #.(swig-lispify "isl_basic_set_lower_bound_val" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :pointer))
 
 (cffi:defcfun ("isl_set_lower_bound_val" #.(swig-lispify "isl_set_lower_bound_val" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :pointer))
 
 (cffi:defcfun ("isl_set_upper_bound_si" #.(swig-lispify "isl_set_upper_bound_si" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :int))
 
 (cffi:defcfun ("isl_basic_set_upper_bound_val" #.(swig-lispify "isl_basic_set_upper_bound_val" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :pointer))
 
 (cffi:defcfun ("isl_set_upper_bound_val" #.(swig-lispify "isl_set_upper_bound_val" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (value :pointer))
 
 (cffi:defcfun ("isl_set_equate" #.(swig-lispify "isl_set_equate" 'function)) :pointer
   (set :pointer)
-  (type1 :pointer)
+  (type1 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos1 :int)
-  (type2 :pointer)
+  (type2 #.(swig-lispify "isl_dim_type" 'enumname))
   (pos2 :int))
 
 (cffi:defcfun ("isl_basic_set_is_equal" #.(swig-lispify "isl_basic_set_is_equal" 'function)) #.(swig-lispify "isl_bool" 'enumname)
@@ -9119,7 +9119,7 @@
 
 (cffi:defcfun ("isl_basic_set_dims_get_sign" #.(swig-lispify "isl_basic_set_dims_get_sign" 'function)) #.(swig-lispify "isl_stat" 'enumname)
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (n :unsigned-int)
   (signs :pointer))
@@ -9263,7 +9263,7 @@
 
 (cffi:defcfun ("isl_set_fix_val" #.(swig-lispify "isl_set_fix_val" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (v :pointer))
 
@@ -9274,45 +9274,45 @@
 
 (cffi:defcfun ("isl_basic_set_insert_dims" #.(swig-lispify "isl_basic_set_insert_dims" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_set_insert_dims" #.(swig-lispify "isl_set_insert_dims" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_add_dims" #.(swig-lispify "isl_basic_set_add_dims" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_set_add_dims" #.(swig-lispify "isl_set_add_dims" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_move_dims" #.(swig-lispify "isl_basic_set_move_dims" 'function)) :pointer
   (bset :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_set_move_dims" #.(swig-lispify "isl_set_move_dims" 'function)) :pointer
   (set :pointer)
-  (dst_type :pointer)
+  (dst_type #.(swig-lispify "isl_dim_type" 'enumname))
   (dst_pos :unsigned-int)
-  (src_type :pointer)
+  (src_type #.(swig-lispify "isl_dim_type" 'enumname))
   (src_pos :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_project_out" #.(swig-lispify "isl_basic_set_project_out" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -9326,7 +9326,7 @@
 
 (cffi:defcfun ("isl_set_project_out" #.(swig-lispify "isl_set_project_out" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -9335,7 +9335,7 @@
 
 (cffi:defcfun ("isl_set_project_onto_map" #.(swig-lispify "isl_set_project_onto_map" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -9344,13 +9344,13 @@
 
 (cffi:defcfun ("isl_basic_set_eliminate" #.(swig-lispify "isl_basic_set_eliminate" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_set_eliminate" #.(swig-lispify "isl_set_eliminate" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -9361,19 +9361,19 @@
 
 (cffi:defcfun ("isl_set_remove_dims" #.(swig-lispify "isl_set_remove_dims" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_remove_divs_involving_dims" #.(swig-lispify "isl_basic_set_remove_divs_involving_dims" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_set_remove_divs_involving_dims" #.(swig-lispify "isl_set_remove_divs_involving_dims" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -9388,43 +9388,43 @@
 
 (cffi:defcfun ("isl_set_split_dims" #.(swig-lispify "isl_set_split_dims" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_drop_constraints_involving_dims" #.(swig-lispify "isl_basic_set_drop_constraints_involving_dims" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_drop_constraints_not_involving_dims" #.(swig-lispify "isl_basic_set_drop_constraints_not_involving_dims" 'function)) :pointer
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_set_drop_constraints_involving_dims" #.(swig-lispify "isl_set_drop_constraints_involving_dims" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_set_drop_constraints_not_involving_dims" #.(swig-lispify "isl_set_drop_constraints_not_involving_dims" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_involves_dims" #.(swig-lispify "isl_basic_set_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (bset :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
 (cffi:defcfun ("isl_set_involves_dims" #.(swig-lispify "isl_set_involves_dims" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (first :unsigned-int)
   (n :unsigned-int))
 
@@ -9498,32 +9498,32 @@
 
 (cffi:defcfun ("isl_set_plain_get_val_if_fixed" #.(swig-lispify "isl_set_plain_get_val_if_fixed" 'function)) :pointer
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_set_dim_is_bounded" #.(swig-lispify "isl_set_dim_is_bounded" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_set_dim_has_lower_bound" #.(swig-lispify "isl_set_dim_has_lower_bound" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_set_dim_has_upper_bound" #.(swig-lispify "isl_set_dim_has_upper_bound" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_set_dim_has_any_lower_bound" #.(swig-lispify "isl_set_dim_has_any_lower_bound" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_set_dim_has_any_upper_bound" #.(swig-lispify "isl_set_dim_has_any_upper_bound" 'function)) #.(swig-lispify "isl_bool" 'enumname)
   (set :pointer)
-  (type :pointer)
+  (type #.(swig-lispify "isl_dim_type" 'enumname))
   (pos :unsigned-int))
 
 (cffi:defcfun ("isl_basic_set_gist" #.(swig-lispify "isl_basic_set_gist" 'function)) :pointer
@@ -9571,7 +9571,7 @@
   (set1 :pointer)
   (set2 :pointer))
 
-(cffi:defcfun ("isl_set_get_hash" #.(swig-lispify "isl_set_get_hash" 'function)) :pointer
+(cffi:defcfun ("isl_set_get_hash" #.(swig-lispify "isl_set_get_hash" 'function)) :unsigned-int
   (set :pointer))
 
 (cffi:defcfun ("isl_set_n_basic_set" #.(swig-lispify "isl_set_n_basic_set" 'function)) :int
@@ -9648,26 +9648,26 @@
 
 (cffi:defcfun ("isl_basic_set_equalities_matrix" #.(swig-lispify "isl_basic_set_equalities_matrix" 'function)) :pointer
   (bset :pointer)
-  (c1 :pointer)
-  (c2 :pointer)
-  (c3 :pointer)
-  (c4 :pointer))
+  (c1 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c2 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c3 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c4 #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_basic_set_inequalities_matrix" #.(swig-lispify "isl_basic_set_inequalities_matrix" 'function)) :pointer
   (bset :pointer)
-  (c1 :pointer)
-  (c2 :pointer)
-  (c3 :pointer)
-  (c4 :pointer))
+  (c1 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c2 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c3 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c4 #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_basic_set_from_constraint_matrices" #.(swig-lispify "isl_basic_set_from_constraint_matrices" 'function)) :pointer
   (dim :pointer)
   (eq :pointer)
   (ineq :pointer)
-  (c1 :pointer)
-  (c2 :pointer)
-  (c3 :pointer)
-  (c4 :pointer))
+  (c1 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c2 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c3 #.(swig-lispify "isl_dim_type" 'enumname))
+  (c4 #.(swig-lispify "isl_dim_type" 'enumname)))
 
 (cffi:defcfun ("isl_basic_set_from_multi_aff" #.(swig-lispify "isl_basic_set_from_multi_aff" 'function)) :pointer
   (ma :pointer))
@@ -10489,7 +10489,7 @@
   (umap1 :pointer)
   (umap2 :pointer))
 
-(cffi:defcfun ("isl_union_map_get_hash" #.(swig-lispify "isl_union_map_get_hash" 'function)) :pointer
+(cffi:defcfun ("isl_union_map_get_hash" #.(swig-lispify "isl_union_map_get_hash" 'function)) :unsigned-int
   (umap :pointer))
 
 (cffi:defcfun ("isl_union_map_n_map" #.(swig-lispify "isl_union_map_n_map" 'function)) :int
@@ -10859,7 +10859,7 @@
   (uset1 :pointer)
   (uset2 :pointer))
 
-(cffi:defcfun ("isl_union_set_get_hash" #.(swig-lispify "isl_union_set_get_hash" 'function)) :pointer
+(cffi:defcfun ("isl_union_set_get_hash" #.(swig-lispify "isl_union_set_get_hash" 'function)) :unsigned-int
   (uset :pointer))
 
 (cffi:defcfun ("isl_union_set_n_set" #.(swig-lispify "isl_union_set_n_set" 'function)) :int
@@ -11321,7 +11321,7 @@
 (cffi:defcfun ("isl_val_get_ctx" #.(swig-lispify "isl_val_get_ctx" 'function)) :pointer
   (val :pointer))
 
-(cffi:defcfun ("isl_val_get_hash" #.(swig-lispify "isl_val_get_hash" 'function)) :pointer
+(cffi:defcfun ("isl_val_get_hash" #.(swig-lispify "isl_val_get_hash" 'function)) :unsigned-int
   (val :pointer))
 
 (cffi:defcfun ("isl_val_get_num_si" #.(swig-lispify "isl_val_get_num_si" 'function)) :long
