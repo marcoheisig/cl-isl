@@ -278,8 +278,10 @@
                                (push `(,handle ,(optimize-isl-function-call form :recursive t)) bindings)
                                (push `(,(isl-object-%free type) ,handle) cleanup)
                                handle))
+                            ((isl-object-name-p type)
+                             `(isl-object-handle (the ,type ,form)))
                             (t
-                             `(isl-object-handle (the ,type ,form)))))))))
+                             `(the ,type ,form))))))))
              (expansion `(,primitive ,@expanded-arguments)))
         (when cleanup
           (setf expansion `(unwind-protect ,expansion ,@(reverse cleanup))))
