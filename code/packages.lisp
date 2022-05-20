@@ -77,7 +77,6 @@
    #:local-space-from-space
    #:local-space-space
    ;; Constraint
-   #|
    #:equality-constraint
    #:equality-constraint-p
    #:make-equality-constraint
@@ -88,7 +87,6 @@
    #:make-inequality-constraint
    #:inequality-constraint-set-constant
    #:inequality-constraint-set-coefficient
-   |#
    ;; Set
    #:set
    #:setp
