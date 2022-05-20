@@ -63,12 +63,9 @@
                 (:give boolean)
                 (:take union-map)
                 (:take union-map))))
-  (def union-map-is-equal %isl-union-map-is-equal)
-  (def union-map-<= %isl-union-map-is-subset)
-  (def union-map-< %isl-union-map-is-strict-subset)
-  ;;(def union-map->= (lambda (a b) (%isl-union-map-is-submap a b)))
-  ;;(def union-map-> nil)
-  )
+  (def union-map-equalp %isl-union-map-is-equal)
+  (def union-map-subsetp %isl-union-map-is-subset)
+  (def union-map-strict-subset-p %isl-union-map-is-strict-subset))
 
 ;; Domain and range
 

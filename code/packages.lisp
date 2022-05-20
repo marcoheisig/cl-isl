@@ -119,11 +119,9 @@
    #:union-set-lex-le-union-set
    #:union-set-lex-gt-union-set
    #:union-set-lex-ge-union-set
-   #:union-set-is-equal
-   #:union-set-<=
-   #:union-set-<
-   ;;#:union-set->=
-   ;;#:union-set->
+   #:union-set-equalp
+   #:union-set-subsetp
+   #:union-set-strict-subset-p
    ;; Map
    #:map
    #:mapp
@@ -155,11 +153,9 @@
    #:union-map-lex-le-union-map
    #:union-map-lex-gt-union-map
    #:union-map-lex-ge-union-map
-   #:union-map-is-equal
-   #:union-map-<=
-   #:union-map-<
-   ;;#:union-map->=
-   ;;#:union-map-<
+   #:union-map-equalp
+   #:union-map-subsetp
+   #:union-map-strict-subset-p
    #:union-map-domain
    #:union-map-range
    #:union-map-from-domain-and-range
