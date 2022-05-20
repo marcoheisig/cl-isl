@@ -78,7 +78,7 @@
 (define-isl-function constraint-s %isl-constraint-set-constant-val
   (:give constraint)
   (:take constraint)
-  (:keep value))
+  (:take value))
 
 (define-isl-function constraint-set-constant-si %isl-constraint-set-constant-si
   (:give constraint)
@@ -88,7 +88,7 @@
 (define-isl-function constraint-set-coefficient-si %isl-constraint-set-coefficient-si
   (:give constraint)
   (:take constraint)
-  (:keep t te);;dim-type)
+  (:keep t dim-type)
   (:keep integer pos)
   (:keep integer value))
 
