@@ -89,34 +89,37 @@
   (:give union-map)
   (:take union-set))
 
-(DEFINE-ISL-FUNCTION UNION-MAP-INTERSECT-DOMAIN %ISL-UNION-MAP-INTERSECT-DOMAIN
-  (:GIVE UNION-MAP)
-  (:TAKE UNION-MAP)
-  (:TAKE UNION-SET DOMAIN))
-(DEFINE-ISL-FUNCTION UNION-MAP-INTERSECT-RANGE %ISL-UNION-MAP-INTERSECT-RANGE
-  (:GIVE UNION-MAP)
-  (:TAKE UNION-MAP)
-  (:TAKE UNION-SET range))
-(DEFINE-ISL-FUNCTION UNION-MAP-SUBTRACT-DOMAIN %ISL-UNION-MAP-SUBTRACT-DOMAIN
-  (:GIVE UNION-MAP)
-  (:TAKE UNION-MAP)
-  (:TAKE UNION-SET DOMAIN))
-(DEFINE-ISL-FUNCTION UNION-MAP-SUBTRACT-RANGE %ISL-UNION-MAP-SUBTRACT-RANGE
-  (:GIVE UNION-MAP)
-  (:TAKE UNION-MAP)
-  (:TAKE UNION-SET range))
+(define-isl-function union-map-intersect-domain %isl-union-map-intersect-domain
+  (:give union-map)
+  (:take union-map)
+  (:take union-set domain))
+
+(define-isl-function union-map-intersect-range %isl-union-map-intersect-range
+  (:give union-map)
+  (:take union-map)
+  (:take union-set range))
+
+(define-isl-function union-map-subtract-domain %isl-union-map-subtract-domain
+  (:give union-map)
+  (:take union-map)
+  (:take union-set domain))
+
+(define-isl-function union-map-subtract-range %isl-union-map-subtract-range
+  (:give union-map)
+  (:take union-map)
+  (:take union-set range))
 
 (define-isl-function union-set-apply %isl-union-set-apply
   (:give union-set)
   (:take union-map)
   (:take union-set))
 
-(DEFINE-ISL-FUNCTION UNION-MAP-APPLY-RANGE %ISL-UNION-MAP-APPLY-RANGE
-  (:GIVE UNION-MAP)
-  (:TAKE UNION-MAP)
-  (:TAKE UNION-MAP range))
+(define-isl-function union-map-apply-range %isl-union-map-apply-range
+  (:give union-map)
+  (:take union-map)
+  (:take union-map range))
 
-(DEFINE-ISL-FUNCTION UNION-MAP-APPLY-DOMAIN %ISL-UNION-MAP-APPLY-DOMAIN
-  (:GIVE UNION-MAP)
-  (:TAKE UNION-MAP)
-  (:TAKE UNION-MAP domain))
+(define-isl-function union-map-apply-domain %isl-union-map-apply-domain
+  (:give union-map)
+  (:take union-map)
+  (:take union-map domain))

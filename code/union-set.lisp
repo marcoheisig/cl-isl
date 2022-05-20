@@ -48,25 +48,14 @@
   (def union-set-lex-gt-union-set %isl-union-set-lex-gt-union-set)
   (def union-set-lex-ge-union-set %isl-union-set-lex-ge-union-set))
 
+;; everywhere here -p
 
-
-;; union is +
-;; intersect is *
-
-;; works for map too, * too
-;; generic thing? or union-map-* and union-set-*
-
-;; (set, set) -> bool
-;; Todo check what is returned (the isl boolean or the lisp boolean)
-
+;; union-set-subsetp not subset-p
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
                 (:give boolean)
                 (:take union-set)
                 (:take union-set))))
-  (def union-set-is-equal %isl-union-set-is-equal)
-  (def union-set-<= %isl-union-set-is-subset)
-  (def union-set-< %isl-union-set-is-strict-subset)
-  ;;(def union-set->= (lambda (a b) (%isl-union-set-is-subset a b)))
-  ;;(def union-set-> nil)
-  )
+  (def union-set-equalp %isl-union-set-is-equal)
+  (def union-set-subsetp %isl-union-set-is-subset)
+  (def union-set-strict-subset-p %isl-union-set-is-strict-subset))

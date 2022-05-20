@@ -75,6 +75,11 @@
   (:give constraint)
   (:take local-space))
 
+(define-isl-function constraint-s %isl-constraint-set-constant-val
+  (:give constraint)
+  (:take constraint)
+  (:keep value))
+
 (define-isl-function constraint-set-constant-si %isl-constraint-set-constant-si
   (:give constraint)
   (:take constraint)
