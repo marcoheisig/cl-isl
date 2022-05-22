@@ -3,3 +3,63 @@
 This library provides a convenient interface to the integer set library.
 It allows reasoning sets and relations of integers bounded by affine
 constraints.
+
+
++ What is ported from cl-isl
+
+We mostly ported value, union-set, union-map, constraints, and everything related to the ast generation
+
+We made some changes compared to cl-isl, to try to simplify usage.
+For instance `context` is a special variable and not required to be supplied as an argument.
+For instance `union-set-from-str` takes only a string, not a context and a string.
+You also don't have to collect memory. When your lisp object is collected, it calls the C free function associated.
+
+Moreover, every value is copied by default. So you don't have to copy arguments when you use functions.
+For instance `union-set-intersect` does not destroy arguments when used.
+So `(let ((a (union-set-from-str " { [1] } "))) (union-set-intersect a a))` is perfectly valid!
+
+You can find everything we ported in the `code/packages.lisp` file
+
+
++ Example of use
+
+Simple intersection/unions of sets
+
+```(let ((a (isl:union-set-from-str " { [1] } "))
+(b (isl:union-set-from-str " { [i] } ")))
+(isl:union-set-intersect a b) ; #<CL-ISL:UNION-SET { [1] }>
+(isl:union-set-union a b)) ; #<CL-ISL:UNION-SET { [i] }>```
+
+```(let ((a (isl:union-set-from-str " { [1] } "))
+(b (isl:union-set-from-str " { [i]: i >= 10 } ")))
+(isl:union-set-intersect a b) ; #<CL-ISL:UNION-SET {  }>
+(isl:union-set-union a b)) ; #<CL-ISL:UNION-SET { [i0] : i0 >= 10; [1] }>```
+
+```(let ((a (isl:union-set-from-str " { [i]: i >= -5 } "))
+(b (isl:union-set-from-str " { [i]: i <= 5 } ")))
+(isl:union-set-intersect a b); #<CL-ISL:UNION-SET { [i] : -5 <= i <= 5 }>
+(isl:union-set-union a b)) ; #<CL-ISL:UNION-SET { [i] : i >= -5 or i <= 5 }>```
+
+
+Simple use of maps
+
+```(let ((a (isl:union-map-from-str " { [i] -> [i + 1] } ")))
+(isl:union-map-apply-range a a)) ; #<CL-ISL:UNION-MAP { [i] -> [2 + i] }>```
+
+```(let ((a (isl:union-map-from-str "{ A [2 ,8 ,1] -> B [5]; A [2 ,8 ,1] -> B [6]; B [5] -> B [5] } "))
+(b (isl:union-set-from-str " { A [2 ,8 ,1]; B [5] } ")))
+(isl:union-set-apply b a)) ; #<CL-ISL:UNION-SET { B[6]; B[5] }>```
+
+```(let ((a (isl:union-map-from-str " { [i] -> [i+1] } "))
+(b (isl:union-set-from-str " { [i]: i <= 9 } ")))
+(isl:union-set-apply b a)) ; #<CL-ISL:UNION-SET { [i0] : i0 <= 10 }>```
+
+;; Todo verify union map functions
+
+You can find how we used this library in the library Loopus in the files `todo`.
+
+
++ Ressources to learn how to use isl
+
+`todo`
+

@@ -108,15 +108,15 @@
 
 (define-isl-function union-set-apply %isl-union-set-apply
   (:give union-set)
-  (:take union-map)
-  (:take union-set))
+  (:take union-set)
+  (:take union-map))
 
 (define-isl-function union-map-apply-range %isl-union-map-apply-range
   (:give union-map)
   (:take union-map)
-  (:take union-map range))
+  (:take union-map))
 
 (define-isl-function union-map-apply-domain %isl-union-map-apply-domain
   (:give union-map)
   (:take union-map)
-  (:take union-map domain))
+  (:take union-map))
