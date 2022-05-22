@@ -8,24 +8,20 @@
   (print-unreadable-object (value stream :type t)
     (write-string (%isl-space-to-str (space-handle value)) stream)))
 
-(define-isl-function space-unit %isl-space-unit
+(define-isl-function create-space-params %isl-space-params-alloc
   (:give space)
-  (:keep context))
+  (:parm context *context*)
+  (:keep integer nparam))
 
-(define-isl-function space-alloc %isl-space-alloc
+(define-isl-function create-space-set %isl-space-set-alloc
+  (:give space)
+  (:parm context *context*)
+  (:keep integer nparam)
+  (:keep integer dim))
+
+(define-isl-function create-space-map %isl-space-alloc
   (:give space)
   (:parm context *context*)
   (:keep integer nparam)
   (:keep integer n_in)
   (:keep integer n_out))
-
-(define-isl-function space-params-alloc %isl-space-params-alloc
-  (:give space)
-  (:parm context *context*)
-  (:keep integer nparam))
-
-(define-isl-function space-set-alloc %isl-space-set-alloc
-  (:give space)
-  (:parm context *context*)
-  (:keep integer nparam)
-  (:keep integer dim))

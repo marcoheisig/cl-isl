@@ -67,10 +67,9 @@
    ;; Space
    #:space
    #:spacep
-   #:space-unit
-   #:space-alloc
-   #:space-params-alloc
-   #:space-set-alloc
+   #:create-space-params
+   #:create-space-set
+   #:create-space-map
    ;; Local Space
    #:local-space
    #:local-space-p
