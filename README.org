@@ -95,8 +95,8 @@ The analysis of if array is modified or not can be quite complex, for instance o
   (print (aref array 0)))
 #+END_SRC
 
-To do so, we detect where the pure statement may read in memory. Here the set of value it can read is { array[0] }.
-We then extract where the loop may write in memory. Here it's { array[i]: 1 <= i < 5 }.
+To do so, we detect where the pure statement may read in memory. Here the set of value it can read is ~{ array[0] }~.
+We then extract where the loop may write in memory. Here it's ~{ array[i]: 1 <= i < 5 }~.
 
 If the intersection is empty, it's ok, otherwise it's not! Thankfully cl-isl has the function ~union-set-intersect~ which takes two sets and return the intersection. We just have to check if the result is empty with ~union-set-emptyp~ (todo add this function).
 
@@ -110,7 +110,7 @@ This approach also works to move a pure statement to the most outer loop possibl
     (print (aref array 1)))))
 #+END_SRC
 
-The value that is read is array[1], the inner loop only writes to array[k] with ~k >= 2~, so it's fine to factorize this statement a loop above. But the very outloop can write to array[1], so we only factorize one level.
+The value that is read is ~array[1]~, the inner loop only writes to ~array[k]~ with ~k >= 2~, so it's fine to factorize this statement a loop above. But the very outloop can write to ~array[1]~, so we only factorize one level.
 
 So to compute that with cl-isl, you can do:
 
@@ -173,7 +173,7 @@ ISL> (union-set-intersect (union-set-from-str " { array[1] }") all-written-outer
 #+END_SRC
 
 
-In practice in Loopus we do not do this computation yet, but you can find how we used this library in the library Loopus in the files ~todo~.
+In practice in Loopus we do not do this computation yet, there is probably something less naive to do. But you can find how we used this library in the library Loopus in the files ~todo~.
 
 * Resources to learn how to use isl
 
