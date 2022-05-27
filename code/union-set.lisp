@@ -48,9 +48,6 @@
   (def union-set-lex-gt-union-set %isl-union-set-lex-gt-union-set)
   (def union-set-lex-ge-union-set %isl-union-set-lex-ge-union-set))
 
-;; everywhere here -p
-
-;; union-set-subsetp not subset-p
 (macrolet ((def (name impl)
              `(define-isl-function ,name ,impl
                 (:give boolean)
@@ -59,3 +56,8 @@
   (def union-set-equalp %isl-union-set-is-equal)
   (def union-set-subsetp %isl-union-set-is-subset)
   (def union-set-strict-subset-p %isl-union-set-is-strict-subset))
+
+(define-isl-function union-set-intersect-params %isl-union-set-intersect-params
+  (:give union-set)
+  (:take union-set)
+  (:take set params))
