@@ -11,20 +11,20 @@ constraints.
 We mostly ported value, union-set, union-map, constraints, and everything related to the ast generation
 
 We made some changes compared to cl-isl, to try to simplify usage.
-For instance `context` is a special variable and not required to be supplied as an argument.
-For instance `union-set-from-str` takes only a string, not a context and a string.
+For instance ~context~ is a special variable and not required to be supplied as an argument.
+For instance ~union-set-from-str~ takes only a string, not a context and a string.
 You also don't have to collect memory. When your lisp object is collected, it calls the C free function associated.
 
 Moreover, every value is copied by default. So you don't have to copy arguments when you use functions.
 For instance ~union-set-intersect~ does not destroy arguments when used.
-So `(let ((a (union-set-from-str " { [1] } "))) (union-set-intersect a a))` is perfectly valid!
+So ~(let ((a (union-set-from-str " { [1] } "))) (union-set-intersect a a))~ is perfectly valid!
 
-You can find everything we ported in the `code/packages.lisp` file
+You can find everything we ported in the ~code/packages.lisp~ file
 
 ** How to add more objects to cl-isl
 
 We made a file for each object. You should probably do the same.
-The simplest example is the file basic-map.lisp (todo link). It first define the object with `define-isl-object`, then how to print it, and then some function. A file which defines a lot of functions for its object is `union-map.lisp`
+The simplest example is the file basic-map.lisp (todo link). It first define the object with ~define-isl-object~, then how to print it, and then some function. A file which defines a lot of functions for its object is ~union-map.lisp~
 
 Sometimes you want to do more than just transposing functions. Then you want to look at value.lisp.
 
@@ -85,7 +85,7 @@ For example, these two loops are equivalent
     (print element)))
 #+END_SRC
 		
-This is because `(aref array 0)` is pure (this is done by ir-specialize.lisp (todo link)), and because array is not modified in the loop!
+This is because ~(aref array 0)~ is pure (this is done by ir-specialize.lisp (todo link)), and because array is not modified in the loop!
 
 The analysis of if array is modified or not can be quite complex, for instance on the following loop we should still be able to factorize this expression.
 
@@ -98,7 +98,7 @@ The analysis of if array is modified or not can be quite complex, for instance o
 To do so, we detect where the pure statement may read in memory. Here the set of value it can read is { array[0] }".
 We then extract where the loop may write in memory. Here it's { array[i]: 1 <= i < 5 }.
 
-If the intersection is empty, it's ok, otherwise it's not! Thankfully cl-isl has the function ` union-set-intersect` which takes two sets and return the intersection. We just have to check if the result is empty with `union-set-emptyp` (todo add this function).
+If the intersection is empty, it's ok, otherwise it's not! Thankfully cl-isl has the function ~ union-set-intersect~ which takes two sets and return the intersection. We just have to check if the result is empty with ~union-set-emptyp~ (todo add this function).
 
 This approach also works to move a pure statement to the most outer loop possible. For instance consider this code
 
@@ -146,7 +146,7 @@ ISL> (union-map-intersect-domain inter (union-set-from-str "{ [i, j] : 0 <= i < 
 #+END_SRC
 
 
-In practice in Loopus we do not do this computation yet, but you can find how we used this library in the library Loopus in the files `todo`.
+In practice in Loopus we do not do this computation yet, but you can find how we used this library in the library Loopus in the files ~todo~.
 
 * Resources to learn how to use isl
 
