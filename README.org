@@ -114,9 +114,9 @@ The value that is read is ~array[1]~, the inner loop only writes to ~array[k]~ w
 
 So to compute that with cl-isl, you can do:
 
-+ The domain of iteration of iteration the outer loop is ~{ [i, j] : 1 <= i < 10 and 1 <= j < 10 }~
-+ The domain of iteration of iteration the inner loop is ~[i] -> { [i, j] : 1 <= j < 10 }~
-+ What is read in the instruction in the inner loop is ~{ [i, j] -> array[1] }~
++ The domain of iteration of iteration the outerloop is ~{ [i, j] : 1 <= i < 10 and 1 <= j < 10 }~
++ The domain of iteration of iteration the innerloop is ~[i] -> { [i, j] : 1 <= j < 10 }~
++ What is read in the instruction in the innerloop is ~{ [i, j] -> array[1] }~
 + What is written in the instruction in the inner loop is ~{ [i, j] -> array[i+j] }~
 + The total of the thing written in the innerloop is ~[i] -> { array[i0] : i < i0 <= 9 + i }~
 + Let's compute the intersection for the innerloop, it's ~[i] -> { array[1] : -8 <= i <= 0 }~
