@@ -16,7 +16,7 @@ For instance `union-set-from-str` takes only a string, not a context and a strin
 You also don't have to collect memory. When your lisp object is collected, it calls the C free function associated.
 
 Moreover, every value is copied by default. So you don't have to copy arguments when you use functions.
-For instance `union-set-intersect` does not destroy arguments when used.
+For instance ~union-set-intersect~ does not destroy arguments when used.
 So `(let ((a (union-set-from-str " { [1] } "))) (union-set-intersect a a))` is perfectly valid!
 
 You can find everything we ported in the `code/packages.lisp` file
@@ -33,7 +33,7 @@ Be careful, sometimes functions exist on the isl library, but aren't listed on t
 
 * Example of use
 
-** Simple intersection/unions of sets
+** Simple intersection/union of sets
 
 #+BEGIN_SRC lisp
 (let ((a (isl:union-set-from-str " { [1] } "))
@@ -86,6 +86,7 @@ For example, these two loops are equivalent
 #+END_SRC
 		
 This is because `(aref array 0)` is pure (this is done by ir-specialize.lisp (todo link)), and because array is not modified in the loop!
+
 The analysis of if array is modified or not can be quite complex, for instance on the following loop we should still be able to factorize this expression.
 
 #+BEGIN_SRC lisp
@@ -96,6 +97,7 @@ The analysis of if array is modified or not can be quite complex, for instance o
 
 To do so, we detect where the pure statement may read in memory. Here the set of value it can read is { array[0] }".
 We then extract where the loop may write in memory. Here it's { array[i]: 1 <= i < 5 }.
+
 If the intersection is empty, it's ok, otherwise it's not! Thankfully cl-isl has the function ` union-set-intersect` which takes two sets and return the intersection. We just have to check if the result is empty with `union-set-emptyp` (todo add this function).
 
 This approach also works to move a pure statement to the most outer loop possible. For instance consider this code
@@ -108,14 +110,15 @@ This approach also works to move a pure statement to the most outer loop possibl
 #+END_SRC
 
 The value that is read is { array[i + j] }, the inner loop writes to { array[j] }, so the statement can be factorized because i is always above 1, but only to one loop above not both. And only if the outer loop starts from 1! Quite a complex computation.
+
 So to compute that with cl-isl, you can do:
 
-The domain of iteration of iteration is { [i, j] : 1 <= i < 10 and 1 <= j < 10 }
-What is read is { [i, j] -> array[i + j] }
-What is written is { [i, j] -> array[j] }
-Let's compute the intersection ! It's { [i = 0, j] -> array[j] }
-And then when we add the domain: {  } :) it's empty
-To double check, let's try with the domain corresponding of the iteration of (i 0 10) and (j 0 10). The new domain is { [i, j] : 0 <= i < 10 and 0 <= j < 10 } and the intersection is  { [i = 0, j] -> array[j] : 0 <= j <= 9 } which is non empty!
++ The domain of iteration of iteration is { [i, j] : 1 <= i < 10 and 1 <= j < 10 }
++ What is read is { [i, j] -> array[i + j] }
++ What is written is { [i, j] -> array[j] }
++ Let's compute the intersection ! It's { [i = 0, j] -> array[j] }
++ And then when we add the domain: {  } :) it's empty
++ To double check, let's try with the domain corresponding of the iteration of (i 0 10) and (j 0 10). The new domain is { [i, j] : 0 <= i < 10 and 0 <= j < 10 } and the intersection is  { [i = 0, j] -> array[j] : 0 <= j <= 9 } which is non empty!
 
 The full repl session:
 
@@ -147,7 +150,7 @@ In practice in Loopus we do not do this computation yet, but you can find how we
 
 * Resources to learn how to use isl
 
-Documentation of isl the C library https://libisl.sourceforge.io/manual.pdf
-Tutorial of isl https://libisl.sourceforge.io/tutorial.pdf
-A wrapper around isl with which you can play on your browser https://compsys-tools.ens-lyon.fr/iscc
++ Documentation of isl the C library https://libisl.sourceforge.io/manual.pdf
++ Tutorial of isl https://libisl.sourceforge.io/tutorial.pdf
++ A wrapper around isl with which you can play on your browser https://compsys-tools.ens-lyon.fr/iscc
 
