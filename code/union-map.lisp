@@ -91,6 +91,11 @@
   (:take union-map)
   (:take union-set domain))
 
+(define-isl-function union-map-intersect-params %isl-union-map-intersect-params
+  (:give union-map)
+  (:take union-map)
+  (:take union-set params))
+
 (define-isl-function union-map-intersect-range %isl-union-map-intersect-range
   (:give union-map)
   (:take union-map)

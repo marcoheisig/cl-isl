@@ -95,54 +95,81 @@ The analysis of if array is modified or not can be quite complex, for instance o
   (print (aref array 0)))
 #+END_SRC
 
-To do so, we detect where the pure statement may read in memory. Here the set of value it can read is { array[0] }".
+To do so, we detect where the pure statement may read in memory. Here the set of value it can read is { array[0] }.
 We then extract where the loop may write in memory. Here it's { array[i]: 1 <= i < 5 }.
 
-If the intersection is empty, it's ok, otherwise it's not! Thankfully cl-isl has the function ~ union-set-intersect~ which takes two sets and return the intersection. We just have to check if the result is empty with ~union-set-emptyp~ (todo add this function).
+If the intersection is empty, it's ok, otherwise it's not! Thankfully cl-isl has the function ~union-set-intersect~ which takes two sets and return the intersection. We just have to check if the result is empty with ~union-set-emptyp~ (todo add this function).
 
 This approach also works to move a pure statement to the most outer loop possible. For instance consider this code
 
 #+BEGIN_SRC lisp
 (loopus:for (i 1 10)
+  (setf (aref array i) (random 10))
   (loopus:for (j 1 10)
-    (setf (aref array j (random 10)))
-    (print (aref array (+ i j)))))
+    (setf (aref array (+ i j) (random 10)))
+    (print (aref array 1)))))
 #+END_SRC
 
-The value that is read is { array[i + j] }, the inner loop writes to { array[j] }, so the statement can be factorized because i is always above 1, but only to one loop above not both. And only if the outer loop starts from 1! Quite a complex computation.
+The value that is read is array[1], the inner loop only writes to array[k] with ~k >= 2~, so it's fine to factorize this statement a loop above. But the very outloop can write to array[1], so we only factorize one level.
 
 So to compute that with cl-isl, you can do:
 
-+ The domain of iteration of iteration is { [i, j] : 1 <= i < 10 and 1 <= j < 10 }
-+ What is read is { [i, j] -> array[i + j] }
-+ What is written is { [i, j] -> array[j] }
-+ Let's compute the intersection ! It's { [i = 0, j] -> array[j] }
-+ And then when we add the domain: {  } :) it's empty
-+ To double check, let's try with the domain corresponding of the iteration of (i 0 10) and (j 0 10). The new domain is { [i, j] : 0 <= i < 10 and 0 <= j < 10 } and the intersection is  { [i = 0, j] -> array[j] : 0 <= j <= 9 } which is non empty!
++ The domain of iteration of iteration the outer loop is { [i, j] : 1 <= i < 10 and 1 <= j < 10 }
++ The domain of iteration of iteration the inner loop is [i] -> { [i, j] : 1 <= j < 10 }
++ What is read in the instruction in the inner loop is { [i, j] -> array[1] }
++ What is written in the instruction in the inner loop is { [i, j] -> array[i+j] }
++ The total of the thing written in the innerloop is [i] -> { array[i0] : i < i0 <= 9 + i }
++ Let's compute the intersection for the innerloop, it's [i] -> { array[1] : -8 <= i <= 0 }
++ Because the result depends on i, let's add the information that i is between 1 and 10. The result is the empty set! So we can move this statement outside the innerloop.
++ Just to double check, if the outerloop is from 0 to 10, the result would be [i] -> { array[1] : i = 0 }
++ Also, the total of the thing written in the outerloop is { array[i0] : 0 < i0 <= 18 and (i0 >= 2 or i0 <= 9) }
++ So the intersection with { array[1] } is non empty! So we can't move outside the outerloop
 
 The full repl session:
 
 #+BEGIN_SRC lisp
-ISL> (setf vread (union-map-from-str "{ [i, j] -> array[i+j] }"))
-#<UNION-MAP { [i, j] -> array[i + j] }>
+CL-USER> (in-package :cl-isl)
+#<PACKAGE "CL-ISL">
 
-ISL> (setf vwrite (union-map-from-str "{ [i, j] -> array[j] }"))
-#<UNION-MAP { [i, j] -> array[j] }>
-
-ISL> (setf domain (union-set-from-str " { [i, j] : 1 <= i < 10 and 1 <= j < 10 } "))
+;; The domain of iteration of iteration the outer loop is { [i, j] : 1 <= i < 10 and 1 <= j < 10 }
+ISL> (setf domain-outer (union-set-from-str " { [i, j] : 1 <= i < 10 and 1 <= j < 10 } "))
 #<UNION-SET { [i, j] : 0 < i <= 9 and 0 < j <= 9 }>
 
-ISL> (union-map-intersect vread vwrite)
-#<UNION-MAP { [i = 0, j] -> array[j] }>
+;; The domain of iteration of iteration the inner loop is [i] -> { [i, j] : 1 <= j < 10 }
+ISL> (setf domain-inner (union-set-from-str " [i] -> { [i, j] : 1 <= j < 10 } "))
+#<UNION-SET [i] -> { [i, j] : 0 < j <= 9 }>
 
-ISL> (setf inter (union-map-intersect vread vwrite))
-#<UNION-MAP { [i = 0, j] -> array[j] }>
+;; What is read in the instruction in the inner loop is { [i, j] -> array[1] }
+ISL> (setf vread (union-map-from-str " { [i, j] -> array[1] } "))
+#<UNION-MAP { [i, j] -> array[1] }>
 
-ISL> (union-map-intersect-domain inter domain)
-#<UNION-MAP {  }>
+;; What is written in the instruction in the inner loop is { [i, j] -> array[i+j] }
+ISL> (setf vwrite (union-map-from-str " { [i, j] -> array[i+j] } "))
+#<UNION-MAP { [i, j] -> array[i + j] }>
 
-ISL> (union-map-intersect-domain inter (union-set-from-str "{ [i, j] : 0 <= i < 10 and 0 <= j < 10 }" ))
-#<UNION-MAP { [i = 0, j] -> array[j] : 0 <= j <= 9 }>
+;; The total of the thing written in the innerloop is [i] -> { array[i0] : i < i0 <= 9 + i }
+ISL> (union-set-apply domain-inner vwrite)
+#<UNION-SET [i] -> { array[i0] : i < i0 <= 9 + i }>
+
+;; Let's compute the intersection for the innerloop, it's [i] -> { array[1] : -8 <= i <= 0 }
+ISL> (union-set-intersect (union-set-apply domain-inner vread) (union-set-apply domain-inner vwrite))
+#<UNION-SET [i] -> { array[1] : -8 <= i <= 0 }>
+
+;; Because the result depends on i, let's add the information that i is between 1 and 10. The result is the empty set! So we can move this statement outside the innerloop.
+ISL> (union-set-intersect-params (union-set-intersect (union-set-apply domain-inner vread) (union-set-apply domain-inner vwrite)) (set-from-str "[i] -> {: 1 <= i < 10}"))
+#<UNION-SET [i] -> {  }>
+
+;; Just to double check, if the outerloop is from 0 to 10, the result would be [i] -> { array[1] : i = 0 }
+ISL> (union-set-intersect-params (union-set-intersect (union-set-apply domain-inner vread) (union-set-apply domain-inner vwrite)) (set-from-str "[i] -> {: 0 <= i < 10}"))
+#<UNION-SET [i] -> { array[1] : i = 0 }>
+
+;; Also, the total of the thing written in the outerloop is { array[i0] : 0 < i0 <= 18 and (i0 >= 2 or i0 <= 9) }
+ISL> (union-set-union (union-set-apply domain-outer vwrite) (union-set-from-str " {array[i]: 1 <= i < 10}"))
+#<UNION-SET { array[i0] : 0 < i0 <= 18 and (i0 >= 2 or i0 <= 9) }>
+
+;; So the intersection with { array[1] } is non empty! So we can't move outside the outerloop
+ISL> (union-set-intersect (union-set-from-str " { array[1] }") (union-set-union (union-set-apply domain-outer vwrite) (union-set-from-str " {array[i]: 1 <= i < 10}")))
+#<UNION-SET { array[1] }>
 #+END_SRC
 
 
