@@ -119,6 +119,7 @@
    #:union-set-equalp
    #:union-set-subsetp
    #:union-set-strict-subset-p
+   #:union-set-intersect-params
    ;; Map
    #:map
    #:mapp
@@ -157,6 +158,7 @@
    #:union-map-range
    #:union-map-from-domain-and-range
    #:union-set-identity
+   #:union-map-intersect-params
    #:union-map-intersect-domain
    #:union-map-intersect-range
    #:union-map-subtract-domain
