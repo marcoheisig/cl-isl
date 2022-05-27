@@ -37,8 +37,25 @@
          (schedule (schedule-constraints-on-domain domain))
          (schedule (schedule-constraints-set-validity schedule total))
          (schedule (schedule-constraints-set-coincidence schedule RaW))
-         (ok (union-map-from-str " { [i0, i1, i2] -> [i0', i1, i2] : i0' > i0; [2, i1, i2] -> [0, i1, i2+1]} "))
-         (schedule (schedule-constraints-set-proximity schedule ok))
+
+         ;; Proximity
+         ;; Read: domain -> read access
+         ;; Read^1 : read access -> domain
+         ;; What we want: map (Read^1 (memory location)) to (Read^1 (next memory location))
+         (read-1 (union-map-reverse (union-map-union read-access write-access)))
+         (memory-proximity (union-map-from-str
+                            " { [i0, i1, i2, i3, i4] -> [i0, i1+1, i2, i3, i4] } "))
+         ;;(memory-1 (union-map-domain memory-proximity))
+         ;;(memory-2 (union-map-range memory-proximity))
+         #+or(proximity-map (union-map-from-domain-and-range
+                             (union-set-apply memory-1 memory-proximity)
+                             (union-set-apply memory-2 memory-proximity)))
+         (_ (break "~a ~% ~a" read-1 memory-proximity))
+         (memory-proximity (union-map-apply-range memory-proximity read-1))
+         (_ (break "~a ~% ~a" read-1 memory-proximity))
+         (memory-proximity (union-map-apply-domain memory-proximity read-1))
+         (_ (break "~a ~% ~a" read-1 memory-proximity))
+         (schedule (schedule-constraints-set-proximity schedule memory-proximity))
          (schedule (schedule-constraints-compute-schedule schedule))
 
          (ast-build (create-ast-build))

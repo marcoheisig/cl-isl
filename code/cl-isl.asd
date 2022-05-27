@@ -6,7 +6,7 @@
   :defsystem-depends-on ("cffi-grovel")
   :depends-on ("alexandria" "cffi" "trivial-garbage")
   :in-order-to ((test-op (test-op "cl-isl-test-suite")))
-  :serial t
+  :serial t   
   :components
   ((:file "packages")
    (:file "swig-lispify")

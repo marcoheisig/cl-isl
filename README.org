@@ -4,8 +4,9 @@ This library provides a convenient interface to the integer set library.
 It allows reasoning sets and relations of integers bounded by affine
 constraints.
 
+* Technical details
 
-+ What is ported from cl-isl
+** What is ported from cl-isl
 
 We mostly ported value, union-set, union-map, constraints, and everything related to the ast generation
 
@@ -20,46 +21,133 @@ So `(let ((a (union-set-from-str " { [1] } "))) (union-set-intersect a a))` is p
 
 You can find everything we ported in the `code/packages.lisp` file
 
+** How to add more objects to cl-isl
 
-+ Example of use
+We made a file for each object. You should probably do the same.
+The simplest example is the file basic-map.lisp (todo link). It first define the object with `define-isl-object`, then how to print it, and then some function. A file which defines a lot of functions for its object is `union-map.lisp`
 
-Simple intersection/unions of sets
+Sometimes you want to do more than just transposing functions. Then you want to look at value.lisp.
 
-```(let ((a (isl:union-set-from-str " { [1] } "))
-(b (isl:union-set-from-str " { [i] } ")))
-(isl:union-set-intersect a b) ; #<CL-ISL:UNION-SET { [1] }>
-(isl:union-set-union a b)) ; #<CL-ISL:UNION-SET { [i] }>```
-
-```(let ((a (isl:union-set-from-str " { [1] } "))
-(b (isl:union-set-from-str " { [i]: i >= 10 } ")))
-(isl:union-set-intersect a b) ; #<CL-ISL:UNION-SET {  }>
-(isl:union-set-union a b)) ; #<CL-ISL:UNION-SET { [i0] : i0 >= 10; [1] }>```
-
-```(let ((a (isl:union-set-from-str " { [i]: i >= -5 } "))
-(b (isl:union-set-from-str " { [i]: i <= 5 } ")))
-(isl:union-set-intersect a b); #<CL-ISL:UNION-SET { [i] : -5 <= i <= 5 }>
-(isl:union-set-union a b)) ; #<CL-ISL:UNION-SET { [i] : i >= -5 or i <= 5 }>```
+Be careful, sometimes functions exist on the isl library, but aren't listed on the pdf documentation. And sometimes the swig import is buggy.
 
 
-Simple use of maps
+* Example of use
 
-```(let ((a (isl:union-map-from-str " { [i] -> [i + 1] } ")))
-(isl:union-map-apply-range a a)) ; #<CL-ISL:UNION-MAP { [i] -> [2 + i] }>```
+** Simple intersection/unions of sets
 
-```(let ((a (isl:union-map-from-str "{ A [2 ,8 ,1] -> B [5]; A [2 ,8 ,1] -> B [6]; B [5] -> B [5] } "))
-(b (isl:union-set-from-str " { A [2 ,8 ,1]; B [5] } ")))
-(isl:union-set-apply b a)) ; #<CL-ISL:UNION-SET { B[6]; B[5] }>```
+#+BEGIN_SRC lisp
+(let ((a (isl:union-set-from-str " { [1] } "))
+      (b (isl:union-set-from-str " { [i] } ")))
+  (isl:union-set-intersect a b) ; #<CL-ISL:UNION-SET { [1] }>
+  (isl:union-set-union a b)) ; #<CL-ISL:UNION-SET { [i] }>
 
-```(let ((a (isl:union-map-from-str " { [i] -> [i+1] } "))
-(b (isl:union-set-from-str " { [i]: i <= 9 } ")))
-(isl:union-set-apply b a)) ; #<CL-ISL:UNION-SET { [i0] : i0 <= 10 }>```
+(let ((a (isl:union-set-from-str " { [1] } "))
+      (b (isl:union-set-from-str " { [i]: i >= 10 } ")))
+  (isl:union-set-intersect a b) ; #<CL-ISL:UNION-SET {  }>
+  (isl:union-set-union a b)) ; #<CL-ISL:UNION-SET { [i0] : i0 >= 10; [1] }>
 
-;; Todo verify union map functions
+(let ((a (isl:union-set-from-str " { [i]: i >= -5 } "))
+      (b (isl:union-set-from-str " { [i]: i <= 5 } ")))
+  (isl:union-set-intersect a b); #<CL-ISL:UNION-SET { [i] : -5 <= i <= 5 }>
+  (isl:union-set-union a b)) ; #<CL-ISL:UNION-SET { [i] : i >= -5 or i <= 5 }>
+#+END_SRC
 
-You can find how we used this library in the library Loopus in the files `todo`.
+
+** Simple use of maps
+
+#+BEGIN_SRC lisp
+(let ((a (isl:union-map-from-str " { [i] -> [i + 1] } ")))
+  (isl:union-map-apply-range a a)) ; #<CL-ISL:UNION-MAP { [i] -> [2 + i] }>
+
+(let ((a (isl:union-map-from-str "{ A [2 ,8 ,1] -> B [5]; A [2 ,8 ,1] -> B [6]; B [5] -> B [5] } "))
+      (b (isl:union-set-from-str " { A [2 ,8 ,1]; B [5] } ")))
+  (isl:union-set-apply b a)) ; #<CL-ISL:UNION-SET { B[6]; B[5] }>
+
+(let ((a (isl:union-map-from-str " { [i] -> [i+1] } "))
+      (b (isl:union-set-from-str " { [i]: i <= 9 } ")))
+  (isl:union-set-apply b a)) ; #<CL-ISL:UNION-SET { [i0] : i0 <= 10 }>
+#+END_SRC
 
 
-+ Ressources to learn how to use isl
+** Detailed example of use
 
-`todo`
+We created this library to use it in Loopus (todo link), a loop optimization framework for common lisp.
+One feature is the factorization of expression outside of loops (when possible).
+
+For example, these two loops are equivalent
+
+#+BEGIN_SRC lisp
+(loopus:for (i 0 5)
+  (print (aref array 0)))
+
+(let ((element (aref array 0)))
+  (loopus:for (i 0 5)
+    (print element)))
+#+END_SRC
+		
+This is because `(aref array 0)` is pure (this is done by ir-specialize.lisp (todo link)), and because array is not modified in the loop!
+The analysis of if array is modified or not can be quite complex, for instance on the following loop we should still be able to factorize this expression.
+
+#+BEGIN_SRC lisp
+(loopus:for (i 1 5)
+  (setf (aref array i) i)
+  (print (aref array 0)))
+#+END_SRC
+
+To do so, we detect where the pure statement may read in memory. Here the set of value it can read is { array[0] }".
+We then extract where the loop may write in memory. Here it's { array[i]: 1 <= i < 5 }.
+If the intersection is empty, it's ok, otherwise it's not! Thankfully cl-isl has the function ` union-set-intersect` which takes two sets and return the intersection. We just have to check if the result is empty with `union-set-emptyp` (todo add this function).
+
+This approach also works to move a pure statement to the most outer loop possible. For instance consider this code
+
+#+BEGIN_SRC lisp
+(loopus:for (i 1 10)
+  (loopus:for (j 1 10)
+    (setf (aref array j (random 10)))
+    (print (aref array (+ i j)))))
+#+END_SRC
+
+The value that is read is { array[i + j] }, the inner loop writes to { array[j] }, so the statement can be factorized because i is always above 1, but only to one loop above not both. And only if the outer loop starts from 1! Quite a complex computation.
+So to compute that with cl-isl, you can do:
+
+The domain of iteration of iteration is { [i, j] : 1 <= i < 10 and 1 <= j < 10 }
+What is read is { [i, j] -> array[i + j] }
+What is written is { [i, j] -> array[j] }
+Let's compute the intersection ! It's { [i = 0, j] -> array[j] }
+And then when we add the domain: {  } :) it's empty
+To double check, let's try with the domain corresponding of the iteration of (i 0 10) and (j 0 10). The new domain is { [i, j] : 0 <= i < 10 and 0 <= j < 10 } and the intersection is  { [i = 0, j] -> array[j] : 0 <= j <= 9 } which is non empty!
+
+The full repl session:
+
+#+BEGIN_SRC lisp
+ISL> (setf vread (union-map-from-str "{ [i, j] -> array[i+j] }"))
+#<UNION-MAP { [i, j] -> array[i + j] }>
+
+ISL> (setf vwrite (union-map-from-str "{ [i, j] -> array[j] }"))
+#<UNION-MAP { [i, j] -> array[j] }>
+
+ISL> (setf domain (union-set-from-str " { [i, j] : 1 <= i < 10 and 1 <= j < 10 } "))
+#<UNION-SET { [i, j] : 0 < i <= 9 and 0 < j <= 9 }>
+
+ISL> (union-map-intersect vread vwrite)
+#<UNION-MAP { [i = 0, j] -> array[j] }>
+
+ISL> (setf inter (union-map-intersect vread vwrite))
+#<UNION-MAP { [i = 0, j] -> array[j] }>
+
+ISL> (union-map-intersect-domain inter domain)
+#<UNION-MAP {  }>
+
+ISL> (union-map-intersect-domain inter (union-set-from-str "{ [i, j] : 0 <= i < 10 and 0 <= j < 10 }" ))
+#<UNION-MAP { [i = 0, j] -> array[j] : 0 <= j <= 9 }>
+#+END_SRC
+
+
+In practice in Loopus we do not do this computation yet, but you can find how we used this library in the library Loopus in the files `todo`.
+
+* Resources to learn how to use isl
+
+Documentation of isl the C library https://libisl.sourceforge.io/manual.pdf
+Tutorial of isl https://libisl.sourceforge.io/tutorial.pdf
+A wrapper around isl with which you can play on your browser https://compsys-tools.ens-lyon.fr/iscc
 
