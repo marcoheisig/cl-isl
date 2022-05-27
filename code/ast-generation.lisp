@@ -50,11 +50,11 @@
          #+or(proximity-map (union-map-from-domain-and-range
                              (union-set-apply memory-1 memory-proximity)
                              (union-set-apply memory-2 memory-proximity)))
-         (_ (break "~a ~% ~a" read-1 memory-proximity))
+         ;;(_ (break "~a ~% ~a" read-1 memory-proximity))
          (memory-proximity (union-map-apply-range memory-proximity read-1))
-         (_ (break "~a ~% ~a" read-1 memory-proximity))
+         ;;(_ (break "~a ~% ~a" read-1 memory-proximity))
          (memory-proximity (union-map-apply-domain memory-proximity read-1))
-         (_ (break "~a ~% ~a" read-1 memory-proximity))
+         ;;(_ (break "~a ~% ~a" read-1 memory-proximity))
          (schedule (schedule-constraints-set-proximity schedule memory-proximity))
          (schedule (schedule-constraints-compute-schedule schedule))
 
