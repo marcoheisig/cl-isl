@@ -1,6 +1,7 @@
 ;;; Manual changes to this file:
 ;;;
 ;;; - Change the result of isl_id_get_name to :pointer
+;;; - Change the result of isl_ctx_last_error_msg to :pointer
 
 (in-package #:cl-isl)
 
@@ -99,7 +100,7 @@
 (cffi:defcfun ("isl_ctx_last_error" #.(swig-lispify "isl_ctx_last_error" 'function)) #.(swig-lispify "isl_error" 'enumname)
   (ctx :pointer))
 
-(cffi:defcfun ("isl_ctx_last_error_msg" #.(swig-lispify "isl_ctx_last_error_msg" 'function)) :string
+(cffi:defcfun ("isl_ctx_last_error_msg" #.(swig-lispify "isl_ctx_last_error_msg" 'function)) :pointer
   (ctx :pointer))
 
 (cffi:defcfun ("isl_ctx_last_error_file" #.(swig-lispify "isl_ctx_last_error_file" 'function)) :string
@@ -8437,7 +8438,7 @@
   (fn :pointer)
   (user :pointer))
 
-(cffi:defcfun ("isl_schedule_node_get_tree_depth" #.(swig-lispify "isl_schedule_node_get_tree_depth" 'function)) :int
+(cffi:defcfun ("schedule_node_get_tree_depth" #.(swig-lispify "isl_schedule_node_get_tree_depth" 'function)) :int
   (node :pointer))
 
 (cffi:defcfun ("isl_schedule_node_has_parent" #.(swig-lispify "isl_schedule_node_has_parent" 'function)) #.(swig-lispify "isl_bool" 'enumname)

@@ -8,6 +8,11 @@
   (print-unreadable-object (value stream :type t)
     (write-string (%isl-space-to-str (space-handle value)) stream)))
 
+(define-isl-function space-add-param-id %isl-space-add-param-id
+  (:give space)
+  (:take space)
+  (:take identifier))
+
 (define-isl-function create-space-params %isl-space-params-alloc
   (:give space)
   (:parm context *context*)

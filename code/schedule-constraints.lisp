@@ -2,7 +2,8 @@
 
 (define-isl-object schedule-constraints
   :free %isl-schedule-constraints-free
-  :copy %isl-schedule-constraints-copy)
+  :copy %isl-schedule-constraints-copy
+  :from-str t)
 
 (defmethod print-object ((value schedule-constraints) stream)
   (print-unreadable-object (value stream :type t)
@@ -15,6 +16,10 @@
   (:take union-set))
 
 ;; Schedule constraints set something
+
+(define-isl-function schedule-constraints-get-context %isl-schedule-constraints-get-context
+  (:give context)
+  (:keep schedule-constraints))
 
 (define-isl-function schedule-constraints-set-context %isl-schedule-constraints-set-context
   (:give schedule-constraints)
