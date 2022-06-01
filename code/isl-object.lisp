@@ -64,6 +64,7 @@ of type OBJECT-NAME."
                (:keep string))))
        ,@(unless abstract
            `((defun ,%make (handle)
+               (when (cffi:null-pointer-p handle) (isl-error))
                (values
                 (alexandria:ensure-gethash
                  (cffi:pointer-address handle)

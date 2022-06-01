@@ -11,7 +11,10 @@
 (defvar *context* (make-context))
 
 (defun isl-error ()
-  (break "TODO"))
+  (error "isl yields an error: ~a"
+         (cffi:foreign-string-to-lisp
+          (%isl-ctx-last-error-msg (isl-object-handle *context*))
+          :encoding :ascii)))
 
 (defun lispify-isl-bool (isl-bool)
   (ecase isl-bool

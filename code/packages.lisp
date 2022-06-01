@@ -199,6 +199,7 @@
    #:op-member
    #:op-address-of
    #:op-expr-get-list-args
+   #:op-expr-get-operator
    ;; -- Id expr
    #:id-expr
    #:id-expr-p

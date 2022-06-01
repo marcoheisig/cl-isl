@@ -137,6 +137,37 @@
     (:ast-expr-op-member (%make-op-member handle))
     (:ast-expr-op-address-of (%make-op-address-of handle))))
 
+;; Return the lisp operator corresponding to this cl-isl operation
+(defun op-expr-get-operator (ast-expr)
+  (ecase (type-of ast-expr)
+    ('op-and (break "Not implemented sorry"))
+    ('op-and-then (break "Not implemented sorry"))
+    ('op-or (break "Not implemented sorry"))
+    ('op-or-else (break "Not implemented sorry"))
+    ('op-max 'max)
+    ('op-min 'min)
+    ('op-minus '-)
+    ('op-add '+)
+    ('op-sub '-)
+    ('op-mul '*)
+    ('op-div '/)
+    ('op-fdiv-q 'error)
+    ('op-pdiv-q (break "Not implemented sorry"))
+    ('op-pdiv-r (break "Not implemented sorry"))
+    ;;('op-zdiv-r (break "Not implemented sorry"))
+    ('op-cond (break "Not implemented sorry"))
+    ('op-select (break "Not implemented sorry"))
+    ('op-eq 'eql) ;;todo
+    ('op-le '<=)
+    ('op-lt '<)
+    ('op-ge '>=)
+    ('op-gt '>)
+    ('op-call (break "Not implemented sorry"))
+    ('op-access (break "Not implemented sorry"))
+    ('op-member (break "Not implemented sorry"))
+    ('op-address-of (break "Not implemented sorry"))
+    ('op-expr-get-list-args (break "Not implemented sorry"))))
+
 (define-isl-function op-expr-get-n-arg %isl-ast-expr-op-get-n-arg
   (:give (unsigned-byte 32))
   (:keep ast-expr))
@@ -150,7 +181,7 @@
 (defun op-expr-get-list-args (ast)
   ;; assert type ast-exp op
   (let ((n (op-expr-get-n-arg ast)))
-    (loop for i below n do
+    (loop for i below n collect
       (op-expr-get-op-arg ast i))))
 
 ;; ID
