@@ -48,8 +48,6 @@
   (def union-map-intersect %isl-union-map-intersect)
   (def union-map-union %isl-union-map-union)
   (def union-map-subtract %isl-union-map-subtract)
-  (def union-map-apply-range %isl-union-map-apply-range)
-  (def union-map-apply-domain %isl-union-map-apply-domain)
   (def union-map-product %isl-union-map-product)
   (def union-map-lex-lt-union-map %isl-union-map-lex-lt-union-map)
   (def union-map-lex-le-union-map %isl-union-map-lex-le-union-map)
@@ -119,9 +117,9 @@
 (define-isl-function union-map-apply-range %isl-union-map-apply-range
   (:give union-map)
   (:take union-map)
-  (:take union-map))
+  (:take union-map range))
 
 (define-isl-function union-map-apply-domain %isl-union-map-apply-domain
   (:give union-map)
   (:take union-map)
-  (:take union-map))
+  (:take union-map domain))

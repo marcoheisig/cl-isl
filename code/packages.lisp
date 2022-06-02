@@ -242,6 +242,7 @@
    #:ast-build
    #:ast-build-p
    #:create-ast-build
+   #:generate-optimized-ast
    ;; Schedule
    #:schedule
    #:schedulep
