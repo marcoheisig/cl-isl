@@ -24,7 +24,7 @@ You can find everything we ported in the ~code/packages.lisp~ file
 ** How to add more objects to cl-isl
 
 We made a file for each object. You should probably do the same.
-The simplest example is the file [basic-map.lisp](https://github.com/marcoheisig/cl-isl/blob/main/code/basic-map.lisp). It first define the object with ~define-isl-object~, then how to print it, and then some function. A file which defines a lot of functions for its object is ~union-map.lisp~
+The simplest example is the file [[https://github.com/marcoheisig/cl-isl/blob/main/code/basic-map.lisp][basic-map.lisp]]. It first define the object with ~define-isl-object~, then how to print it, and then some function. A file which defines a lot of functions for its object is ~union-map.lisp~
 
 Sometimes you want to do more than just transposing functions. Then you want to look at value.lisp.
 
@@ -71,7 +71,7 @@ Be careful, sometimes functions exist on the isl library, but aren't listed on t
 
 ** Detailed example of use
 
-We created this library to use it in [Loopus](https://github.com/marcoheisig/Loopus), a loop optimization framework for common lisp.
+We created this library to use it in [[https://github.com/marcoheisig/Loopus][Loopus]], a loop optimization framework for common lisp.
 One feature is the factorization of expression outside of loops (when possible).
 
 For example, these two loops are equivalent
@@ -85,7 +85,7 @@ For example, these two loops are equivalent
     (print element)))
 #+END_SRC
 		
-This is because ~(aref array 0)~ is pure (this is done by [ir-specialize.lisp](https://github.com/marcoheisig/Loopus/blob/main/code/ir/ir-specialize.lisp)), and because array is not modified in the loop!
+This is because ~(aref array 0)~ is pure (this is done by [[https://github.com/marcoheisig/Loopus/blob/main/code/ir/ir-specialize.lisp][ir-specialize.lisp]]), and because array is not modified in the loop!
 
 The analysis of if array is modified or not can be quite complex, for instance on the following loop we should still be able to factorize this expression.
 
@@ -173,7 +173,7 @@ ISL> (union-set-intersect (union-set-from-str " { array[1] }") all-written-outer
 #+END_SRC
 
 
-In practice in Loopus we do not do this computation yet, there is probably something less naive to do. But you can find how we used this library in the library Loopus in the files [input-loopus-ir](https://github.com/marcoheisig/Loopus/blob/main/code/ir/input-loopus-ir.lisp) and [output-loopus-ir](https://github.com/marcoheisig/Loopus/blob/main/code/ir/output-loopus-ir.lisp).
+In practice in Loopus we do not do this computation yet, there is probably something less naive to do. But you can find how we used this library in the library Loopus in the files [[https://github.com/marcoheisig/Loopus/blob/main/code/ir/input-loopus-ir.lisp][input-loopus-ir]] and [[https://github.com/marcoheisig/Loopus/blob/main/code/ir/output-loopus-ir.lisp][output-loopus-ir]].
 
 * Resources to learn how to use isl
 
