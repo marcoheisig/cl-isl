@@ -64,6 +64,7 @@
    #:value-mod
    #:value-gcd
    #:value-gcdext
+   #:value-object
    ;; Space
    #:space
    #:spacep
