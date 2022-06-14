@@ -20,7 +20,16 @@
   (:give basic-map)
   (:take space))
 
+(define-isl-function basic-map-from-affine %isl-basic-map-from-aff
+  (:give basic-map)
+  (:take affine))
+
 ;; Constraints
+
+(define-isl-function basic-map-intersect %isl-basic-map-intersect
+  (:give basic-map)
+  (:take basic-map)
+  (:take basic-map))
 
 (define-isl-function basic-map-add-constraint %isl-basic-map-add-constraint
   (:give basic-map)
