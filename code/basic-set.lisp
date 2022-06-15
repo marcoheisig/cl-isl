@@ -20,21 +20,10 @@
   (:give basic-set)
   (:take space))
 
-;; todo multi aff type
-
-(define-isl-function basic-set-from-multi-aff %isl-basic-set-from-multi-aff
-  (:give basic-set)
-  (:take affine))
-
 (define-isl-function basic-set-intersect %isl-basic-set-intersect
   (:give basic-set)
   (:take basic-set)
   (:take basic-set))
-
-(define-isl-function affine-basic-set %isl-aff-eq-basic-set
-  (:give basic-set)
-  (:take affine)
-  (:take affine))
 
 ;; Constraints
 

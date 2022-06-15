@@ -36,5 +36,9 @@
   (:take basic-map)
   (:take constraint))
 
-
-
+(define-isl-function basic-map-insert-dimension %isl-basic-map-insert-dims
+  (:give basic-map)
+  (:take basic-map)
+  (:keep dim-type)
+  (:keep integer position)
+  (:keep integer n))

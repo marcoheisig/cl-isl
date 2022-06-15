@@ -87,6 +87,17 @@
    #:make-inequality-constraint
    #:inequality-constraint-set-constant
    #:inequality-constraint-set-coefficient
+   ;; Affine expression
+   #:affine-expression
+   #:affine-expression-p
+   #:affine-expression-from-str
+   #:create-empty-affine
+   #:create-val-affine
+   #:create-var-affine
+   #:affine-add
+   #:affine-sub
+   #:affine-mul
+   #:affine-div
    ;; Set
    #:set
    #:setp
@@ -99,6 +110,7 @@
    #:basic-set-from-str
    #:basic-set-empty
    #:basic-set-universe
+   #:basic-set-intersect
    #:basic-set-set
    #:basic-set-add-constraint
    ;; Union set
@@ -133,8 +145,11 @@
    #:basic-map-from-str
    #:basic-map-empty
    #:basic-map-universe
+   #:basic-map-from-affine
    #:basic-map-map
+   #:basic-map-intersect
    #:basic-map-add-constraint
+   #:basic-map-insert-dimension
    ;; Union map
    #:union-map
    #:union-map-p

@@ -1,9 +1,3 @@
-;; This file defines structure that represent functions in isl
-;; No link whatsoever with isl-function.lisp
-
-;; For now, quasi affine expression only
-;; Was a test, not used
-
 (in-package :cl-isl)
 
 (define-isl-object affine
@@ -32,10 +26,6 @@
   (:take local-space)
   (:keep dim-type)
   (:keep integer position))
-
-(define-isl-function berk %isl-multi-aff-from-aff
-  (:give affine)
-  (:take affine))
 
 ;; Binary
 
