@@ -12,9 +12,10 @@
 
 ;; Creation
 
-(define-isl-function create-empty-affine %isl-space-zero-aff-on-domain
+;; Not sure to use the local-psace version or not for this function
+(define-isl-function create-empty-affine %isl-aff-zero-on-domain
   (:give affine)
-  (:take space))
+  (:take local-space))
 
 (define-isl-function create-val-affine %isl-aff-val-on-domain
   (:give affine)
