@@ -50,7 +50,8 @@
                             "{ [i0, i1, i2, i3, i4] -> [i0, i1+1, i2, i3, i4] } "))
          (memory-proximity (union-map-apply-range memory-proximity memory->domain))
          (memory-proximity (union-map-apply-domain memory-proximity memory->domain))
-         ;;(_ (print memory-proximity))
+         ;;(memory-proximity (union-map-from-str "{ [0, i1, 0, i3, -1, -1, -1, -1] -> [0, 1 + i1, 0, i3, -1, -1, -1, -1] : 0 <= i1 <= 8 and 0 <= i3 <= 9 }"))
+         (_ (print memory-proximity))
          (sconstraint (schedule-constraints-set-proximity sconstraint memory-proximity))
          (schedule (schedule-constraints-compute-schedule sconstraint))
 
