@@ -10,6 +10,11 @@
   (print-unreadable-object (ast-expr stream :type t)
     (write-string (%isl-ast-expr-to-str (ast-expr-handle ast-expr)) stream)))
 
+(define-isl-function ast-expr-equal-p %isl-ast-expr-is-equal
+  (:give boolean)
+  (:keep ast-expr)
+  (:keep ast-expr))
+
 (define-isl-object op-expr
   :superclass ast-expr
   :abstract t)
@@ -157,7 +162,7 @@
     ;;('op-zdiv-r (error "Not implemented sorry"))
     ('op-cond (error "Not implemented sorry"))
     ('op-select (error "Not implemented sorry"))
-    ('op-eq 'eql) ;;todo
+    ('op-eq 'eql) ; todo
     ('op-le '<=)
     ('op-lt '<)
     ('op-ge '>=)
@@ -195,3 +200,14 @@
 (define-isl-function int-expr-get-value %isl-ast-expr-get-val
   (:give value)
   (:keep int-expr))
+
+;; Creation of an ast expr
+;; Problably not useful unless on some specific usecases, so not everything is implemented
+(define-isl-function create-ast-expr-from-val %isl-ast-expr-from-val
+  (:give ast-expr)
+  (:take value))
+
+(define-isl-function create-ast-expr-from-add %isl-ast-expr-add
+  (:give ast-expr)
+  (:take ast-expr)
+  (:take ast-expr))

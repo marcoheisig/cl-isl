@@ -15,6 +15,7 @@
    #:identifier
    #:identifierp
    #:make-identifier
+   #:make-gensym-identifier
    #:identifier-name
    #:identifier-context
    ;; Value
@@ -68,6 +69,7 @@
    ;; Space
    #:space
    #:spacep
+   #:space-add-param-id
    #:create-space-params
    #:create-space-set
    #:create-space-map
@@ -185,6 +187,9 @@
    ;; Ast expr
    #:ast-expr
    #:ast-expr-p
+   #:ast-expr-equal-p
+   #:create-ast-expr-from-val
+   #:create-ast-expr-from-add
    ;; -- Op expr
    #:op-expr
    #:op-expr-p
@@ -214,6 +219,34 @@
    #:op-access
    #:op-member
    #:op-address-of
+   #:op-and-p
+   #:op-and-then-p
+   #:op-or-p
+   #:op-or-else-p
+   #:op-max-p
+   #:op-min-p
+   #:op-minus-p
+   #:op-add-p
+   #:op-sub-p
+   #:op-mul-p
+   #:op-div-p
+   #:op-fdiv-q-p
+   #:op-pdiv-q-p
+   #:op-pdiv-r-p
+   ;;#:op-zdiv-r-p
+   #:op-cond-p
+   #:op-select-p
+   #:op-eq-p
+   #:op-le-p
+   #:op-lt-p
+   #:op-ge-p
+   #:op-gt-p
+   #:op-call-p
+   #:op-access-p
+   #:op-member-p
+   #:op-address-of-p
+   #:op-expr-get-n-arg
+   #:op-expr-get-op-arg
    #:op-expr-get-list-args
    #:op-expr-get-operator
    ;; -- Id expr
@@ -228,6 +261,7 @@
    #:ast-node
    #:ast-node-p
    #:pretty-print-node
+   #:ast-node-list-elements ; todo export every list object
    ;; -- For node
    #:for-node
    #:for-node-p
