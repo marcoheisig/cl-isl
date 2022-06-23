@@ -115,6 +115,7 @@
    #:basic-set-intersect
    #:basic-set-set
    #:basic-set-add-constraint
+   #:basic-set-apply
    ;; Union set
    #:union-set
    #:union-set-p

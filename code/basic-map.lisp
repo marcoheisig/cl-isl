@@ -42,3 +42,8 @@
   (:keep dim-type)
   (:keep integer position)
   (:keep integer n))
+
+(define-isl-function basic-set-apply %isl-basic-set-apply
+  (:give basic-set)
+  (:take basic-set)
+  (:take basic-map))
