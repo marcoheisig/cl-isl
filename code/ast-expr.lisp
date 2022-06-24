@@ -142,13 +142,61 @@
     (:ast-expr-op-member (%make-op-member handle))
     (:ast-expr-op-address-of (%make-op-address-of handle))))
 
+(defun my-and (a b)
+  (let ((aa a)
+        (bb b))
+    (and aa bb)))
+(defun my-and-then (a b) (and a b))
+(defun my-or (a b)
+  (let ((aa a)
+        (bb b))
+    (or aa bb)))
+(defun my-or-else (a b) (or a b))
+
+;; isl_ast_expr_op_fdiv_q
+;; Result of integer division, rounded towards negative infinity. The divisor is known to be positive.
+(defun my-fdiv-q (a b)
+  (multiple-value-bind (div rest)
+      (floor a b)
+    div))
+
+;; isl_ast_expr_op_pdiv_q
+;; Result of integer division, where dividend is known to be non-negative. The divisor is known to be positive.
+(defun my-pdiv-q (a b)
+  (multiple-value-bind (div rest)
+      (floor a b)
+    div))
+
+;; isl_ast_expr_op_pdiv_r
+;; Remainder of integer division, where dividend is known to be non-negative. The divisor is known to be positive.
+(defun my-pdiv-r (a b)
+  (multiple-value-bind (div rest)
+      (floor a b)
+    rest))
+
+;; isl_ast_expr_op_zdiv_r
+;; Equal to zero iff the remainder on integer division is zero. The divisor is known to be positive
+(defun my-fdiv-q (a b)
+  (multiple-value-bind (div rest)
+      (floor a b)
+    rest))
+
+(defun my-cond (a b c)
+  (if a b c))
+
+(defun my-select (a b c)
+  (let ((aa a)
+        (bb b)
+        (cc c))
+    (if aa bb cc)))
+
 ;; Return the lisp operator corresponding to this cl-isl operation
 (defun op-expr-get-operator (ast-expr)
   (ecase (type-of ast-expr)
-    ('op-and (error "Not implemented sorry"))
-    ('op-and-then (error "Not implemented sorry"))
-    ('op-or (error "Not implemented sorry"))
-    ('op-or-else (error "Not implemented sorry"))
+    ('op-and 'my-and)
+    ('op-and-then 'my-and-then)
+    ('op-or 'my-or)
+    ('op-or-else 'my-or-else)
     ('op-max 'max)
     ('op-min 'min)
     ('op-minus '-)
@@ -156,12 +204,12 @@
     ('op-sub '-)
     ('op-mul '*)
     ('op-div '/)
-    ('op-fdiv-q (error "Not implemented sorry"))
-    ('op-pdiv-q (error "Not implemented sorry"))
-    ('op-pdiv-r (error "Not implemented sorry"))
+    ('op-fdiv-q 'my-fdiv-q)
+    ('op-pdiv-q 'my-pdiv-q)
+    ('op-pdiv-r 'my-pdiv-r)
     ;;('op-zdiv-r (error "Not implemented sorry"))
-    ('op-cond (error "Not implemented sorry"))
-    ('op-select (error "Not implemented sorry"))
+    ('op-cond 'my-cond)
+    ('op-select 'my-select)
     ('op-eq 'eql) ; todo
     ('op-le '<=)
     ('op-lt '<)
