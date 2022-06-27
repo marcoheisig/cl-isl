@@ -76,7 +76,7 @@
 (define-isl-object op-pdiv-r
   :superclass op-expr)
 
-(define-isl-object op-zdiv-q
+(define-isl-object op-zdiv-r
   :superclass op-expr)
 
 (define-isl-object op-cond
@@ -129,7 +129,7 @@
     (:ast-expr-op-fdiv-q (%make-op-fdiv-q handle))
     (:ast-expr-op-pdiv-q (%make-op-pdiv-q handle))
     (:ast-expr-op-pdiv-r (%make-op-pdiv-r handle))
-    ;;(:ast-expr-op-zdiv-r (%make-op-zdiv-r handle))
+    (:ast-expr-op-zdiv-r (%make-op-zdiv-r handle))
     (:ast-expr-op-cond (%make-op-cond handle))
     (:ast-expr-op-select (%make-op-select handle))
     (:ast-expr-op-eq (%make-op-eq handle))
@@ -176,7 +176,7 @@
 
 ;; isl_ast_expr_op_zdiv_r
 ;; Equal to zero iff the remainder on integer division is zero. The divisor is known to be positive
-(defun my-fdiv-q (a b)
+(defun my-zdiv-r (a b)
   (multiple-value-bind (div rest)
       (floor a b)
     rest))
@@ -207,7 +207,7 @@
     ('op-fdiv-q 'my-fdiv-q)
     ('op-pdiv-q 'my-pdiv-q)
     ('op-pdiv-r 'my-pdiv-r)
-    ;;('op-zdiv-r (error "Not implemented sorry"))
+    ('op-zdiv-r 'my-zdiv-r)
     ('op-cond 'my-cond)
     ('op-select 'my-select)
     ('op-eq 'eql) ; todo

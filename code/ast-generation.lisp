@@ -39,20 +39,25 @@
 
          (sconstraint (schedule-constraints-on-domain domain))
          (sconstraint (schedule-constraints-set-validity sconstraint total))
-         (sconstraint (schedule-constraints-set-coincidence sconstraint RaW))
+         ;; (sconstraint (schedule-constraints-set-coincidence sconstraint RaW))
+         (coincidence (union-map-from-str " { [i0, i1, i2, i3, i4 ] -> [i0, i1, i2, i3, i5] } "))
+         (sconstraint (schedule-constraints-set-coincidence sconstraint coincidence))
+         ;; todo
 
          ;; Proximity
          ;; Read: domain -> read access
          ;; Read^1 : read access -> domain
          ;; What we want: map (Read^1 (memory location)) to (Read^1 (next memory location))
          (memory->domain (union-map-reverse (union-map-union read-access write-access)))
-         (memory-proximity (union-map-from-str
-                            "{ [i0, i1, i2, i3, i4] -> [i0, i1+1, i2, i3, i4] } "))
+         (memory-proximity (union-map-from-str "{ [i0, i1] -> [i0, i1+1] }"))
+         ;; Now every array is 1D. (i, j) becomes i*N+j
+
          (memory-proximity (union-map-apply-range memory-proximity memory->domain))
          (memory-proximity (union-map-apply-domain memory-proximity memory->domain))
-         ;;(memory-proximity (union-map-from-str "{ [0, i1, 0, i3, -1, -1, -1, -1] -> [0, 1 + i1, 0, i3, -1, -1, -1, -1] : 0 <= i1 <= 8 and 0 <= i3 <= 9 }"))
+         (_ (print "memory-proximity"))
          (_ (print memory-proximity))
          (sconstraint (schedule-constraints-set-proximity sconstraint memory-proximity))
+
          (schedule (schedule-constraints-compute-schedule sconstraint))
 
          (ast-build (create-ast-build))
