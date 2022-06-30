@@ -153,33 +153,41 @@
     (or aa bb)))
 (defun my-or-else (a b) (or a b))
 
+;; integer division
+(declaim (inline idiv))
+(defun idiv (a b)
+  (declare (integer a b))
+  (the (values integer &optional)
+       (/ a b)))
+
+(declaim (inline my-fdiv-q my-pdiv-q my-pdiv-r my-zdiv-r))
 ;; isl_ast_expr_op_fdiv_q
 ;; Result of integer division, rounded towards negative infinity. The divisor is known to be positive.
-(defun my-fdiv-q (a b)
-  (multiple-value-bind (div rest)
-      (floor a b)
-    div))
+(defun fdiv-q (a b)
+  (declare (integer a)
+           (type (integer 1) b))
+  (values (floor a b)))
 
 ;; isl_ast_expr_op_pdiv_q
 ;; Result of integer division, where dividend is known to be non-negative. The divisor is known to be positive.
-(defun my-pdiv-q (a b)
-  (multiple-value-bind (div rest)
-      (floor a b)
-    div))
+(defun pdiv-q (a b)
+  (declare (unsigned-byte a)
+           (type (integer 1) b))
+  (values (floor a b)))
 
 ;; isl_ast_expr_op_pdiv_r
 ;; Remainder of integer division, where dividend is known to be non-negative. The divisor is known to be positive.
-(defun my-pdiv-r (a b)
-  (multiple-value-bind (div rest)
-      (floor a b)
-    rest))
+(defun pdiv-r (a b)
+  (declare (unsigned-byte a)
+           (type (integer 1) b))
+  (nth-value 1 (floor a b)))
 
 ;; isl_ast_expr_op_zdiv_r
 ;; Equal to zero iff the remainder on integer division is zero. The divisor is known to be positive
-(defun my-zdiv-r (a b)
-  (multiple-value-bind (div rest)
-      (floor a b)
-    rest))
+(defun zdiv-r (a b)
+  (declare (integer a)
+           (type (integer 1) b))
+  (nth-value 1 (floor a b)))
 
 (defun my-cond (a b c)
   (if a b c))
@@ -203,14 +211,14 @@
     ('op-add '+)
     ('op-sub '-)
     ('op-mul '*)
-    ('op-div '/)
-    ('op-fdiv-q 'my-fdiv-q)
-    ('op-pdiv-q 'my-pdiv-q)
-    ('op-pdiv-r 'my-pdiv-r)
-    ('op-zdiv-r 'my-zdiv-r)
+    ('op-div 'idiv)
+    ('op-fdiv-q 'fdiv-q)
+    ('op-pdiv-q 'pdiv-q)
+    ('op-pdiv-r 'pdiv-r)
+    ('op-zdiv-r 'zdiv-r)
     ('op-cond 'my-cond)
     ('op-select 'my-select)
-    ('op-eq 'eql) ; todo
+    ('op-eq 'eql)
     ('op-le '<=)
     ('op-lt '<)
     ('op-ge '>=)

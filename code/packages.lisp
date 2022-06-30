@@ -208,7 +208,7 @@
    #:op-fdiv-q
    #:op-pdiv-q
    #:op-pdiv-r
-   ;;#:op-zdiv-r
+   #:op-zdiv-r
    #:op-cond
    #:op-select
    #:op-eq
@@ -234,7 +234,7 @@
    #:op-fdiv-q-p
    #:op-pdiv-q-p
    #:op-pdiv-r-p
-   ;;#:op-zdiv-r-p
+   #:op-zdiv-r-p
    #:op-cond-p
    #:op-select-p
    #:op-eq-p
